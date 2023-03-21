@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 按鈕樣式 */
+
+.buttonStyle {
+  @apply w-[180px] h-[60px] block m-auto shadow-mYellow bg-Mred text-white duration-300 rounded-bl-3xl rounded-tr-3xl relative after:absolute after:content-[''] after:block after:w-2 after:h-2 after:border after:border-white after:top-1/2 after:left-1 after:-translate-y-1/2 after:rotate-45 hover:bg-white hover:text-Mred hover:after:border-Mred hover:scale-110 active:scale-100;
+}
+
+.btnWordStyle {
+  @apply block relative after:content-[''] after:absolute after:block after:w-8 after:h-px after:bg-white after:top-1/2 after:right-0 before:content-[''] before:absolute before:block before:w-6 before:h-px before:bg-white before:top-1/2 before:left-[13px] group-hover:after:bg-Mred group-hover:before:bg-Mred;
+}
+
+.linkStyle {
+  @apply w-[180px] h-[60px] block m-auto shadow-mYellow bg-Mred text-white duration-300 rounded-bl-3xl rounded-tr-3xl relative after:absolute after:content-[''] after:block after:w-2 after:h-2 after:border after:border-white after:top-1/2 after:left-1 after:-translate-y-1/2 after:rotate-45 hover:bg-white hover:text-Mred hover:after:border-Mred hover:scale-110 active:scale-100;
+}
+
+.linkWordStyle {
+  @apply absolute w-full text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 after:content-[''] after:absolute after:block after:w-8 after:h-px after:bg-white after:top-1/2 after:right-0 before:content-[''] before:absolute before:block before:w-6 before:h-px before:bg-white before:top-1/2 before:left-[13px] group-hover:after:bg-Mred group-hover:before:bg-Mred;
+}
+
+.buttonStyle2 {
+  @apply w-[180px] h-[60px] block m-auto shadow-mYellow bg-white text-Mred duration-300 rounded-bl-3xl rounded-tr-3xl relative after:absolute after:content-[''] after:block after:w-2 after:h-2 after:border after:border-Mred after:top-1/2 after:left-1 after:-translate-y-1/2 after:rotate-45 hover:bg-Mred hover:text-white hover:after:border-white hover:scale-110 active:scale-100;
+}
+
+.btnWordStyle2 {
+  @apply block relative after:content-[''] after:absolute after:block after:w-8 after:h-px after:bg-Mred after:top-1/2 after:right-0 before:content-[''] before:absolute before:block before:w-6 before:h-px before:bg-Mred before:top-1/2 before:left-[13px] group-hover:after:bg-white group-hover:before:bg-white;
+}
+
+.linkStyle2 {
+  @apply w-[180px] h-[60px] block m-auto shadow-mYellow bg-white text-Mred duration-300 rounded-bl-3xl rounded-tr-3xl relative after:absolute after:content-[''] after:block after:w-2 after:h-2 after:border after:border-Mred after:top-1/2 after:left-1 after:-translate-y-1/2 after:rotate-45 hover:bg-Mred hover:text-white hover:after:border-white hover:scale-110 active:scale-100;
+}
+
+.linkWordStyle2 {
+  @apply absolute w-full text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 after:content-[''] after:absolute after:block after:w-8 after:h-px after:bg-Mred after:top-1/2 after:right-0 before:content-[''] before:absolute before:block before:w-6 before:h-px before:bg-Mred before:top-1/2 before:left-[13px] group-hover:after:bg-white group-hover:before:bg-white;
+}
+
+.titleStyle {
+  @apply inline-block relative before:absolute before:content-[''] before:hidden before:w-0.5 before:h-full before:bg-Mred before:-left-5 before:-bottom-5 before:-rotate-45 after:absolute after:content-[''] after:hidden after:w-0.5 after:h-full after:bg-Mred after:-right-5 after:-top-5 after:-rotate-45 xs:after:block xs:before:block;
+}
+
+/* 導覽列樣式 */
+
+.navlink {
+  @apply flex w-full h-full items-center justify-center transition-all relative after:absolute after:content-[''] after:block after:transition-all after:h-px after:left-1/2 after:right-1/2 after:bottom-4 hover:-translate-y-1 hover:after:left-0 hover:after:right-0;
+}
+
+.navlink2 {
+  @apply relative before:content-[''] before:duration-300 before:absolute before:w-0 before:h-0 before:top-0 before:left-0 before:border-t before:border-t-transparent before:border-l before:border-l-transparent after:content-[''] after:duration-300 after:absolute after:w-0 after:h-0 after:bottom-0 after:right-0 after:border-b after:border-b-transparent after:border-r after:border-r-transparent hover:after:w-full hover:after:h-full hover:before:w-full hover:before:h-full hover:before:border-t-white hover:before:border-l-white hover:after:border-b-white hover:after:border-r-white;
+}
+
+.hoverList::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+.hoverList::-webkit-scrollbar-thumb {
+  background: #a02c2c;
+  border-radius: 10px;
+  border: 2px solid #fff;
+}
+
+/*  input[type:date]樣式 */
+
+.dateStyle::-webkit-calendar-picker-indicator {
+  background: transparent;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+/* 會員條款 scrollbar 樣式 */
+.term::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+.term::-webkit-scrollbar-thumb {
+  background: #a02c2c;
+  border-radius: 10px;
+  border: 2px solid #fff;
+}
+
+/* 產品內頁輪播樣式 */
+.recommend .swiper-pagination-bullet {
+  background: #f7eedd;
+  opacity: 1;
+}
+
+.recommend .swiper-pagination-bullet-active {
+  background: #a02c2c;
+}
+
+.recommend .swiper-button-prev {
+  background: #000;
+  width: 60px;
+  height: 60px;
+  z-index: 2;
+  border-radius: 0 30px 0 30px;
+  top: 50%;
+  left: 0%;
+}
+
+.recommend .swiper-button-next {
+  background: #a02c2c;
+  width: 60px;
+  height: 60px;
+  z-index: 1;
+  border-radius: 0 30px 0 30px;
+  top: 50%;
+}
+
+@media (max-width: 576px) {
+  .recommend .swiper-button-prev,
+  .recommend .swiper-button-next {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .recommend .swiper-button-prev,
+  .recommend .swiper-button-next {
+    top: 100px;
+    width: 100px;
+    height: 60px;
+  }
+
+  .recommend .swiper-button-prev {
+    left: 70%;
+  }
+}
+
+@media (min-width: 640px) {
+  .recommend .swiper-button-prev,
+  .recommend .swiper-button-next {
+    top: 40px;
+  }
+
+  .recommend .swiper-button-prev {
+    left: 70%;
+  }
+}
+
+@media (min-width: 768px) {
+  .recommend .swiper-button-prev {
+    left: 75%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recommend .swiper-button-prev {
+    left: 82%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .recommend .swiper-button-prev {
+    left: 81%;
+  }
+}
+
+@media (min-width: 1536px) {
+  .recommend .swiper-button-prev {
+    left: 85%;
+  }
+}
+
+.recommend .swiper-button-next.swiper-button-disabled,
+.recommend .swiper-button-prev.swiper-button-disabled {
+  opacity: 1;
+}
+
+.recommend .swiper-button-next:after {
+  content: '';
+  position: absolute;
+  right: 30px;
+  background: url('/src/assets/image/other/right(white).png') center no-repeat;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+  transform: translateX(50%);
+}
+
+.recommend .swiper-button-prev:after {
+  content: '';
+  background: url('/src/assets/image/other/left(white).png') center no-repeat;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+}
+
+/* swiper 客製 */
+
+.swiper-slide-thumb-active img {
+  border: 2px solid #000;
+}
+
+.swiper-horizontal > .swiper-scrollbar,
+.swiper-scrollbar.swiper-scrollbar-horizontal {
+  height: 10px;
+}
+
+.swiper-scrollbar {
+  background: #f7eedd;
+}
+
+.swiper-scrollbar-drag {
+  background: #a02c2c;
+}
+
+/* 首頁商品輪播樣式 */
+
+.hrecommend {
+  position: initial;
+}
+
+.hrecommend .swiper-button-prev {
+  left: 0px;
+  color: #a02c2c;
+}
+
+.hrecommend .swiper-button-next {
+  right: 0px;
+  color: #a02c2c;
+}
+
+@media (min-width: 375px) {
+  .hrecommend .swiper-button-prev {
+    left: 3%;
+  }
+
+  .hrecommend .swiper-button-next {
+    right: 3%;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hrecommend .swiper-button-prev {
+    left: 5%;
+  }
+
+  .hrecommend .swiper-button-next {
+    right: 5%;
+  }
+}
