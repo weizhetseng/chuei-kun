@@ -7,38 +7,20 @@
         <h2 class="text-4xl text-Mred font-bold">忘記密碼</h2>
         <p>Forgot Password</p>
       </div>
-      <Form
-        v-slot="{ errors }"
-        action=""
-        class="w-4/5 m-auto mb-20"
-        v-if="!sendStatus"
-        @submit="sendData()"
-      >
+      <Form v-slot="{ errors }" action="" class="w-4/5 m-auto mb-20" v-if="!sendStatus" @submit="sendData()">
         <div class="gap-5 m-auto mb-16 relative sm:flex lg:w-2/3">
-          <label
-            class="w-full p-2 flex items-center gap-1 text-lg font-bold sm:w-32 sm:border-r sm:border-gray"
-            for="user"
-          >
+          <label class="w-full p-2 flex items-center gap-1 text-lg font-bold sm:w-32 sm:border-r sm:border-gray"
+            for="user">
             <div class="border border-Mred rounded-full p-2">
               <img src="../../assets/image/other/envelope-solid.png" alt="" />
             </div>
             帳號
           </label>
-          <Field
-            class="w-full outline-none border-b border-lgray p-2 sm:w-[calc(100%-148px)]"
-            id="userID"
-            name="userID"
-            type="text"
-            label="帳號"
-            :class="{ 'is-invalid': errors['userID'] }"
-            placeholder="請輸入手機號碼或電子信箱 "
-            rules="required"
-          >
+          <Field class="w-full outline-none border-b border-lgray p-2 sm:w-[calc(100%-148px)]" id="userID" name="userID"
+            type="text" label="帳號" :class="{ 'is-invalid': errors['userID'] }" placeholder="請輸入手機號碼或電子信箱 "
+            rules="required">
           </Field>
-          <error-message
-            name="userID"
-            class="block absolute right-0 -bottom-6 text-red-700 text-right"
-          ></error-message>
+          <error-message name="userID" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
         </div>
         <div class="flex justify-center items-center gap-5">
           <button class="buttonStyle2 group" type="reset">
@@ -72,4 +54,5 @@ const sendStatus = ref(false)
 function sendData() {
   sendStatus.value = true
 }
+
 </script>

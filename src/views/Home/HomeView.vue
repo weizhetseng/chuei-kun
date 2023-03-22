@@ -158,6 +158,7 @@ import 'swiper/css/effect-fade'
 import { Autoplay, Navigation, Scrollbar, EffectFade } from 'swiper'
 import { useRoute } from 'vue-router'
 
+
 const modules = [Autoplay, Navigation, Scrollbar, EffectFade]
 const homeModal = ref(null)
 const route = useRoute()
