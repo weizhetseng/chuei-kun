@@ -1,9 +1,6 @@
 <template>
-  <div
-    class="fixed bottom-32 z-[99] right-8 cursor-pointer transition-all hover:scale-110 active:scale-100"
-    :class="{ 'opacity-0': !isShow, 'opacity-100': isShow }"
-    @click="goTop()"
-  >
+  <div class="fixed bottom-8 z-[99] right-8 cursor-pointer transition-all hover:scale-110 active:scale-100"
+    :class="{ 'opacity-0': !isShow, 'opacity-100': isShow }" @click="goTop()">
     <img class="w-20 h-20 opacity-70" src="../assets/image/other/goTop.png" alt="" />
   </div>
 </template>

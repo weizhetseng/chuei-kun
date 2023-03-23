@@ -1,9 +1,9 @@
 <template>
-    <div class="fixed bottom-80 right-8 w-16 h-16 m-auto bg-Mred flex items-center justify-center p-5 cursor-pointer duration-300 rounded-full shadow-main hover:scale-110 active:scale-100"
+    <div class="fixed bottom-32 right-10 w-16 h-16 m-auto bg-Mred flex items-center justify-center p-5 cursor-pointer duration-300 rounded-full shadow-main hover:scale-110 active:scale-100"
         @click="toggleWindow()">
         <img src="../assets/image/other/comments-solid.png" alt="">
     </div>
-    <div class="fixed justify-between shadow-main rounded-lg overflow-hidden duration-150 whitespace-nowrap right-20 bottom-[400px] bg-white"
+    <div class="fixed justify-between shadow-main rounded-lg overflow-hidden duration-150 whitespace-nowrap right-20 bottom-52 bg-white"
         :class="{ 'w-0': !customerStatus, 'h-0': !customerStatus, 'w-96': customerStatus, 'h-auto': customerStatus }">
         <div class="relative">
             <h3 class="text-xl text-white bg-Mred text-center p-2">線上客服</h3>
@@ -12,7 +12,7 @@
             <button class="absolute text-white right-3 top-1/2 -translate-y-1/2" type="button" @click="SignOutUser()"
                 v-else>LogOut</button>
         </div>
-        <div class="p-1 h-[400px] overflow-y-scroll overflow-x-hidden whitespace-normal">
+        <div class="message-list p-3 h-[400px] overflow-y-scroll overflow-x-hidden whitespace-normal">
             <ul>
                 <li>
                     <div>
@@ -20,10 +20,17 @@
                             {{ currentUser?.userName }} 您好! 很高興為您服務 </p>
                     </div>
                 </li>
-                <li class="" v-for="(item, index) in messages" :key="index">
-                    <div>
-                        <p class="rounded-lg shadow-main inline-block px-2 py-1">
+                <li class="" v-for="(item, index) in messages" :key="index" v-if="currentUser !== null">
+                    <div class="flex flex-col" :class="{
+                        'items-end': ((currentUser?.userEmail === 'springoniondog@gmail.com') && (item.email === 'springoniondog@gmail.com')) || ((currentUser?.userEmail !== 'springoniondog@gmail.com') && (item.email !== 'springoniondog@gmail.com')),
+                        'items-start': (currentUser?.userEmail === 'springoniondog@gmail.com') && (item.email !== 'springoniondog@gmail.com') || ((currentUser?.userEmail !== 'springoniondog@gmail.com') && (item.email === 'springoniondog@gmail.com')),
+                    }">
+                        <p class="rounded-lg shadow-main inline-block px-2 py-1 mb-1" :class="{
+                            'bg-green-200': ((currentUser?.userEmail === 'springoniondog@gmail.com') && (item.email === 'springoniondog@gmail.com')) || ((currentUser?.userEmail !== 'springoniondog@gmail.com') && (item.email !== 'springoniondog@gmail.com')),
+                            'bg-white': (currentUser?.userEmail === 'springoniondog@gmail.com') && (item.email !== 'springoniondog@gmail.com') || ((currentUser?.userEmail !== 'springoniondog@gmail.com') && (item.email === 'springoniondog@gmail.com')),
+                        }">
                             {{ item.text }}</p>
+                        <span class="text-xs text-wrap">{{ item.timestamp }}</span>
                     </div>
                 </li>
             </ul>
@@ -34,6 +41,7 @@
                 <button type="submit" class="bg-Mred text-white px-2 py-1">送出</button>
             </div>
         </form>
+
     </div>
 </template>
 
@@ -42,7 +50,7 @@
 import { onMounted, ref } from 'vue';
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase/init.js"
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, setDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, setDoc, updateDoc, doc } from 'firebase/firestore';
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth'
 
 const customerStatus = ref(false)
@@ -57,8 +65,7 @@ function toggleWindow() {
 async function SignIn() {
     var provider = new GoogleAuthProvider();
     try {
-        const result = await signInWithPopup(getAuth(), provider);
-        return result.user
+        await signInWithPopup(getAuth(), provider);
     } catch (error) {
         console.log(error);
     }
@@ -82,13 +89,19 @@ function getUserName() {
     return getAuth().currentUser.displayName;
 }
 
+function getEmail() {
+    return getAuth().currentUser.email;
+}
+
 function authStateObserver(user) {
     if (user) {
         const profilePicUrl = getProfilePicUrl();
         const userName = getUserName();
+        const userEmail = getEmail();
         currentUser.value = {
             userName: userName,
-            profilePicUrl: profilePicUrl
+            profilePicUrl: profilePicUrl,
+            userEmail: userEmail
         };
     } else {
         currentUser.value = null;
@@ -96,12 +109,18 @@ function authStateObserver(user) {
 }
 
 async function saveMessage(messageText) {
+    const messageList = document.querySelector('.message-list');
     try {
         await addDoc(collection(getFirestore(), 'messages'), {
             name: currentUser.value.userName,
             text: messageText,
             profilePicUrl: currentUser.value.profilePicUrl,
-            timestamp: serverTimestamp()
+            email: currentUser.value.userEmail,
+            timestamp: new Date().toLocaleString()
+        });
+        messageList.scrollTo({
+            top: messageList.scrollHeight,
+            behavior: 'smooth'
         });
         message.value = ''
     }
@@ -111,17 +130,15 @@ async function saveMessage(messageText) {
 }
 
 function loadMessages() {
-    const recentMessagesQuery = query(collection(getFirestore(), 'messages'), orderBy('timestamp', 'desc'), limit(12));
-
+    const recentMessagesQuery = query(collection(getFirestore(), 'messages'), orderBy('timestamp'));
     onSnapshot(recentMessagesQuery, function (snapshot) {
         snapshot.docChanges().forEach(function (change) {
             if (change.type === 'added') {
                 const messageData = change.doc.data();
-                messages.value.push(messageData)
+                messages.value.push(messageData);
             }
         });
     });
-
 }
 
 
