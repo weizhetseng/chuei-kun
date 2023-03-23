@@ -67,7 +67,7 @@
         <h2 class="text-4xl text-Mred font-bold">推薦商品</h2>
         <p>Recommended products</p>
       </div>
-      <ul class="modal flex items-center self-center p-2 gap-5 overflow-scroll whitespace-nowrap">
+      <ul class="modal w-full flex items-center self-center p-2 gap-5 overflow-scroll whitespace-nowrap">
         <li>
           <button class="buttonStyle2 group" type="button">
             <span class="btnWordStyle2">肉鬆系列</span>

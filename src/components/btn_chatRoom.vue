@@ -4,7 +4,7 @@
         <img src="../assets/image/other/comments-solid.png" alt="">
     </div>
     <div class="fixed justify-between shadow-main rounded-lg overflow-hidden duration-150 whitespace-nowrap right-20 bottom-[400px] bg-white"
-        :class="{ 'w-0': customerStatus, 'h-0': customerStatus, 'w-96': !customerStatus, 'h-auto': !customerStatus }">
+        :class="{ 'w-0': !customerStatus, 'h-0': !customerStatus, 'w-96': customerStatus, 'h-auto': customerStatus }">
         <div class="relative">
             <h3 class="text-xl text-white bg-Mred text-center p-2">線上客服</h3>
             <button class="absolute text-white right-3 top-1/2 -translate-y-1/2" type="button" @click="SignIn()"
@@ -118,7 +118,6 @@ function loadMessages() {
             if (change.type === 'added') {
                 const messageData = change.doc.data();
                 messages.value.push(messageData)
-                console.log(messages)
             }
         });
     });
