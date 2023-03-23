@@ -14,13 +14,13 @@
         </div>
         <div class="message-list p-3 h-[400px] overflow-y-scroll overflow-x-hidden whitespace-normal">
             <ul>
-                <li>
+                <li class="mb-1">
                     <div>
                         <p class="rounded-lg shadow-main inline-block px-2 py-1">
                             {{ currentUser?.userName }} 您好! 很高興為您服務 </p>
                     </div>
                 </li>
-                <li class="" v-for="(item, index) in messages" :key="index" v-if="currentUser !== null">
+                <li class="mb-1" v-for="(item, index) in messages" :key="index" v-if="currentUser !== null">
                     <div class="flex flex-col" :class="{
                         'items-end': ((currentUser?.userEmail === 'springoniondog@gmail.com') && (item.email === 'springoniondog@gmail.com')) || ((currentUser?.userEmail !== 'springoniondog@gmail.com') && (item.email !== 'springoniondog@gmail.com')),
                         'items-start': (currentUser?.userEmail === 'springoniondog@gmail.com') && (item.email !== 'springoniondog@gmail.com') || ((currentUser?.userEmail !== 'springoniondog@gmail.com') && (item.email === 'springoniondog@gmail.com')),
@@ -48,9 +48,8 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../firebase/init.js"
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, setDoc, updateDoc, doc } from 'firebase/firestore';
+import db from '../firebase/init.js'
+import { collection, addDoc, query, orderBy, limit, onSnapshot, setDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth'
 
 const customerStatus = ref(false)
@@ -62,15 +61,32 @@ function toggleWindow() {
     customerStatus.value = !customerStatus.value
 }
 
+
+async function createChatRoomForUser(userId) {
+    const userType = userId === `${import.meta.env.VITE_admin}` ? 'admin' : 'user';
+
+    const chatRoomDocRef = doc(db, userType, userId);
+    const chatRoomDoc = await getDoc(chatRoomDocRef);
+    if (chatRoomDoc.exists()) {
+        console.log('Chat room already exists for user:', userId);
+        return;
+    }
+    await setDoc(chatRoomDocRef, {});
+    const messagesCollRef = collection(chatRoomDocRef, 'chatRoom');
+    await addDoc(messagesCollRef, {});
+}
+
+//google 登入
 async function SignIn() {
     var provider = new GoogleAuthProvider();
     try {
-        await signInWithPopup(getAuth(), provider);
+        const result = await signInWithPopup(getAuth(), provider);
+        createChatRoomForUser(result.user.email)
     } catch (error) {
         console.log(error);
     }
 }
-
+//登出 
 function SignOutUser() {
     signOut(getAuth());
 }
@@ -111,7 +127,8 @@ function authStateObserver(user) {
 async function saveMessage(messageText) {
     const messageList = document.querySelector('.message-list');
     try {
-        await addDoc(collection(getFirestore(), 'messages'), {
+        const userEmail = `${import.meta.env.VITE_user}`;
+        await addDoc(collection(db, 'user', userEmail, 'chatRoom'), {
             name: currentUser.value.userName,
             text: messageText,
             profilePicUrl: currentUser.value.profilePicUrl,
@@ -130,7 +147,12 @@ async function saveMessage(messageText) {
 }
 
 function loadMessages() {
-    const recentMessagesQuery = query(collection(getFirestore(), 'messages'), orderBy('timestamp'));
+    if (!currentUser.value) {
+        setTimeout(loadMessages, 1000);
+        return;
+    }
+    const userEmail = `${import.meta.env.VITE_user}`;
+    const recentMessagesQuery = query(collection(db, 'user', userEmail, 'chatRoom'), orderBy('timestamp'));
     onSnapshot(recentMessagesQuery, function (snapshot) {
         snapshot.docChanges().forEach(function (change) {
             if (change.type === 'added') {
@@ -143,7 +165,6 @@ function loadMessages() {
 
 
 onMounted(() => {
-    initializeApp(firebaseConfig)
     initFirebaseAuth()
     loadMessages()
 })
