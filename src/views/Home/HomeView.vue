@@ -1,4 +1,5 @@
 <template>
+  <link rel="preload" :href="imageUrl2(item)" as="image" v-for="item in banner" :key="item" />
   <div class="mt-20">
     <swiper class="mb-5 lg:mb-10" :modules="modules" :loop="true" :autoplay="{ delay: 4000, disableOnInteraction: false }"
       :effect="'fade'">
@@ -6,14 +7,14 @@
         <div class="flex">
           <div class="w-1/12 hidden sm:flex sm:flex-col sm:items-center sm:justify-center sm:gap-3">
             <p class="text-Mred text-xs" style="writing-mode: vertical-lr">FOLLOW US</p>
-            <a href="#">
-              <img src="../../assets/image/other/homeIg.png" alt="" />
+            <a href="#" aria-label="Instagram">
+              <img src="../../assets/image/other/homeIg.png" alt="Instagram" />
             </a>
-            <a href="#">
-              <img src="../../assets/image/other/homeFacebook.png" alt="" />
+            <a href="#" aria-label="Facebook">
+              <img src="../../assets/image/other/homeFacebook.png" alt="Facebook" />
             </a>
-            <a href="#">
-              <img src="../../assets/image/other/homeLine.png" alt="" />
+            <a href="#" aria-label="Line">
+              <img src="../../assets/image/other/homeLine.png" alt="Line" />
             </a>
             <div class="w-px h-1/6 bg-Mred"></div>
           </div>
@@ -117,7 +118,8 @@
           <div
             class="w-full min-[375px]:w-5/6 min-[414px]:w-2/3 xs:w-auto m-auto block h-full overflow-hidden rounded-tr-3xl rounded-bl-3xl shadow-mYellow">
             <RouterLink :to="`/product/productItem/${route.params.id}/productDetail`"
-              class="group block h-[200px] overflow-hidden relative after:absolute after:content-[''] after:hidden after:w-full after:h-full after:top-0 after:left-0 after:bg-white after:opacity-40 hover:after:block">
+              class="group block h-[200px] overflow-hidden relative after:absolute after:content-[''] after:hidden after:w-full after:h-full after:top-0 after:left-0 after:bg-white after:opacity-40 hover:after:block"
+              aria-label="product">
               <img :src="imageUrl(item.imgUrl)" alt="" class="h-full w-full object-cover rounded-tr-3xl rounded-bl-3xl" />
               <img class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 hidden group-hover:block"
                 src="../../assets/image/logo/logo-ck.png" alt="" />
