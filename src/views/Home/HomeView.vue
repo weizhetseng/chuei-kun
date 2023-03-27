@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-20">
     <swiper class="mb-5 lg:mb-10" :modules="modules" :loop="true" :autoplay="{ delay: 4000, disableOnInteraction: false }"
       :effect="'fade'">
       <swiper-slide v-for="item in banner">

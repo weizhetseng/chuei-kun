@@ -6,15 +6,9 @@
     <div class="w-full lg:w-4/5">
       <form action="" class="w-full xs:w-2/3 m-auto" @submit="sendData()" v-if="!sendStatus">
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
-          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="name"
-            >姓名</label
-          >
-          <input
-            class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]"
-            id="name"
-            type="text"
-            placeholder="請輸入姓名"
-          />
+          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="name">姓名</label>
+          <input class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="name" type="text"
+            placeholder="請輸入姓名" />
         </div>
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
           <div class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]">性別</div>
@@ -30,65 +24,33 @@
           </div>
         </div>
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
-          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="date"
-            >生日</label
-          >
+          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="date">生日</label>
           <input
             class="dateStyle w-1/2 outline-none shadow-main rounded-lg p-2 bg-date bg-no-repeat bg-[length:20px_20px] bg-[center_right_10px]"
-            id="date"
-            type="date"
-          />
+            id="date" type="date" />
         </div>
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
-          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="email2"
-            >電子信箱</label
-          >
-          <input
-            class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]"
-            id="email2"
-            type="text"
-            placeholder="請輸入電子信箱"
-          />
+          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="email2">電子信箱</label>
+          <input class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="email2" type="text"
+            placeholder="請輸入電子信箱" />
         </div>
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
-          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="emailQ"
-            >驗證碼</label
-          >
-          <input
-            class="w-full outline-none shadow-main rounded-lg p-2 xs:w-[calc(100%-120px)]"
-            id="emailQ"
-            type="text"
-            placeholder="請輸入驗證碼"
-          />
+          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="emailQ">驗證碼</label>
+          <input class="w-full outline-none shadow-main rounded-lg p-2 xs:w-[calc(100%-120px)]" id="emailQ" type="text"
+            placeholder="請輸入驗證碼" />
         </div>
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
-          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="hphone"
-            >市話</label
-          >
-          <input
-            class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]"
-            id="hphone"
-            type="text"
-            placeholder="請輸入市話號碼"
-          />
+          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="hphone">市話</label>
+          <input class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="hphone" type="text"
+            placeholder="請輸入市話號碼" />
         </div>
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
-          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for=""
-            >聯絡地址</label
-          >
+          <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="">聯絡地址</label>
           <div class="w-full flex flex-col xs:flex-row xs:gap-3 xs:w-[calc(100%-120px)]">
-            <select
-              class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0"
-              name=""
-              id=""
-            >
+            <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id="">
               <option value="">縣市</option>
             </select>
-            <select
-              class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0"
-              name=""
-              id=""
-            >
+            <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id="">
               <option value="">鄉鎮區</option>
             </select>
             <select class="w-full outline-none shadow-main rounded-lg p-2 xs:w-1/3" name="" id="">
@@ -98,11 +60,8 @@
         </div>
         <div class="flex flex-col gap-5 mb-16 xs:flex-row">
           <label class="hidden xs:w-[100px] xs:block" for=""></label>
-          <input
-            class="outline-none shadow-main rounded-lg p-2 xs:w-[calc(100%-120px)]"
-            type="text"
-            placeholder="請輸入詳細地址"
-          />
+          <input class="outline-none shadow-main rounded-lg p-2 xs:w-[calc(100%-120px)]" type="text"
+            placeholder="請輸入詳細地址" />
         </div>
         <div class="flex justify-center items-center gap-5">
           <button class="buttonStyle2 group" type="reset">

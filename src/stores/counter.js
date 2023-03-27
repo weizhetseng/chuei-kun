@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import qs from 'qs'
 import axios from 'axios'
@@ -112,4 +112,54 @@ export const useGoBack = defineStore('goBack', () => {
   return { goBackBtn }
 })
 
+//發送驗證碼
+export const useCodeSend = defineStore('codeSend', () => {
+  //倒數計時器
+  function startCountdown(countdown, timer) {
+    countdown.value = 60
+    timer.value = setInterval(() => {
+      countdown.value--
+      if (countdown.value === 0) {
+        clearInterval(timer.value)
+      }
+    }, 1000)
+  }
+
+  // 手機驗證碼判斷
+  const phoneIsSend = ref(false)
+  const phoneCountdown = ref(0)
+  const phoneTimer = ref(null)
+
+  function phoneSendCode() {
+    phoneIsSend.value = true
+    startCountdown(phoneCountdown, phoneTimer)
+  }
+
+  // email驗證碼判斷
+  const emailIsSend = ref(false)
+  const emailCountdown = ref(0)
+  const emailTimer = ref(null)
+
+  function emailSendCode() {
+    emailIsSend.value = true
+    startCountdown(emailCountdown, emailTimer)
+  }
+
+  return { phoneSendCode, emailSendCode, phoneCountdown, emailCountdown }
+})
+
+// 日期選擇條件
+export const useDatePick = defineStore('datePick', () => {
+  function validateDate(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const date = new Date(event.target.value);
+    if (date.getDay() === 6 || date.getDay() === 0) {
+      event.target.value = '';
+      alert('此日期不可選擇')
+    }
+  }
+
+  return { validateDate }
+})
 

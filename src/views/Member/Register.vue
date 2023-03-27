@@ -18,8 +18,8 @@
           <error-message name="phone" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
           <button
             class="absolute bg-Mred text-white py-[2px] px-5 right-0 bottom-2 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-            type="button" @click="sendCode()" :disabled="countdown !== 0">
-            {{ countdown === 0 ? '發送驗證碼' : `重發驗證碼(${countdown})` }}
+            type="button" @click="codeSend.phoneSendCode()" :disabled="codeSend.phoneCountdown !== 0">
+            {{ codeSend.phoneCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${codeSend.phoneCountdown})` }}
           </button>
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row relative">
@@ -41,8 +41,8 @@
           <error-message name="email" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
           <button
             class="absolute bg-Mred text-white py-[2px] px-5 right-0 bottom-2 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-            type="button">
-            發送驗證碼
+            type="button" @click="codeSend.emailSendCode()" :disabled="codeSend.emailCountdown !== 0">
+            {{ codeSend.emailCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${codeSend.emailCountdown})` }}
           </button>
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row relative">
@@ -55,11 +55,6 @@
           </Field>
           <error-message name="emailCode"
             class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
-          <button
-            class="absolute bg-Mred text-white py-[2px] px-5 right-0 bottom-2 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-            type="button">
-            重發驗證碼(59)
-          </button>
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row relative">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="pw"><span
@@ -106,7 +101,7 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="date">生日</label>
           <input
             class="myDate dateStyle w-1/2 outline-none shadow-main rounded-lg p-2 bg-date bg-no-repeat bg-[length:20px_20px] bg-[center_right_10px]"
-            id="date" type="date" @change="handleInput($event)" />
+            id="date" type="date" />
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="email2">電子信箱</label>
@@ -151,38 +146,10 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref, watch } from 'vue';
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
-
-const isSend = ref(false)
-const countdown = ref(0)
-
-let timer
-
-function sendCode() {
-  isSend.value = true
-  resendCode()
-}
-
-function handleInput(event) {
-  const date = new Date(event.target.value);
-  if (date.getDay() === 6 || date.getDay() === 0) {
-    event.target.value = '';
-    alert('此日期不可選擇')
-  }
-}
-
-function resendCode() {
-  countdown.value = 60
-  timer = setInterval(() => {
-    countdown.value--
-    if (countdown.value === 0) {
-      clearInterval(timer)
-    }
-  }, 1000)
-}
-
+import { useCodeSend } from '../../stores/counter.js'
+const codeSend = useCodeSend()
 
 
 </script>

@@ -148,8 +148,9 @@
             <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
               <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
                 v-model="orderUserVistor.email" />
-              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
-                發送驗證碼
+              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button"
+                @click="codeSend.emailSendCode()" :disabled="codeSend.emailCountdown !== 0">
+                {{ codeSend.emailCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${codeSend.emailCountdown})` }}
               </button>
             </div>
           </li>
@@ -159,9 +160,6 @@
             <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
               <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
                 v-model="orderUserVistor.ecode" />
-              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
-                重發驗證碼(59)
-              </button>
             </div>
           </li>
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
@@ -170,8 +168,9 @@
             <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
               <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
                 v-model="orderUserVistor.tphone" />
-              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
-                發送驗證碼
+              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button"
+                @click="codeSend.phoneSendCode()" :disabled="codeSend.phoneCountdown !== 0">
+                {{ codeSend.phoneCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${codeSend.phoneCountdown})` }}
               </button>
             </div>
           </li>
@@ -181,9 +180,6 @@
             <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
               <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
                 v-model="orderUserVistor.tcode" />
-              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
-                重發驗證碼(59)
-              </button>
             </div>
           </li>
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
@@ -288,7 +284,8 @@
           </li>
           <li class="mb-3 flex flex-col gap-3 xs:items-center xs:flex-row">
             <label class="w-28 text-lg font-bold" for="">預計到貨日期</label>
-            <input class="w-full xs:w-[calc(100%-124px)] md:w-1/2 shadow-main p-2 rounded-lg outline-none" type="date" />
+            <input class="w-full xs:w-[calc(100%-124px)] md:w-1/2 shadow-main p-2 rounded-lg outline-none" type="date"
+              @change="datePick.validateDate($event)" />
           </li>
           <li class="text-Mred">
             <p class="mb-2">*預計到貨日期，最多只能選未來的四個月，到貨日不能選星期日，低溫不能選星期一</p>
@@ -375,6 +372,9 @@ import { ref } from 'vue'
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
+import { useCodeSend, useDatePick } from '../../stores/counter.js'
+const codeSend = useCodeSend()
+const datePick = useDatePick()
 
 const checked = ref(false)
 
@@ -410,4 +410,5 @@ function checkedUser() {
     consignee = orderUser
   }
 }
+
 </script>
