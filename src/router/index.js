@@ -5,6 +5,11 @@ const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
+    //防止頁面亂導
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/',
+    },
     {
       path: '/',
       name: 'home',

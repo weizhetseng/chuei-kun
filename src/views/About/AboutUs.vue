@@ -7,9 +7,7 @@
       <h2 class="text-4xl text-Mred font-bold">關於垂坤</h2>
       <p>ABOUT US</p>
     </div>
-    <div
-      class="flex flex-col border-b items-center border-gray mb-16 gap-5 pb-32 lg:flex-row lg:pb-28"
-    >
+    <div class="flex flex-col border-b items-center border-gray mb-16 gap-5 pb-32 lg:flex-row lg:pb-28">
       <div class="lg:w-1/2 w-full">
         <h3 class="text-2xl font-bold mb-4">細火慢燉，精心烘培</h3>
         <p class="mb-7 text-lg">
@@ -22,8 +20,7 @@
           專營各式伴手禮，肉乾、肉鬆、肉條、肉角、香腸、魷魚絲…等各式苑裡名產。
         </p>
         <p class="text-lg">
-          <span class="text-xl text-Mred font-bold">垂坤食品</span
-          >創業以來秉持著誠信的經營理念，服務至上的態度，永續經營的信念，不僅在價位
+          <span class="text-xl text-Mred font-bold">垂坤食品</span>創業以來秉持著誠信的經營理念，服務至上的態度，永續經營的信念，不僅在價位
           及品質上，都絕對能為您帶來最合乎實質的效益，加上垂坤肉鬆近幾年來累積的專業經驗，及
           因應目前市場上的需求，一直不斷的求新求變，就是為了滿足客戶的各式需求，讓垂坤肉鬆能
           提供客戶最優質的服務。
@@ -31,14 +28,10 @@
       </div>
       <div class="lg:w-1/2 relative w-full">
         <img class="w-full rounded-3xl" src="../../assets/image/about/about02.jpg" alt="" />
-        <img
-          class="w-1/2 rounded-3xl absolute top-1/2 left-[10%]"
-          src="../../assets/image/about/about01.jpg"
-          alt=""
-        />
+        <img class="w-1/2 rounded-3xl absolute top-1/2 left-[10%]" src="../../assets/image/about/about01.jpg" alt="" />
       </div>
     </div>
-    <button class="buttonStyle group" type="button" @click="goBack()">
+    <button class="buttonStyle group" type="button" @click="goBack.goBackBtn()">
       <span class="btnWordStyle">返回上一頁</span>
     </button>
   </div>
@@ -48,11 +41,6 @@
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-function goBack() {
-  router.back()
-}
+import { useGoBack } from '../../stores/counter'
+const goBack = useGoBack()
 </script>

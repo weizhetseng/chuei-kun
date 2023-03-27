@@ -12,7 +12,7 @@ const isShow = ref(false)
 //判斷是否顯示按鈕
 function isTop() {
   const scrollTop =
-    window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    window.scrollY || document.documentElement.scrollTop || document.body.scrollTop
   if (scrollTop > 200) {
     isShow.value = true
   } else {
@@ -23,7 +23,7 @@ function isTop() {
 //回到上層
 function goTop() {
   let scrollTop =
-    window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    window.scrollY || document.documentElement.scrollTop || document.body.scrollTop
 
   function animate() {
     scrollTop -= 30

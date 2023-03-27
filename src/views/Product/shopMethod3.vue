@@ -1,32 +1,26 @@
 <template>
   <div class="w-full xl:w-4/5 m-auto leading-loose text-lg border-b border-wrap mb-8 pb-8">
     <p>
-      周一至周五：１７點前<span class="text-Mred text-xl font-bold">(網路下單15點前)</span
-      >為２個工作天(不含例假日)<br />１７點後為３個工作天(不含例假日)
+      周一至周五：１７點前<span class="text-Mred text-xl font-bold">(網路下單15點前)</span>為２個工作天(不含例假日)<br />１７點後為３個工作天(不含例假日)
     </p>
 
     <p>周六及周日：一律周三到貨</p>
     <p>外島地區需配合船班或航班，需再加２－３個工作天配達。</p>
     <p class="mb-4">天候不佳會再順延。</p>
     <p>
-      <span class="text-Mred text-xl font-bold">訂單確認後，恕不再接受追加及更改</span
-      >，請勿重複下單，避免收到兩件貨。
+      <span class="text-Mred text-xl font-bold">訂單確認後，恕不再接受追加及更改</span>，請勿重複下單，避免收到兩件貨。
     </p>
 
     <p>如需塑膠袋、紙袋，請至線上購物區加購，如需盒裝請註明於備註欄 (餅乾類恕不裝盒)。</p>
     <p>
-      請依訂購單上價位訂購，<span class="text-Mred text-xl font-bold"
-        >傳真訂單後，請『務必來電確認訂單及到貨日』。</span
-      >
+      請依訂購單上價位訂購，<span class="text-Mred text-xl font-bold">傳真訂單後，請『務必來電確認訂單及到貨日』。</span>
     </p>
     <p>價格、包裝如有異動，請依門市實際價格、包裝為主。</p>
     <p>餅乾類皆屬易碎品，運送過程中如有壓碎，恕不退換。</p>
     <p>發票如須開立統編，請先註明。如有疑問請於７日內換取。</p>
     <p>
       發票如須<span class="text-Mred text-xl font-bold">使用載具</span>，請備註載具號，並於<span
-        class="text-Mred text-xl font-bold"
-        >出貨後７日內開立。</span
-      >
+        class="text-Mred text-xl font-bold">出貨後７日內開立。</span>
     </p>
     <p>如遇颱風延期出貨，則不另行通知。</p>
     <p class="text-Mred text-xl font-bold">
@@ -66,17 +60,12 @@
 
     <p>如有任何問題，歡迎致電詢問。 本公司保有接受訂單與否之權利。</p>
   </div>
-  <button class="buttonStyle group" type="button" @click="goBack()">
+  <button class="buttonStyle group" type="button" @click="goBack.goBackBtn()">
     <span class="btnWordStyle">返回上一頁</span>
   </button>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-function goBack() {
-  router.back()
-}
+import { useGoBack } from '../../stores/counter';
+const goBack = useGoBack()
 </script>

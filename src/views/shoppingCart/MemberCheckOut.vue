@@ -25,11 +25,7 @@
           <tr class="border-b border-Btable flex flex-col md:table-row">
             <td class="p-8">
               <div class="flex flex-col items-center gap-5 lg:flex-row">
-                <img
-                  class="rounded-xl shadow-main"
-                  src="../../assets/image/product/product01.jpg"
-                  alt=""
-                />
+                <img class="rounded-xl shadow-main" src="../../assets/image/product/product01.jpg" alt="" />
                 <div>
                   <p class="text-lg">[新品]肉鬆小脆餅</p>
                   <p class="text-lgray">運送方式:一般運送</p>
@@ -39,26 +35,21 @@
             </td>
             <td
               class="p-8 border-Btable text-center text-lg relative after:absolute after:content-[attr(data-th)] after:block after:top-1/2 after:left-10 after:-translate-y-1/2 md:border-b md:after:hidden"
-              data-th="數量"
-            >
+              data-th="數量">
               1
             </td>
             <td
               class="p-8 border-Btable text-center text-lg relative after:absolute after:content-[attr(data-th)] after:block after:top-1/2 after:left-10 after:-translate-y-1/2 md:border-b md:after:hidden"
-              data-th="單價"
-            >
+              data-th="單價">
               1400
             </td>
             <td
               class="p-8 border-Btable text-Wred text-center text-lg relative whitespace-nowrap after:absolute after:text-black after:content-[attr(data-th)] after:block after:top-1/2 after:left-10 after:-translate-y-1/2 md:border-b md:after:hidden"
-              data-th="合計"
-            >
+              data-th="合計">
               1400元
             </td>
           </tr>
-          <tr
-            class="text-base border-b border-dashed border-Btable xs:text-2xl flex justify-between md:table-row"
-          >
+          <tr class="text-base border-b border-dashed border-Btable xs:text-2xl flex justify-between md:table-row">
             <td class="p-8" colspan="3">
               <p class="mb-4">商品總金額</p>
               <p>活動折扣</p>
@@ -68,9 +59,7 @@
               <p class="text-Wred">1711</p>
             </td>
           </tr>
-          <tr
-            class="text-base border-b border-Btable xs:text-2xl flex justify-between md:table-row"
-          >
+          <tr class="text-base border-b border-Btable xs:text-2xl flex justify-between md:table-row">
             <td class="p-8" colspan="3">
               <p class="mb-4">運費</p>
               <p>結帳總金額</p>
@@ -146,160 +135,82 @@
         <h4 class="bg-Mred text-white rounded-t-xl p-2 text-2xl">訂購人資料</h4>
         <ul class="p-7 text-lg">
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
-            <label
-              class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
-              for=""
-              >姓名</label
-            >
-            <div
-              class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row"
-            >
-              <input
-                type="text"
-                class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
-                v-model="orderUserVistor.name"
-              />
+            <label class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
+              for="">姓名</label>
+            <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
+              <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
+                v-model="orderUserVistor.name" />
             </div>
           </li>
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
-            <label
-              class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
-              for=""
-              >E-mail</label
-            >
-            <div
-              class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row"
-            >
-              <input
-                type="text"
-                class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
-                v-model="orderUserVistor.email"
-              />
-              <button
-                class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-                type="button"
-              >
+            <label class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
+              for="">E-mail</label>
+            <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
+              <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
+                v-model="orderUserVistor.email" />
+              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
                 發送驗證碼
               </button>
             </div>
           </li>
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
-            <label
-              class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
-              for=""
-              >E-mail驗證碼</label
-            >
-            <div
-              class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row"
-            >
-              <input
-                type="text"
-                class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
-                v-model="orderUserVistor.ecode"
-              />
-              <button
-                class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-                type="button"
-              >
+            <label class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
+              for="">E-mail驗證碼</label>
+            <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
+              <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
+                v-model="orderUserVistor.ecode" />
+              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
                 重發驗證碼(59)
               </button>
             </div>
           </li>
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
-            <label
-              class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
-              for=""
-              >手機號碼</label
-            >
-            <div
-              class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row"
-            >
-              <input
-                type="text"
-                class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
-                v-model="orderUserVistor.tphone"
-              />
-              <button
-                class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-                type="button"
-              >
+            <label class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
+              for="">手機號碼</label>
+            <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
+              <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
+                v-model="orderUserVistor.tphone" />
+              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
                 發送驗證碼
               </button>
             </div>
           </li>
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
-            <label
-              class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
-              for=""
-              >簡訊驗證碼</label
-            >
-            <div
-              class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row"
-            >
-              <input
-                type="text"
-                class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
-                v-model="orderUserVistor.tcode"
-              />
-              <button
-                class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-                type="button"
-              >
+            <label class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
+              for="">簡訊驗證碼</label>
+            <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
+              <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
+                v-model="orderUserVistor.tcode" />
+              <button class="bg-Mred text-white py-[2px] px-5 rounded-tr-3xl rounded-bl-3xl shadow-mYellow" type="button">
                 重發驗證碼(59)
               </button>
             </div>
           </li>
           <li class="mb-5 flex flex-col gap-3 relative md:flex-row">
-            <label
-              class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
-              for=""
-              >市話</label
-            >
-            <div
-              class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row"
-            >
-              <input
-                type="text"
-                class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
-                v-model="orderUserVistor.hphone"
-              />
+            <label class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
+              for="">市話</label>
+            <div class="w-full md:w-[calc(100%-112px)] flex flex-col gap-2 items-end md:items-center md:flex-row">
+              <input type="text" class="w-full md:w-2/3 shadow-main p-2 rounded-lg outline-none"
+                v-model="orderUserVistor.hphone" />
             </div>
           </li>
           <li class="flex flex-col gap-3 md:flex-row">
-            <label
-              class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
-              for=""
-              >聯絡地址</label
-            >
+            <label class="w-full font-bold md:w-28 md:border-r md:border-Btable flex items-center justify-start"
+              for="">聯絡地址</label>
             <div class="w-full md:w-[calc(100%-140px)] flex flex-col">
               <div class="flex flex-col gap-3 mb-3 md:flex-row">
-                <select
-                  class="w-full md:w-1/3 shadow-main p-2 rounded-lg outline-none"
-                  name=""
-                  id=""
-                >
+                <select class="w-full md:w-1/3 shadow-main p-2 rounded-lg outline-none" name="" id="">
                   <option value="">縣市</option>
                 </select>
-                <select
-                  class="w-full md:w-1/3 shadow-main p-2 rounded-lg outline-none"
-                  name=""
-                  id=""
-                >
+                <select class="w-full md:w-1/3 shadow-main p-2 rounded-lg outline-none" name="" id="">
                   <option value="">鄉鎮區</option>
                 </select>
-                <select
-                  class="w-full md:w-1/3 shadow-main p-2 rounded-lg outline-none"
-                  name=""
-                  id=""
-                >
+                <select class="w-full md:w-1/3 shadow-main p-2 rounded-lg outline-none" name="" id="">
                   <option value="">街道名稱</option>
                 </select>
               </div>
-              <input
-                type="text"
-                class="w-full shadow-main p-2 rounded-lg outline-none"
-                v-model="orderUserVistor.address"
-              />
+              <input type="text" class="w-full shadow-main p-2 rounded-lg outline-none"
+                v-model="orderUserVistor.address" />
             </div>
           </li>
         </ul>
@@ -312,88 +223,45 @@
             <label class="text-lg font-bold" for="checked">同訂購人</label>
           </li>
           <li class="mb-5 flex flex-col gap-3 xs:flex-row">
-            <label
-              class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
-              for=""
-              >姓名</label
-            >
-            <input
-              type="text"
-              class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
-              v-model="consignee.name"
-            />
+            <label class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
+              for="">姓名</label>
+            <input type="text" class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
+              v-model="consignee.name" />
           </li>
           <li class="mb-5 flex flex-col gap-3 xs:flex-row">
-            <label
-              class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
-              for=""
-              >E-mail</label
-            >
-            <input
-              type="text"
-              class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
-              v-model="consignee.email"
-            />
+            <label class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
+              for="">E-mail</label>
+            <input type="text" class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
+              v-model="consignee.email" />
           </li>
           <li class="mb-5 flex flex-col gap-3 xs:flex-row">
-            <label
-              class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
-              for=""
-              >手機號碼</label
-            >
-            <input
-              type="text"
-              class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
-              v-model="consignee.tphone"
-            />
+            <label class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
+              for="">手機號碼</label>
+            <input type="text" class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
+              v-model="consignee.tphone" />
           </li>
           <li class="mb-5 flex flex-col gap-3 xs:flex-row">
-            <label
-              class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
-              for=""
-              >市話</label
-            >
-            <input
-              type="text"
-              class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
-              v-model="consignee.hphone"
-            />
+            <label class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
+              for="">市話</label>
+            <input type="text" class="w-full shadow-main p-2 rounded-lg xs:w-2/3 md:w-1/2 outline-none"
+              v-model="consignee.hphone" />
           </li>
           <li class="flex flex-col gap-3 xs:flex-row">
-            <label
-              class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
-              for=""
-              >聯絡地址</label
-            >
+            <label class="w-full font-bold xs:w-28 xs:border-r xs:border-Btable flex items-center justify-start"
+              for="">聯絡地址</label>
             <div class="w-full xs:w-[calc(100%-140px)] flex flex-col md:w-2/3">
               <div class="flex flex-col gap-3 mb-3 xs:flex-row">
-                <select
-                  class="w-full xs:w-1/3 shadow-main p-2 rounded-lg outline-none"
-                  name=""
-                  id=""
-                >
+                <select class="w-full xs:w-1/3 shadow-main p-2 rounded-lg outline-none" name="" id="">
                   <option value="">縣市</option>
                 </select>
-                <select
-                  class="w-full xs:w-1/3 shadow-main p-2 rounded-lg outline-none"
-                  name=""
-                  id=""
-                >
+                <select class="w-full xs:w-1/3 shadow-main p-2 rounded-lg outline-none" name="" id="">
                   <option value="">鄉鎮區</option>
                 </select>
-                <select
-                  class="w-full xs:w-1/3 shadow-main p-2 rounded-lg outline-none"
-                  name=""
-                  id=""
-                >
+                <select class="w-full xs:w-1/3 shadow-main p-2 rounded-lg outline-none" name="" id="">
                   <option value="">街道名稱</option>
                 </select>
               </div>
-              <input
-                type="text"
-                class="w-full shadow-main p-2 rounded-lg outline-none"
-                v-model="consignee.address"
-              />
+              <input type="text" class="w-full shadow-main p-2 rounded-lg outline-none" v-model="consignee.address" />
             </div>
           </li>
         </ul>
@@ -414,13 +282,18 @@
       <div class="mb-10 shadow-main rounded-xl">
         <h4 class="bg-Mred text-white rounded-t-xl p-2 text-2xl">選擇配送方式</h4>
         <ul class="p-7 text-lg">
-          <li>
+          <li class="mb-3">
             <input class="mr-3" type="radio" />
             <label class="text-lg font-bold" for="">宅配到府</label>
           </li>
-          <li>
-            <p>*配送時間為白天，請填寫白天可以簽收的中文地址，以利宅配人員辨識與聯繫</p>
-            <p>*因商品配送方式採用宅配到府，需要專人簽收，寄送地址請勿填寫郵政信箱</p>
+          <li class="mb-3 flex flex-col gap-3 xs:items-center xs:flex-row">
+            <label class="w-28 text-lg font-bold" for="">預計到貨日期</label>
+            <input class="w-full xs:w-[calc(100%-124px)] md:w-1/2 shadow-main p-2 rounded-lg outline-none" type="date" />
+          </li>
+          <li class="text-Mred">
+            <p class="mb-2">*預計到貨日期，最多只能選未來的四個月，到貨日不能選星期日，低溫不能選星期一</p>
+            <p class="mb-2">*配送時間為白天，請填寫白天可以簽收的中文地址，以利宅配人員辨識與聯繫</p>
+            <p class="mb-2">*因商品配送方式採用宅配到府，需要專人簽收，寄送地址請勿填寫郵政信箱</p>
           </li>
         </ul>
       </div>
@@ -434,14 +307,10 @@
         </h4>
         <ul class="p-7 text-lg">
           <li class="mb-5 flex flex-col gap-3 md:flex-row">
-            <div
-              class="w-full font-bold md:w-32 md:border-r md:border-Btable flex items-center justify-start"
-            >
+            <div class="w-full font-bold md:w-32 md:border-r md:border-Btable flex items-center justify-start">
               個人電子發票
             </div>
-            <div
-              class="w-full md:w-[calc(100%-140px)] flex gap-5 flex-col sm:flex-row sm:items-center"
-            >
+            <div class="w-full md:w-[calc(100%-140px)] flex gap-5 flex-col sm:flex-row sm:items-center">
               <div>
                 <input class="mr-3" type="radio" name="" id="" />
                 <label for="">寄送至訂購人電子信箱</label>
@@ -449,20 +318,12 @@
               <div>
                 <input class="mr-3" type="radio" name="" id="" />
                 <label for="">載具號碼</label>
-                <input
-                  class="shadow-main p-1 ml-3 rounded-lg outline-none"
-                  type="text"
-                  name=""
-                  id=""
-                  placeholder="/"
-                />
+                <input class="shadow-main p-1 ml-3 rounded-lg outline-none" type="text" name="" id="" placeholder="/" />
               </div>
             </div>
           </li>
           <li class="flex flex-col gap-3 md:flex-row">
-            <div
-              class="w-full font-bold md:w-32 md:border-r md:border-Btable flex items-center justify-start"
-            >
+            <div class="w-full font-bold md:w-32 md:border-r md:border-Btable flex items-center justify-start">
               公司統編發票
             </div>
             <div class="w-full md:w-[calc(100%-140px)]">
@@ -473,13 +334,8 @@
                 </div>
                 <div class="flex flex-wrap items-center gap-3">
                   <label for="">統編</label>
-                  <input
-                    class="shadow-main p-1 rounded-lg outline-none"
-                    type="text"
-                    name=""
-                    id=""
-                    placeholder="請輸入統一編號"
-                  />
+                  <input class="shadow-main p-1 rounded-lg outline-none" type="text" name="" id=""
+                    placeholder="請輸入統一編號" />
                 </div>
               </div>
               <div class="flex flex-wrap gap-5">

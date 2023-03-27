@@ -9,17 +9,12 @@
       <p>收款人: XXX</p>
     </div>
   </div>
-  <button class="buttonStyle group" type="button" @click="goBack()">
+  <button class="buttonStyle group" type="button" @click="goBack.goBackBtn()">
     <span class="btnWordStyle">返回上一頁</span>
   </button>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-function goBack() {
-  router.back()
-}
+import { useGoBack } from '../../stores/counter';
+const goBack = useGoBack()
 </script>

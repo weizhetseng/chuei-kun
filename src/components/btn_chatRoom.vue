@@ -49,8 +49,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import db from '../firebase/init.js'
-import { collection, addDoc, query, orderBy, limit, onSnapshot, setDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, query, orderBy, onSnapshot, setDoc, doc, getDoc } from 'firebase/firestore';
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth'
+
 
 const customerStatus = ref(false)
 

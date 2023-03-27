@@ -2,6 +2,8 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import qs from 'qs'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { Field } from 'vee-validate'
 
 //line登入規則
 export const uselineLogin = defineStore('lineLogin', () => {
@@ -99,3 +101,15 @@ export const usegoogleLogin = defineStore('googleLogin', () => {
 
   return { googleLoginBtn, access_token, userinfo }
 })
+
+//返回上一頁
+export const useGoBack = defineStore('goBack', () => {
+  const router = useRouter()
+  function goBackBtn() {
+    router.back()
+  }
+
+  return { goBackBtn }
+})
+
+
