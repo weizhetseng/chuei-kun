@@ -170,6 +170,7 @@
       </div>
     </div>
   </div>
+  {{ settime }}
 </template>
 
 <script setup>
@@ -194,8 +195,6 @@ const user = ref({
   userName: '',
   passWord: '',
 })
-
-
 //假 API 模擬登入
 function useLogin() {
   apiLogin(user.value)
@@ -220,10 +219,22 @@ function useRegister() {
   router.push('/register')
 }
 
+
+const settime = ref(900)
+function countdownWork() {
+  setInterval(() => {
+    settime.value--
+    if (settime.value === 0) {
+      clearInterval()
+    }
+  }, 1000)
+}
+
 onMounted(() => {
   if ($cookies.isKey('loginInfo')) {
     user.value = $cookies.get('loginInfo');
   }
+  countdownWork()
 })
 
 </script>

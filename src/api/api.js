@@ -20,3 +20,5 @@ const userRequest = axios.create({
 //* 大分類
 //todo api做甚麼的
 export const apiLogin = (data) => userRequest.post('/api/login', data)
+
+export const apiNewsList = (data) => userRequest.get('/api/news', data)
