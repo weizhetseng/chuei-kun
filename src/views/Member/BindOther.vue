@@ -12,13 +12,9 @@
             </div>
             Facebook
           </div>
-          <div
-            class="w-full pb-1 xs:w-[calc(100%-164px)] flex items-center justify-between border-b border-wrap"
-          >
+          <div class="w-full pb-1 xs:w-[calc(100%-164px)] flex items-center justify-between border-b border-wrap">
             <p class="text-lg font-bold">已綁定</p>
-            <button
-              class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white"
-            >
+            <button class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white">
               解除綁定
             </button>
           </div>
@@ -30,13 +26,9 @@
             </div>
             LINE
           </div>
-          <div
-            class="w-full pb-1 xs:w-[calc(100%-164px)] flex items-center justify-between border-b border-wrap"
-          >
+          <div class="w-full pb-1 xs:w-[calc(100%-164px)] flex items-center justify-between border-b border-wrap">
             <p class="text-lg font-bold">未綁定</p>
-            <button
-              class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white"
-            >
+            <button class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white">
               綁定
             </button>
           </div>
@@ -48,13 +40,9 @@
             </div>
             GOOGLE
           </div>
-          <div
-            class="w-full pb-1 xs:w-[calc(100%-164px)] flex items-center justify-between border-b border-wrap"
-          >
+          <div class="w-full pb-1 xs:w-[calc(100%-164px)] flex items-center justify-between border-b border-wrap">
             <p class="text-lg font-bold">已綁定</p>
-            <button
-              class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white"
-            >
+            <button class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white">
               解除綁定
             </button>
           </div>

@@ -284,8 +284,8 @@
           </li>
           <li class="mb-3 flex flex-col gap-3 xs:items-center xs:flex-row">
             <label class="w-28 text-lg font-bold" for="">預計到貨日期</label>
-            <input class="w-full xs:w-[calc(100%-124px)] md:w-1/2 shadow-main p-2 rounded-lg outline-none" type="date"
-              @change="datePick.validateDate($event)" />
+            <VueDatePicker class="w-full xs:w-[calc(100%-124px)] md:w-1/2 shadow-main rounded-lg outline-none"
+              v-model="date" :disabled-dates="disabledDates" />
           </li>
           <li class="text-Mred">
             <p class="mb-2">*預計到貨日期，最多只能選未來的四個月，到貨日不能選星期日，低溫不能選星期一</p>
@@ -368,13 +368,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
-import { useCodeSend, useDatePick } from '../../stores/counter.js'
+import { useCodeSend } from '../../stores/counter.js'
+
+
+
+const date = ref(new Date());
+const disabledDates = computed(() => {
+  return ['2023-03-30']
+})
 const codeSend = useCodeSend()
-const datePick = useDatePick()
 
 const checked = ref(false)
 
@@ -410,5 +416,9 @@ function checkedUser() {
     consignee = orderUser
   }
 }
+
+onMounted(() => {
+  console.log(new Date())
+})
 
 </script>

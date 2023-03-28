@@ -5,6 +5,51 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { Field } from 'vee-validate'
 
+// 導覽列控制項
+export const useNavBar = defineStore('NavBar', () => {
+  const isNavFixed = ref(false)
+  const asideNav = ref(false)
+  const newsDropdown = ref(false)
+  const shopDropdown = ref(false)
+
+  function openAside() {
+    asideNav.value = true
+    document.body.style.overflow = 'hidden'
+  }
+  function closeAside() {
+    asideNav.value = false
+    document.body.style.overflow = 'auto'
+  }
+  function toggleNewsDropdown() {
+    newsDropdown.value = !newsDropdown.value
+    shopDropdown.value = false
+  }
+  function toggleShopDropdown() {
+    shopDropdown.value = !shopDropdown.value
+    newsDropdown.value = false
+  }
+  function scrollTop() {
+    const scrollTop =
+      window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    if (scrollTop > 80) {
+      isNavFixed.value = true
+    } else {
+      isNavFixed.value = false
+    }
+  }
+
+  return { isNavFixed, asideNav, newsDropdown, shopDropdown, openAside, closeAside, toggleNewsDropdown, toggleShopDropdown, scrollTop }
+})
+
+//儲存登入狀態
+export const useLoginStatus = defineStore('LoginStatus', () => {
+
+  function updateLoginStatus(event) {
+    $cookies.set('loginStatus', event, 0)
+  }
+  return { updateLoginStatus }
+})
+
 //line登入規則
 export const uselineLogin = defineStore('lineLogin', () => {
   //跳轉驗證網址
@@ -148,20 +193,6 @@ export const useCodeSend = defineStore('codeSend', () => {
   return { phoneSendCode, emailSendCode, phoneCountdown, emailCountdown }
 })
 
-// 日期選擇條件
-export const useDatePick = defineStore('datePick', () => {
-  function validateDate(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const date = new Date(event.target.value);
-    if (date.getDay() === 6 || date.getDay() === 0) {
-      event.target.value = '';
-      alert('此日期不可選擇')
-    }
-  }
-
-  return { validateDate }
-})
 
 
 

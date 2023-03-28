@@ -76,11 +76,13 @@
           <error-message name="password2"
             class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
         </div>
-        <div class="flex flex-col gap-5 mb-7 xs:flex-row">
+        <div class="flex flex-col gap-5 mb-7 relative xs:flex-row">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="name"><span
               class="text-Wred">*</span>姓名</label>
-          <input class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="name" type="text"
-            placeholder="請輸入姓名" />
+          <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="userName" name="userName"
+            type="text" label="姓名" :class="{ 'is-invalid': errors['userName'] }" placeholder="請輸入姓名" rules="required">
+          </Field>
+          <error-message name="userName" class="block absolute right-0 -bottom-6 text-red-700"></error-message>
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row">
           <div class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]">

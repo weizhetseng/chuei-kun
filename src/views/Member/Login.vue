@@ -10,8 +10,8 @@
           <h2 class="text-4xl text-Mred font-bold">會員登入</h2>
           <p>Member Login</p>
         </div>
-        <Form v-slot="{ errors }" action="" class="p-5 mb-10 lg:mb-16">
-          <div class="mb-12 lg:mb-20 gap-5 sm:flex">
+        <Form v-slot="{ errors }" action="" class="p-5 mb-10 lg:mb-16" @submit="useLogin()">
+          <div class="mb-12 lg:mb-20 gap-5 sm:flex relative">
             <!-- 帳號 -->
             <label class="w-full p-2 flex items-center gap-1 text-lg font-bold sm:w-32 sm:border-r sm:border-gray"
               for="user">
@@ -22,12 +22,13 @@
             </label>
             <div class="sm:w-[calc(100%-148px)]">
               <Field class="w-full outline-none border-b border-lgray p-2" id="userID" name="userID" type="text"
-                label="帳號" :class="{ 'is-invalid': errors['userID'] }" placeholder="請輸入手機號碼或電子信箱" rules="required">
+                label="帳號" :class="{ 'is-invalid': errors['userID'] }" placeholder="請輸入手機號碼或電子信箱" rules="required"
+                v-model="user.userName">
               </Field>
-              <error-message name="userID" class="block text-red-700 text-right"></error-message>
+              <error-message name="userID" class="block absolute right-0 text-red-700"></error-message>
             </div>
           </div>
-          <div class="mb-12 lg:mb-16 gap-5 sm:flex">
+          <div class="mb-12 lg:mb-16 gap-5 sm:flex relative">
             <!-- 密碼 -->
             <label class="w-full p-2 flex items-center gap-1 text-lg font-bold sm:w-32 sm:border-r sm:border-gray"
               for="pw">
@@ -38,25 +39,23 @@
             </label>
             <div class="sm:w-[calc(100%-148px)]">
               <Field class="w-full outline-none border-b border-lgray p-2" id="userPW" name="userPW" type="password"
-                label="密碼" :class="{ 'is-invalid': errors['userPW'] }" placeholder="請輸入密碼" rules="required">
+                label="密碼" :class="{ 'is-invalid': errors['userPW'] }" placeholder="請輸入密碼" rules="required"
+                v-model="user.passWord">
               </Field>
-              <error-message name="userPW" class="block text-red-700 text-right"></error-message>
+              <error-message name="userPW" class="block absolute text-red-700 right-0"></error-message>
             </div>
           </div>
           <!-- 記住我 -->
           <div class="flex justify-between items-center mb-10">
             <div class="flex items-center gap-1">
-              <input type="checkbox" name="remember" id="remember" />
+              <input type="checkbox" name="remember" id="remember" v-model="rememberMe" />
               <label class="text-lg font-bold" for="remember">記住我</label>
             </div>
             <RouterLink class="text-lg font-bold" to="/forget">忘記密碼</RouterLink>
           </div>
-          <!-- <button class="buttonStyle group" type="submit">
-                    <span class="btnWordStyle">登入</span>
-                </button> -->
-          <RouterLink to="/memberCenter" class="group linkStyle">
-            <span class="linkWordStyle">登入</span>
-          </RouterLink>
+          <button class="buttonStyle group" type="submit">
+            <span class="btnWordStyle">登入</span>
+          </button>
         </Form>
         <!-- 其他方式登入 -->
         <div class="p-5 text-center">
@@ -156,7 +155,7 @@
           </ol>
         </div>
         <!-- 同意 -->
-        <Form v-slot="{ errors }" action="" class="">
+        <Form v-slot="{ errors }" action="" @submit="useRegister()">
           <div class="flex flex-wrap gap-1 items-center justify-start mb-10">
             <Field id="termsCheckbox" name="termsCheckbox" :value="true" type="checkbox" label="會員條款"
               :class="{ 'is-invalid': errors['termsCheckbox'] }" rules="required">
@@ -164,12 +163,9 @@
             <label class="text-lg font-bold" for="termsCheckbox">我已閱讀並同意提供以上資料供垂坤連繫使用。</label>
             <error-message name="termsCheckbox" class="block text-red-700 text-right"></error-message>
           </div>
-          <!-- <button class="buttonStyle group" type="submit">
-                    <span class="btnWordStyle">下一步</span>
-                </button> -->
-          <RouterLink to="/register" class="group linkStyle">
-            <span class="linkWordStyle">下一步</span>
-          </RouterLink>
+          <button class="buttonStyle group" type="submit">
+            <span class="btnWordStyle">下一步</span>
+          </button>
         </Form>
       </div>
     </div>
@@ -177,11 +173,57 @@
 </template>
 
 <script setup>
+//模組引入
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import CryptoJS from "crypto-js";
+
+//組件引入
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
-import { uselineLogin, usegoogleLogin } from '../../stores/counter'
 import btn_animateBG from '../../components/btn_animateBG.vue'
+import { apiLogin } from '../../api/api'
+import { uselineLogin, usegoogleLogin, useLoginStatus } from '../../stores/counter'
 
+const router = useRouter()
 const lineLogin = uselineLogin()
 const googleLogin = usegoogleLogin()
+const loginStatus = useLoginStatus()
+const rememberMe = ref(false)
+const user = ref({
+  userName: '',
+  passWord: '',
+})
+
+
+//假 API 模擬登入
+function useLogin() {
+  apiLogin(user.value)
+    .then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        if (rememberMe) {
+          $cookies.set('loginInfo', JSON.stringify(user.value), '7d')
+        }
+        alert(res.data.message)
+        loginStatus.updateLoginStatus(true)
+        router.push('/memberCenter')
+      } else if (res.data.status === 'ERROR') {
+        alert(res.data.message)
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+function useRegister() {
+  router.push('/register')
+}
+
+onMounted(() => {
+  if ($cookies.isKey('loginInfo')) {
+    user.value = $cookies.get('loginInfo');
+  }
+})
+
 </script>
