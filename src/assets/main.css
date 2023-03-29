@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+html,body{
+  height: 100%;
+}
+
 @layer base {
   html {
     font-family: 微軟正黑體, sans-serif;
@@ -44,7 +48,7 @@
 }
 
 .titleStyle {
-  @apply inline-block relative before:absolute before:content-[''] before:hidden before:w-0.5 before:h-full before:bg-Mred before:-left-5 before:-bottom-5 before:-rotate-45 after:absolute after:content-[''] after:hidden after:w-0.5 after:h-full after:bg-Mred after:-right-5 after:-top-5 after:-rotate-45 xs:after:block xs:before:block;
+  @apply inline-block relative before:absolute before:content-[''] before:hidden before:w-0.5 before:h-full before:z-50 before:bg-Mred before:-left-5 before:-bottom-5 before:-rotate-45 after:absolute after:z-50 after:content-[''] after:hidden after:w-0.5 after:h-full after:bg-Mred after:-right-5 after:-top-5 after:-rotate-45 xs:after:block xs:before:block;
 }
 
 /* 導覽列樣式 */
@@ -252,3 +256,5 @@
     right: 5%;
   }
 }
+
+

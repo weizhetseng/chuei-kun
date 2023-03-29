@@ -175,9 +175,8 @@
 
 <script setup>
 //模組引入
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import CryptoJS from "crypto-js";
 
 //組件引入
 import btn_banner from '../../components/btn_banner.vue'
@@ -203,7 +202,7 @@ function useLogin() {
   apiLogin(user.value)
     .then((res) => {
       if (res.data.status === 'SUCCESS') {
-        if (rememberMe) {
+        if (rememberMe.value) {
           $cookies.set('loginInfo', JSON.stringify(user.value), '7d')
         }
         loginStatus.updateLoginStatus(true)

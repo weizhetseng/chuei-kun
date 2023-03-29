@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import qs from 'qs'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { Field } from 'vee-validate'
 
 // 導覽列控制項
 export const useNavBar = defineStore('NavBar', () => {

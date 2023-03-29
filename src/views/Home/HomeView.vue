@@ -3,7 +3,7 @@
   <div class="mt-20">
     <swiper class="mb-5 lg:mb-10" :modules="modules" :loop="true" :autoplay="{ delay: 4000, disableOnInteraction: false }"
       :effect="'fade'">
-      <swiper-slide v-for="item in banner">
+      <swiper-slide v-for="item in banner" :key="item">
         <div class="flex">
           <div class="w-1/12 hidden sm:flex sm:flex-col sm:items-center sm:justify-center sm:gap-3">
             <p class="text-Mred text-xs" style="writing-mode: vertical-lr">FOLLOW US</p>
@@ -36,7 +36,7 @@
   </div>
   <btn_animateBG />
   <div
-    class="flex flex-col items-center gap-5 container mb-28 mt-40 overflow-hidden lg:flex-row lg:container lg:max-w-none lg:px-0">
+    class="flex flex-col items-center gap-5 container mb-28 mt-40 lg:overflow-hidden lg:flex-row lg:container lg:max-w-none lg:px-0">
     <div class="w-full lg:w-1/2 lg:pl-[5%] xl:pl-[10%]" data-aos="fade-right">
       <div class="titleStyle">
         <h2 class="text-4xl text-Mred font-bold">最新消息</h2>
@@ -63,35 +63,15 @@
     </div>
   </div>
   <div class="container mb-20" data-aos="fade-up">
-    <div class="mb-10 flex flex-col items-start gap-5 2xl:justify-between 2xl:flex-row">
+    <div class="mb-10 flex flex-col items-start gap-5 2xl:gap-20 2xl:justify-between 2xl:flex-row">
       <div class="titleStyle mb-5 xl:mb-0">
         <h2 class="text-4xl text-Mred font-bold">推薦商品</h2>
-        <p>Recommended products</p>
+        <p class="whitespace-nowrap">Recommended products</p>
       </div>
       <ul class="modal w-full flex items-center self-center p-2 gap-5 overflow-scroll whitespace-nowrap">
-        <li>
-          <button class="buttonStyle2 group" type="button">
-            <span class="btnWordStyle2">肉鬆系列</span>
-          </button>
-        </li>
-        <li>
-          <button class="buttonStyle2 group" type="button">
-            <span class="btnWordStyle2">肉鬆系列</span>
-          </button>
-        </li>
-        <li>
-          <button class="buttonStyle2 group" type="button">
-            <span class="btnWordStyle2">肉鬆系列</span>
-          </button>
-        </li>
-        <li>
-          <button class="buttonStyle2 group" type="button">
-            <span class="btnWordStyle2">肉鬆系列</span>
-          </button>
-        </li>
-        <li>
-          <button class="buttonStyle2 group" type="button">
-            <span class="btnWordStyle2">肉鬆系列</span>
+        <li v-for="(item, index) in recommendSeries" :key="item">
+          <button class="buttonStyle2 group" type="button" @click="changeSeries(index)">
+            <span class="btnWordStyle2">{{ item }}</span>
           </button>
         </li>
       </ul>
@@ -113,7 +93,7 @@
           spaceBetween: 20
         }
       }" :modules="modules">
-      <swiper-slide class="relative" v-for="item in recommendProduct">
+      <swiper-slide class="relative" v-for="item in recommendProduct" :key="item.title">
         <div class="h-full pb-1">
           <div
             class="w-full min-[375px]:w-5/6 min-[414px]:w-2/3 xs:w-auto m-auto block h-full overflow-hidden rounded-tr-3xl rounded-bl-3xl shadow-mYellow">
@@ -126,7 +106,7 @@
             </RouterLink>
             <div class="p-4">
               <div class="flex flex-wrap gap-2 mb-1">
-                <span class="text-white bg-Mred p-1" v-for="tag in item.tag">{{ tag }}</span>
+                <span class="text-white bg-Mred p-1" v-for="tag in item.tag" :key="tag">{{ tag }}</span>
               </div>
               <h3 class="text-xl">{{ item.title }}</h3>
               <p class="mt-3 text-lg text-right text-Mred">單價:{{ item.cost }}元</p>
@@ -160,12 +140,14 @@ import 'swiper/css/effect-fade'
 import { Autoplay, Navigation, Scrollbar, EffectFade } from 'swiper'
 import { useRoute } from 'vue-router'
 
+import { apiHomeProductList } from '../../api/api'
 
-const modules = [Autoplay, Navigation, Scrollbar, EffectFade]
-const homeModal = ref(null)
-const route = useRoute()
 
-const banner = ['banner-home1.jpg', 'banner-home2.jpg']
+const modules = [Autoplay, Navigation, Scrollbar, EffectFade];
+const homeModal = ref(null);
+const route = useRoute();
+
+const banner = ['banner-home1.jpg', 'banner-home2.jpg'];
 
 const newsList = [
   {
@@ -180,40 +162,40 @@ const newsList = [
     title: '即日起至7/20,皇啡咖啡任兩包免運活動開跑~',
     date: '2022-06-20'
   }
-]
+];
 
-const recommendProduct = [
-  {
-    imgUrl: 'product01.jpg',
-    tag: ['人氣推薦', '門市限定'],
-    title: '[新品]肉鬆小脆餅',
-    cost: '150'
-  },
-  {
-    imgUrl: 'product02.png',
-    tag: ['人氣推薦', '門市限定', '人氣推薦', '門市限定'],
-    title: '[新品]肉鬆小脆餅肉鬆小脆餅',
-    cost: '150'
-  },
-  {
-    imgUrl: 'product03.png',
-    tag: ['人氣推薦', '門市限定'],
-    title: '[新品]肉鬆小脆餅',
-    cost: '150'
-  },
-  {
-    imgUrl: 'product04.jpg',
-    tag: ['人氣推薦', '門市限定'],
-    title: '[新品]肉鬆小脆餅',
-    cost: '150'
-  },
-  {
-    imgUrl: 'product01.jpg',
-    tag: ['人氣推薦', '門市限定'],
-    title: '[新品]肉鬆小脆餅',
-    cost: '150'
-  }
-]
+// const recommendProduct = [
+//   {
+//     imgUrl: 'product01.jpg',
+//     tag: ['人氣推薦', '門市限定'],
+//     title: '[新品]肉鬆小脆餅',
+//     cost: '150'
+//   },
+//   {
+//     imgUrl: 'product02.png',
+//     tag: ['人氣推薦', '門市限定', '人氣推薦', '門市限定'],
+//     title: '[新品]肉鬆小脆餅肉鬆小脆餅',
+//     cost: '150'
+//   },
+//   {
+//     imgUrl: 'product03.png',
+//     tag: ['人氣推薦', '門市限定'],
+//     title: '[新品]肉鬆小脆餅',
+//     cost: '150'
+//   },
+//   {
+//     imgUrl: 'product04.jpg',
+//     tag: ['人氣推薦', '門市限定'],
+//     title: '[新品]肉鬆小脆餅',
+//     cost: '150'
+//   },
+//   {
+//     imgUrl: 'product01.jpg',
+//     tag: ['人氣推薦', '門市限定'],
+//     title: '[新品]肉鬆小脆餅',
+//     cost: '150'
+//   }
+// ]
 
 function imageUrl(name) {
   return new URL(`/src/assets/image/product/${name}`, import.meta.url).href
@@ -222,7 +204,37 @@ function imageUrl2(name) {
   return new URL(`/src/assets/image/banner/v1/${name}`, import.meta.url).href
 }
 
+
+const recommendProduct = ref([])
+const recommendSeries = ref([])
+
+function getData() {
+  apiHomeProductList()
+    .then((res) => {
+      console.log(res.data)
+      recommendSeries.value = res.data.map((item) => item.id)
+      recommendProduct.value = res.data[0].products
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
+function changeSeries(id) {
+  apiHomeProductList()
+    .then((res) => {
+      console.log(res.data)
+      recommendProduct.value = res.data[id].products
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
 onMounted(() => {
   homeModal.value.openModal()
+  getData()
 })
 </script>

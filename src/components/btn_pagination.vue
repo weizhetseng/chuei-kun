@@ -3,7 +3,7 @@
     <li class="cursor-pointer hover:scale-110 active:scale-100" @click="prevPage()">
       <div><img src="../assets/image/other/pageleft.png" alt="" /></div>
     </li>
-    <li class="cursor-pointer" @click="currentChange(item)" v-for="item in totalPage">
+    <li class="cursor-pointer" @click="currentChange(item)" v-for="item in totalPage" :key="item">
       <div
         class="border border-Mred rounded-full text-Mred flex items-center justify-center hover:scale-110 hover:bg-Mred hover:text-white active:scale-100 w-10 h-10 sm:w-12 sm:h-12">
         0{{ item }}</div>

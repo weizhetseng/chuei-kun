@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/Home/HomeView.vue'
 
 const router = createRouter({
@@ -21,7 +21,8 @@ const router = createRouter({
       component: () => import('../views/About/AboutUs.vue'),
       meta: {
         banner: 'banner-about.jpg',
-        breadcrumb: ['關於垂坤']
+        breadcrumb: ['關於垂坤'],
+        requiresAuth: false
       }
     },
     {
@@ -30,7 +31,8 @@ const router = createRouter({
       component: () => import('../views/News/NewsView.vue'),
       meta: {
         banner: 'banner-news.jpg',
-        breadcrumb: ['最新消息']
+        breadcrumb: ['最新消息'],
+        requiresAuth: false
       },
       children: [
         {
@@ -45,7 +47,8 @@ const router = createRouter({
       component: () => import('../views/Location/Location.vue'),
       meta: {
         banner: 'banner-location.jpg',
-        breadcrumb: ['營業據點']
+        breadcrumb: ['營業據點'],
+        requiresAuth: false
       }
     },
     {
@@ -54,7 +57,8 @@ const router = createRouter({
       component: () => import('../views/Member/Login.vue'),
       meta: {
         banner: 'banner-login.jpg',
-        breadcrumb: ['會員登入']
+        breadcrumb: ['會員登入'],
+        requiresAuth: false
       }
     },
     {
@@ -63,7 +67,8 @@ const router = createRouter({
       component: () => import('../views/Member/Forget.vue'),
       meta: {
         banner: 'banner-login.jpg',
-        breadcrumb: ['會員專區', '忘記密碼']
+        breadcrumb: ['會員專區', '忘記密碼'],
+        requiresAuth: false
       }
     },
     {
@@ -72,7 +77,8 @@ const router = createRouter({
       component: () => import('../views/Member/Register.vue'),
       meta: {
         banner: 'banner-login.jpg',
-        breadcrumb: ['會員註冊']
+        breadcrumb: ['會員註冊'],
+        requiresAuth: false
       }
     },
     {
@@ -81,7 +87,8 @@ const router = createRouter({
       component: () => import('../views/Member/MemberCenter.vue'),
       meta: {
         banner: 'banner-member.jpg',
-        breadcrumb: ['會員專區']
+        breadcrumb: ['會員專區'],
+        requiresAuth: false
       },
       children: [
         {
@@ -89,7 +96,8 @@ const router = createRouter({
           component: () => import('../views/Member/OrderSearch.vue'),
           meta: {
             banner: 'banner-member.jpg',
-            breadcrumb: ['會員專區', '查詢訂單資料']
+            breadcrumb: ['會員專區', '查詢訂單資料'],
+            requiresAuth: false
           }
         },
         {
@@ -97,7 +105,8 @@ const router = createRouter({
           component: () => import('../views/Member/OrderDetail.vue'),
           meta: {
             banner: 'banner-member.jpg',
-            breadcrumb: ['會員專區', '查詢訂單資料']
+            breadcrumb: ['會員專區', '查詢訂單資料'],
+            requiresAuth: false
           }
         },
         {
@@ -105,7 +114,8 @@ const router = createRouter({
           component: () => import('../views/Member/UpdateUser.vue'),
           meta: {
             banner: 'banner-member.jpg',
-            breadcrumb: ['會員專區', '修改會員資料']
+            breadcrumb: ['會員專區', '修改會員資料'],
+            requiresAuth: false
           }
         },
         {
@@ -113,7 +123,8 @@ const router = createRouter({
           component: () => import('../views/Member/ChangePW.vue'),
           meta: {
             banner: 'banner-member.jpg',
-            breadcrumb: ['會員專區', '變更密碼']
+            breadcrumb: ['會員專區', '變更密碼'],
+            requiresAuth: false
           }
         },
         {
@@ -121,7 +132,8 @@ const router = createRouter({
           component: () => import('../views/Member/BindOther.vue'),
           meta: {
             banner: 'banner-member.jpg',
-            breadcrumb: ['會員專區', '綁定其他帳號']
+            breadcrumb: ['會員專區', '綁定其他帳號'],
+            requiresAuth: false
           }
         },
         {
@@ -129,7 +141,8 @@ const router = createRouter({
           component: () => import('../views/Member/Logout.vue'),
           meta: {
             banner: 'banner-member.jpg',
-            breadcrumb: ['會員專區', '登出']
+            breadcrumb: ['會員專區', '登出'],
+            requiresAuth: false
           }
         }
       ]
@@ -140,7 +153,8 @@ const router = createRouter({
       component: () => import('../views/shoppingCart/ShoppingCart.vue'),
       meta: {
         banner: 'banner-cart.jpg',
-        breadcrumb: ['購物車']
+        breadcrumb: ['購物車'],
+        requiresAuth: false
       }
     },
     {
@@ -149,7 +163,8 @@ const router = createRouter({
       component: () => import('../views/shoppingCart/MemberCheckOut.vue'),
       meta: {
         banner: 'banner-cart.jpg',
-        breadcrumb: ['購物車']
+        breadcrumb: ['購物車'],
+        requiresAuth: false
       }
     },
     {
@@ -158,7 +173,8 @@ const router = createRouter({
       component: () => import('../views/shoppingCart/OrderCheck.vue'),
       meta: {
         banner: 'banner-cart.jpg',
-        breadcrumb: ['購物車']
+        breadcrumb: ['購物車'],
+        requiresAuth: false
       }
     },
     {
@@ -167,7 +183,8 @@ const router = createRouter({
       component: () => import('../views/shoppingCart/OrderDone.vue'),
       meta: {
         banner: 'banner-cart.jpg',
-        breadcrumb: ['購物車']
+        breadcrumb: ['購物車'],
+        requiresAuth: false
       }
     },
     {
@@ -176,7 +193,8 @@ const router = createRouter({
       component: () => import('../views/Product/Product.vue'),
       meta: {
         banner: 'banner-shopping.jpg',
-        breadcrumb: ['線上購物']
+        breadcrumb: ['線上購物'],
+        requiresAuth: false
       },
       children: [
         {
@@ -184,7 +202,8 @@ const router = createRouter({
           component: () => import('../views/Product/shopMethod1.vue'),
           meta: {
             banner: 'banner-cart.jpg',
-            breadcrumb: ['線上購物', '付款方式']
+            breadcrumb: ['線上購物', '付款方式'],
+            requiresAuth: false
           }
         },
         {
@@ -192,7 +211,8 @@ const router = createRouter({
           component: () => import('../views/Product/shopMethod2.vue'),
           meta: {
             banner: 'banner-cart.jpg',
-            breadcrumb: ['線上購物', '付款方式']
+            breadcrumb: ['線上購物', '付款方式'],
+            requiresAuth: false
           }
         },
         {
@@ -200,7 +220,8 @@ const router = createRouter({
           component: () => import('../views/Product/shopMethod3.vue'),
           meta: {
             banner: 'banner-cart.jpg',
-            breadcrumb: ['線上購物', '付款方式']
+            breadcrumb: ['線上購物', '付款方式'],
+            requiresAuth: false
           }
         },
         {
@@ -208,7 +229,8 @@ const router = createRouter({
           component: () => import('../views/Product/ProductItem.vue'),
           meta: {
             banner: 'banner-cart.jpg',
-            breadcrumb: ['線上購物', '付款方式']
+            breadcrumb: ['線上購物', '付款方式'],
+            requiresAuth: false
           },
           children: [
             {
@@ -216,7 +238,8 @@ const router = createRouter({
               component: () => import('../views/Product/ProductDetail.vue'),
               meta: {
                 banner: 'banner-cart.jpg',
-                breadcrumb: ['線上購物', '付款方式']
+                breadcrumb: ['線上購物', '付款方式'],
+                requiresAuth: false
               }
             }
           ]
@@ -226,9 +249,19 @@ const router = createRouter({
   ]
 })
 
+
 router.beforeEach((to, from, next) => {
-  window.scrollTo(0, 0, 'smooth')
-  next()
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const isAuthenticated = $cookies.get('loginStatus')
+
+  if (requiresAuth && !isAuthenticated) {
+    alert('請先登入會員')
+    window.scrollTo(0, 0, 'smooth')
+    next('/login')
+  } else {
+    window.scrollTo(0, 0, 'smooth')
+    next()
+  }
 })
 
 export default router
