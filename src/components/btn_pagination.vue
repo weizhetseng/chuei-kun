@@ -17,9 +17,21 @@
 <script setup>
 
 defineProps({
-  prevPage: Function,
-  currentChange: Function,
-  nextPage: Function,
-  totalPage: Number
+  prevPage: {
+    type: Function,
+    required: true
+  },
+  currentChange: {
+    type: Function,
+    required: true
+  },
+  nextPage: {
+    type: Function,
+    required: true
+  },
+  totalPage: {
+    type: Number,
+    required: true
+  }
 })
 </script>

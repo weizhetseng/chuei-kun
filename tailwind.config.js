@@ -57,11 +57,19 @@ module.exports = {
           '0%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(0.8)' },
           '100%': { transform: 'scale(1)' }
-        }
+        },
+        bounce_in: {
+          '0%': { transform: 'scale(0)' },
+          '40%': { transform: 'scale(1.25)' },
+          '60%': { transform: 'scale(1)' },
+          '80%': { transform: 'scale(1.2)' },
+          '100%': { transform: 'scale(1)' }
+        },
       },
       animation: {
         marquee: 'marquee 7s linear infinite',
-        zoomInOut: 'zoomInOut 3s ease-in-out infinite'
+        zoomInOut: 'zoomInOut 3s ease-in-out infinite',
+        bounceIn: 'bounce_in 0.5s ease-in-out'
       }
     },
   },

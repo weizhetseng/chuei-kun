@@ -10,8 +10,8 @@
     <div v-if="route.path === '/news'">
       <div class="flex gap-5">
         <ul class="lg:w-3/4 w-full mt-10 mb-16">
-          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row" v-for="item in tableList"
-            :key="item.title" data-aos="fade-up">
+          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row" v-for="item in tableList" :key="item.id"
+            data-aos="fade-up">
             <img class="lg:w-1/2 w-full" :src="imageUrl(item.imgUrl)" alt="" />
             <div class="lg:w-1/2 w-full">
               <p class="mb-5">{{ item.date }}</p>
@@ -23,7 +23,7 @@
               <p class="mb-6">{{ item.content }}</p>
               <div
                 class="group w-36 p-2 relative bg-white before:content-[''] before:block before:absolute before:transition-all before:w-0 before:h-full before:bg-Mred before:top-0 before:left-0 shadow-main after:content-[''] after:w-full after:h-full after:absolute after:block after:top-1 after:left-0.5 after:bg-Myellow after:-z-10 hover:before:w-full">
-                <RouterLink to="/news/newsDetail/0"
+                <RouterLink :to="`/news/newsDetail/${item.id}`"
                   class="block text-Mred relative after:content-[''] after:block after:absolute after:bg-right after:w-4 after:h-4 after:bg-no-repeat after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 group-hover:text-white group-hover:after:bg-rightW">
                   了解更多</RouterLink>
               </div>

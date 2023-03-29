@@ -57,6 +57,7 @@
             <span class="btnWordStyle">登入</span>
           </button>
         </Form>
+        <btn_alertModal :message="alertMessage" :show="showAlertModal" @close="showAlertModal = false" />
         <!-- 其他方式登入 -->
         <div class="p-5 text-center">
           <div
@@ -170,12 +171,11 @@
       </div>
     </div>
   </div>
-  {{ settime }}
 </template>
 
 <script setup>
 //模組引入
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import CryptoJS from "crypto-js";
 
@@ -183,6 +183,7 @@ import CryptoJS from "crypto-js";
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
+import btn_alertModal from '../../components/btn_alertModal.vue';
 import { apiLogin } from '../../api/api'
 import { uselineLogin, usegoogleLogin, useLoginStatus } from '../../stores/counter'
 
@@ -190,6 +191,8 @@ const router = useRouter()
 const lineLogin = uselineLogin()
 const googleLogin = usegoogleLogin()
 const loginStatus = useLoginStatus()
+const alertMessage = ref('')
+const showAlertModal = ref(false)
 const rememberMe = ref(false)
 const user = ref({
   userName: '',
@@ -203,11 +206,15 @@ function useLogin() {
         if (rememberMe) {
           $cookies.set('loginInfo', JSON.stringify(user.value), '7d')
         }
-        alert(res.data.message)
         loginStatus.updateLoginStatus(true)
-        router.push('/memberCenter')
+        alertMessage.value = res.data.message
+        showAlertModal.value = true
+        setTimeout(() => {
+          router.push('/memberCenter')
+        }, 1500)
       } else if (res.data.status === 'ERROR') {
-        alert(res.data.message)
+        alertMessage.value = res.data.message
+        showAlertModal.value = true
       }
     })
     .catch((err) => {
@@ -219,22 +226,10 @@ function useRegister() {
   router.push('/register')
 }
 
-
-const settime = ref(900)
-function countdownWork() {
-  setInterval(() => {
-    settime.value--
-    if (settime.value === 0) {
-      clearInterval()
-    }
-  }, 1000)
-}
-
 onMounted(() => {
   if ($cookies.isKey('loginInfo')) {
     user.value = $cookies.get('loginInfo');
   }
-  countdownWork()
 })
 
 </script>
