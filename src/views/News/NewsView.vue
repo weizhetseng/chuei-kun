@@ -10,7 +10,7 @@
     <div v-if="route.path === '/news'">
       <div class="flex gap-5">
         <ul class="lg:w-3/4 w-full mt-10 mb-16">
-          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row" v-for="item in newsList"
+          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row" v-for="item in tableList"
             :key="item.title" data-aos="fade-up">
             <img class="lg:w-1/2 w-full" :src="imageUrl(item.imgUrl)" alt="" />
             <div class="lg:w-1/2 w-full">
@@ -32,7 +32,8 @@
         </ul>
         <btn_newsList class="hidden w-1/4 lg:block xl:w-1/5" />
       </div>
-      <btn_pagination class="mb-20" />
+      <btn_pagination class="mb-20" :prevPage="prevPage" :nextPage="nextPage" :currentChange="currentChange"
+        :totalPage="totalPage" />
     </div>
     <RouterView />
   </div>
@@ -49,7 +50,6 @@ import { apiNewsList } from '../../api/api'
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 const route = useRoute()
-const newsList = ref([])
 
 // const newsList = [
 //   {
@@ -82,16 +82,61 @@ const newsList = ref([])
 //   }
 // ]
 
+const newsList = ref([])
+const total = ref(null)
+const totalPage = ref(0)
+const pageSize = 4
+const currentPage = ref(1)
+const tableList = ref([])
+
+function getNeedArr(array, size) {
+  const length = array.length
+  if (!length || !size || size < 1) {
+    return []
+  }
+  let index = 0
+  let resIndex = 0
+  let result = new Array(Math.ceil(length / size))
+  while (index < length) {
+    result[resIndex++] = array.slice(index, index += size)
+  }
+  return result
+}
+
 function getData() {
   apiNewsList()
     .then((res) => {
-      console.log(res)
       newsList.value = res.data
-      console.log(newsList)
+      total.value = res.data.length
+      totalPage.value = total.value / pageSize
+      tableList.value = getNeedArr(newsList.value, pageSize)[currentPage.value - 1]
     })
     .catch((err) => {
       console.log(err)
     })
+}
+
+function prevPage() {
+  currentPage.value--
+  const length = total.value / pageSize
+  if (currentPage.value < length) {
+    currentPage.value = 1
+  }
+  getData()
+}
+
+function currentChange(val) {
+  currentPage.value = val;
+  getData()
+}
+
+function nextPage() {
+  currentPage.value += 1
+  const length = total.value / pageSize
+  if (currentPage.value >= length) {
+    currentPage.value = length
+  }
+  getData()
 }
 
 function imageUrl(name) {
