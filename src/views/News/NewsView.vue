@@ -10,7 +10,7 @@
     <div v-if="route.path === '/news'">
       <div class="flex gap-5">
         <ul class="lg:w-3/4 w-full mt-10 mb-16">
-          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row" v-for="item in tableList" :key="item.id"
+          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row" v-for="item in newsList" :key="item.id"
             data-aos="fade-up">
             <img class="lg:w-1/2 w-full" :src="imageUrl(item.imgUrl)" alt="" />
             <div class="lg:w-1/2 w-full">
@@ -45,105 +45,105 @@ import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_newsList from '../../components/btn_newsList.vue'
 import btn_pagination from '../../components/btn_pagination.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
-import { apiNewsList } from '../../api/api'
+// import { apiNewsList } from '../../api/api'
 
 import { useRoute } from 'vue-router'
-import { onMounted, ref } from 'vue'
+// import { onMounted, ref } from 'vue'
 const route = useRoute()
 
-// const newsList = [
-//   {
-//     date: '2022-07-28',
-//     imgUrl: 'news01.png',
-//     title: '假標題假標題假標題假標題假標題',
-//     content:
-//       '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
-//   },
-//   {
-//     date: '2022-04-28',
-//     imgUrl: 'news02.png',
-//     title: '假標題假標題假標題假標題假標題',
-//     content:
-//       '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
-//   },
-//   {
-//     date: '2022-03-28',
-//     imgUrl: 'news04.png',
-//     title: '假標題假標題假標題假標題假標題',
-//     content:
-//       '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
-//   },
-//   {
-//     date: '2022-01-28',
-//     imgUrl: 'news03.png',
-//     title: '假標題假標題假標題假標題假標題',
-//     content:
-//       '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
+const newsList = [
+  {
+    date: '2022-07-28',
+    imgUrl: 'news01.png',
+    title: '假標題假標題假標題假標題假標題',
+    content:
+      '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
+  },
+  {
+    date: '2022-04-28',
+    imgUrl: 'news02.png',
+    title: '假標題假標題假標題假標題假標題',
+    content:
+      '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
+  },
+  {
+    date: '2022-03-28',
+    imgUrl: 'news04.png',
+    title: '假標題假標題假標題假標題假標題',
+    content:
+      '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
+  },
+  {
+    date: '2022-01-28',
+    imgUrl: 'news03.png',
+    title: '假標題假標題假標題假標題假標題',
+    content:
+      '假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容假內容'
+  }
+]
+
+// const newsList = ref([])
+// const total = ref(null)
+// const totalPage = ref(0)
+// const pageSize = 4
+// const currentPage = ref(1)
+// const tableList = ref([])
+
+// function getNeedArr(array, size) {
+//   const length = array.length
+//   if (!length || !size || size < 1) {
+//     return []
 //   }
-// ]
+//   let index = 0
+//   let resIndex = 0
+//   let result = new Array(Math.ceil(length / size))
+//   while (index < length) {
+//     result[resIndex++] = array.slice(index, index += size)
+//   }
+//   return result
+// }
 
-const newsList = ref([])
-const total = ref(null)
-const totalPage = ref(0)
-const pageSize = 4
-const currentPage = ref(1)
-const tableList = ref([])
+// function getData() {
+//   apiNewsList()
+//     .then((res) => {
+//       newsList.value = res.data
+//       total.value = res.data.length
+//       totalPage.value = total.value / pageSize
+//       tableList.value = getNeedArr(newsList.value, pageSize)[currentPage.value - 1]
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+// }
 
-function getNeedArr(array, size) {
-  const length = array.length
-  if (!length || !size || size < 1) {
-    return []
-  }
-  let index = 0
-  let resIndex = 0
-  let result = new Array(Math.ceil(length / size))
-  while (index < length) {
-    result[resIndex++] = array.slice(index, index += size)
-  }
-  return result
-}
+// function prevPage() {
+//   currentPage.value--
+//   const length = total.value / pageSize
+//   if (currentPage.value < length) {
+//     currentPage.value = 1
+//   }
+//   getData()
+// }
 
-function getData() {
-  apiNewsList()
-    .then((res) => {
-      newsList.value = res.data
-      total.value = res.data.length
-      totalPage.value = total.value / pageSize
-      tableList.value = getNeedArr(newsList.value, pageSize)[currentPage.value - 1]
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
+// function currentChange(val) {
+//   currentPage.value = val;
+//   getData()
+// }
 
-function prevPage() {
-  currentPage.value--
-  const length = total.value / pageSize
-  if (currentPage.value < length) {
-    currentPage.value = 1
-  }
-  getData()
-}
-
-function currentChange(val) {
-  currentPage.value = val;
-  getData()
-}
-
-function nextPage() {
-  currentPage.value += 1
-  const length = total.value / pageSize
-  if (currentPage.value >= length) {
-    currentPage.value = length
-  }
-  getData()
-}
+// function nextPage() {
+//   currentPage.value += 1
+//   const length = total.value / pageSize
+//   if (currentPage.value >= length) {
+//     currentPage.value = length
+//   }
+//   getData()
+// }
 
 function imageUrl(name) {
   return new URL(`/src/assets/image/news/${name}`, import.meta.url).href
 }
 
-onMounted(() => {
-  getData()
-})
+// onMounted(() => {
+//   getData()
+// })
 </script>

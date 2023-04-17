@@ -140,7 +140,7 @@ import 'swiper/css/effect-fade'
 import { Autoplay, Navigation, Scrollbar, EffectFade } from 'swiper'
 import { useRoute } from 'vue-router'
 
-import { apiHomeProductList } from '../../api/api'
+// import { apiHomeProductList } from '../../api/api'
 
 
 const modules = [Autoplay, Navigation, Scrollbar, EffectFade];
@@ -164,38 +164,38 @@ const newsList = [
   }
 ];
 
-// const recommendProduct = [
-//   {
-//     imgUrl: 'product01.jpg',
-//     tag: ['人氣推薦', '門市限定'],
-//     title: '[新品]肉鬆小脆餅',
-//     cost: '150'
-//   },
-//   {
-//     imgUrl: 'product02.png',
-//     tag: ['人氣推薦', '門市限定', '人氣推薦', '門市限定'],
-//     title: '[新品]肉鬆小脆餅肉鬆小脆餅',
-//     cost: '150'
-//   },
-//   {
-//     imgUrl: 'product03.png',
-//     tag: ['人氣推薦', '門市限定'],
-//     title: '[新品]肉鬆小脆餅',
-//     cost: '150'
-//   },
-//   {
-//     imgUrl: 'product04.jpg',
-//     tag: ['人氣推薦', '門市限定'],
-//     title: '[新品]肉鬆小脆餅',
-//     cost: '150'
-//   },
-//   {
-//     imgUrl: 'product01.jpg',
-//     tag: ['人氣推薦', '門市限定'],
-//     title: '[新品]肉鬆小脆餅',
-//     cost: '150'
-//   }
-// ]
+const recommendProduct = [
+  {
+    imgUrl: 'product01.jpg',
+    tag: ['人氣推薦', '門市限定'],
+    title: '[新品]肉鬆小脆餅',
+    cost: '150'
+  },
+  {
+    imgUrl: 'product02.png',
+    tag: ['人氣推薦', '門市限定', '人氣推薦', '門市限定'],
+    title: '[新品]肉鬆小脆餅肉鬆小脆餅',
+    cost: '150'
+  },
+  {
+    imgUrl: 'product03.png',
+    tag: ['人氣推薦', '門市限定'],
+    title: '[新品]肉鬆小脆餅',
+    cost: '150'
+  },
+  {
+    imgUrl: 'product04.jpg',
+    tag: ['人氣推薦', '門市限定'],
+    title: '[新品]肉鬆小脆餅',
+    cost: '150'
+  },
+  {
+    imgUrl: 'product01.jpg',
+    tag: ['人氣推薦', '門市限定'],
+    title: '[新品]肉鬆小脆餅',
+    cost: '150'
+  }
+]
 
 function imageUrl(name) {
   return new URL(`/src/assets/image/product/${name}`, import.meta.url).href
@@ -205,36 +205,36 @@ function imageUrl2(name) {
 }
 
 
-const recommendProduct = ref([])
-const recommendSeries = ref([])
+// const recommendProduct = ref([])
+// const recommendSeries = ref([])
 
-function getData() {
-  apiHomeProductList()
-    .then((res) => {
-      console.log(res.data)
-      recommendSeries.value = res.data.map((item) => item.id)
-      recommendProduct.value = res.data[0].products
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
+// function getData() {
+//   apiHomeProductList()
+//     .then((res) => {
+//       console.log(res.data)
+//       recommendSeries.value = res.data.map((item) => item.id)
+//       recommendProduct.value = res.data[0].products
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+// }
 
 
-function changeSeries(id) {
-  apiHomeProductList()
-    .then((res) => {
-      console.log(res.data)
-      recommendProduct.value = res.data[id].products
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
+// function changeSeries(id) {
+//   apiHomeProductList()
+//     .then((res) => {
+//       console.log(res.data)
+//       recommendProduct.value = res.data[id].products
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+// }
 
 
 onMounted(() => {
   homeModal.value.openModal()
-  getData()
+  // getData()
 })
 </script>
