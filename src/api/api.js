@@ -1,30 +1,23 @@
-// import axios from 'axios'
-
 // const userRequest = axios.create({
 //   baseURL: `${import.meta.env.VITE_APP_API}`
 // })
 // userRequest.defaults.headers.common['Authorization'] = 'AUTH_TOKEN'
 
-// //* 大分類
-// //todo api做甚麼的
-// export const api名稱 = (data) => userRequest.post('api', data)
-
-
 import axios from 'axios'
 
 const userRequest = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL: `${import.meta.env.VITE_APP_API}`
 })
 // userRequest.defaults.headers.common['Authorization'] = 'AUTH_TOKEN'
 
 //* 大分類
 //todo api做甚麼的
-export const apiLogin = (data) => userRequest.post('/api/login', data)
 
-export const apiNewsList = (data) => userRequest.get('/api/news', data)
+//todo 取得加密key
+export const apiLoginEncrypt = (data) => userRequest.post('API_App/MemberCenter/LoginEncrypt', data)
+//todo 登入
+export const apiWebLogin = (data) => userRequest.post('API_App/MemberCenter/WebLogin', data)
 
-export const apiHomeNewsList = (data) => userRequest.get('/api/homeNews', data)
 
-export const apiHomeProductList = (data) => userRequest.get('/api/homeProduct', data)
 
 

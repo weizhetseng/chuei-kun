@@ -10,7 +10,7 @@
           <h2 class="text-4xl text-Mred font-bold">會員登入</h2>
           <p>Member Login</p>
         </div>
-        <Form v-slot="{ errors }" action="" class="p-5 mb-10 lg:mb-16" @submit="useLogin()">
+        <Form v-slot="{ errors }" action="" class="p-5 mb-10 lg:mb-16" @submit="webLogin.webLogin()">
           <div class="mb-12 lg:mb-20 gap-5 sm:flex relative">
             <!-- 帳號 -->
             <label class="w-full p-2 flex items-center gap-1 text-lg font-bold sm:w-32 sm:border-r sm:border-gray"
@@ -23,7 +23,7 @@
             <div class="sm:w-[calc(100%-148px)]">
               <Field class="w-full outline-none border-b border-lgray p-2" id="userID" name="userID" type="text"
                 label="帳號" :class="{ 'is-invalid': errors['userID'] }" placeholder="請輸入手機號碼或電子信箱" rules="required"
-                v-model="user.userName">
+                v-model="webLogin.User.u_id">
               </Field>
               <error-message name="userID" class="block absolute right-0 text-red-700"></error-message>
             </div>
@@ -40,7 +40,7 @@
             <div class="sm:w-[calc(100%-148px)]">
               <Field class="w-full outline-none border-b border-lgray p-2" id="userPW" name="userPW" type="password"
                 label="密碼" :class="{ 'is-invalid': errors['userPW'] }" placeholder="請輸入密碼" rules="required"
-                v-model="user.passWord">
+                v-model="webLogin.User.PW">
               </Field>
               <error-message name="userPW" class="block absolute text-red-700 right-0"></error-message>
             </div>
@@ -57,7 +57,6 @@
             <span class="btnWordStyle">登入</span>
           </button>
         </Form>
-        <btn_alertModal :message="alertMessage" :show="showAlertModal" @close="showAlertModal = false" />
         <!-- 其他方式登入 -->
         <div class="p-5 text-center">
           <div
@@ -177,58 +176,21 @@
 //模組引入
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-
 //組件引入
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
-import btn_alertModal from '../../components/btn_alertModal.vue';
-import { apiLogin } from '../../api/api'
-import { uselineLogin, usegoogleLogin, useLoginStatus } from '../../stores/counter'
+import { useWebLogin } from '../../stores/counter'
 
 const router = useRouter()
-const lineLogin = uselineLogin()
-const googleLogin = usegoogleLogin()
-const loginStatus = useLoginStatus()
-const alertMessage = ref('')
-const showAlertModal = ref(false)
+const webLogin = useWebLogin()
 const rememberMe = ref(false)
-const user = ref({
-  userName: '',
-  passWord: '',
-})
-//假 API 模擬登入
-function useLogin() {
-  apiLogin(user.value)
-    .then((res) => {
-      if (res.data.status === 'SUCCESS') {
-        if (rememberMe.value) {
-          $cookies.set('loginInfo', JSON.stringify(user.value), '7d')
-        }
-        loginStatus.updateLoginStatus(true)
-        alertMessage.value = res.data.message
-        showAlertModal.value = true
-        setTimeout(() => {
-          router.push('/memberCenter')
-        }, 1500)
-      } else if (res.data.status === 'ERROR') {
-        alertMessage.value = res.data.message
-        showAlertModal.value = true
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
-
 function useRegister() {
   router.push('/register')
 }
 
 onMounted(() => {
-  if ($cookies.isKey('loginInfo')) {
-    user.value = $cookies.get('loginInfo');
-  }
+  webLogin.getKey()
 })
 
 </script>

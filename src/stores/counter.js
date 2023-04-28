@@ -2,7 +2,10 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import qs from 'qs'
 import axios from 'axios'
+import dayjs from 'dayjs';
+import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
+import { apiLoginEncrypt, apiWebLogin } from '../api/api'
 
 // 導覽列控制項
 export const useNavBar = defineStore('NavBar', () => {
@@ -191,6 +194,91 @@ export const useCodeSend = defineStore('codeSend', () => {
 
   return { phoneSendCode, emailSendCode, phoneCountdown, emailCountdown }
 })
+
+
+//登入
+export const useWebLogin = defineStore('webLogin', () => {
+
+  const GetKeyRequest = {
+    Lang: "tw"
+  }
+  let authkey = "";
+  let authiv = "";
+  function getKey() {
+    apiLoginEncrypt(GetKeyRequest)
+      .then((res) => {
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+          history.back()
+        } else if (checkNum === '91' || checkNum === '92' || checkNum === '93' || checkNum === '94' || checkNum === '95' || checkNum === '96') {
+          alert(res.data.message.substr(3));
+          //登出
+        } else if (checkNum === '97' || checkNum === '98') {
+          alert(res.data.message.substr(3));
+        } else {
+          authkey = res.data.Key
+          authiv = res.data.IV
+          console.log(res.data)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  function encrypt(word, keyStr, ivStr) {
+    keyStr = keyStr ? keyStr : "absoietlj32fai12";
+    ivStr = ivStr ? ivStr : "absoietlj32fai12";
+    let key = CryptoJS.enc.Utf8.parse(keyStr);
+    let iv = CryptoJS.enc.Utf8.parse(ivStr);
+    let srcs = CryptoJS.enc.Utf8.parse(word);
+
+    let encrypted = CryptoJS.AES.encrypt(srcs, key, {
+      iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.ZeroPadding
+    });
+    return encrypted.toString();
+  }
+
+  const User = {
+    u_id: '',
+    PW: '',
+    Lang: 'tw'
+  }
+
+  const WebLoginRequest = {
+    u_id: '',
+    RA: '',
+    Lang: "tw"
+  }
+
+  function webLogin() {
+    let uid = User.u_id;
+    let pwd = User.PW;
+    let RA = encrypt(`${import.meta.env.VITE_APP_PROJECT};` + pwd + ";" + dayjs().format('YYYY-MM-DD HH:mm:ss') + ";", authkey, authiv);
+    WebLoginRequest.u_id = uid;
+    WebLoginRequest.RA = RA;
+    apiWebLogin(WebLoginRequest)
+      .then((res) => {
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+        } else if (checkNum === '94' || checkNum === '95' || checkNum === '97' || checkNum === '98') {
+          alert(res.data.message.substr(3));
+        } else {
+          console.log(res)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  return { getKey, User, webLogin }
+})
+
 
 
 
