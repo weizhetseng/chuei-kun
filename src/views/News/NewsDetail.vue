@@ -24,31 +24,13 @@
 
 
 <script setup>
-import { apiNewsList } from '../../api/api';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
-const route = useRoute()
-const newsDetailList = ref([])
 const selectedNews = ref([])
-const id = route.params.id
 
-
-
-
-function getData() {
-  apiNewsList()
-    .then((res) => {
-      newsDetailList.value = res.data
-      selectedNews.value = newsDetailList.value.find((news) => news.id.toString() === id)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
 
 onMounted(() => {
-  getData()
+
 })
 
 </script>

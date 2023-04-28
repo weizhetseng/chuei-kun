@@ -13,7 +13,8 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="phone"><span
               class="text-Wred">*</span>手機號碼</label>
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="phone" name="phone"
-            type="text" label="手機號碼" :class="{ 'is-invalid': errors['phone'] }" placeholder="請輸入手機號碼" rules="required">
+            type="text" label="手機號碼" :class="{ 'is-invalid': errors['phone'] }" placeholder="請輸入手機號碼" rules="required"
+            v-model="Register.NewUser.Mobile">
           </Field>
           <error-message name="phone" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
           <button
@@ -26,8 +27,8 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="phoneQ"><span
               class="text-Wred">*</span>驗證碼</label>
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="phoneCode" name="phoneCode"
-            type="text" label="驗證碼" :class="{ 'is-invalid': errors['phoneCode'] }" placeholder="請輸入手機驗證碼"
-            rules="required">
+            type="text" label="驗證碼" :class="{ 'is-invalid': errors['phoneCode'] }" placeholder="請輸入手機驗證碼" rules="required"
+            v-model="Register.NewUser.Auth_Mobile">
           </Field>
           <error-message name="phoneCode"
             class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
@@ -36,7 +37,8 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="email"><span
               class="text-Wred">*</span>電子信箱</label>
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="email" name="email"
-            type="text" label="電子信箱" :class="{ 'is-invalid': errors['email'] }" placeholder="請輸入Email" rules="required">
+            type="text" label="電子信箱" :class="{ 'is-invalid': errors['email'] }" placeholder="請輸入Email" rules="required"
+            v-model="Register.NewUser.Email">
           </Field>
           <error-message name="email" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
           <button
@@ -51,7 +53,7 @@
 
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="emailCode" name="emailCode"
             type="text" label="驗證碼" :class="{ 'is-invalid': errors['emailCode'] }" placeholder="請輸入Email信驗證碼"
-            rules="required">
+            rules="required" v-model="Register.NewUser.Auth_Email">
           </Field>
           <error-message name="emailCode"
             class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
@@ -61,7 +63,7 @@
               class="text-Wred">*</span>密碼</label>
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="password1" name="password1"
             type="text" label="密碼" :class="{ 'is-invalid': errors['password1'] }"
-            placeholder="請輸入4~12 個字元，請勿使用空白或「＠ 」等特殊符號" rules="required">
+            placeholder="請輸入4~12 個字元，請勿使用空白或「＠ 」等特殊符號" rules="required" v-model="Register.NewUser.Password">
           </Field>
           <error-message name="password1"
             class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
@@ -150,8 +152,9 @@
 <script setup>
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
-import { useCodeSend } from '../../stores/counter.js'
+import { useCodeSend, useRegister } from '../../stores/counter.js'
 const codeSend = useCodeSend()
+const Register = useRegister()
 
 
 </script>

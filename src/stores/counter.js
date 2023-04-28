@@ -5,7 +5,7 @@ import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
-import { apiLoginEncrypt, apiWebLogin } from '../api/api'
+import { apiLoginEncrypt, apiWebLogin, apiRegister } from '../api/api'
 
 // 導覽列控制項
 export const useNavBar = defineStore('NavBar', () => {
@@ -163,7 +163,7 @@ export const useGoBack = defineStore('goBack', () => {
 export const useCodeSend = defineStore('codeSend', () => {
   //倒數計時器
   function startCountdown(countdown, timer) {
-    countdown.value = 60
+    countdown.value = 300
     timer.value = setInterval(() => {
       countdown.value--
       if (countdown.value === 0) {
@@ -199,34 +199,7 @@ export const useCodeSend = defineStore('codeSend', () => {
 //登入
 export const useWebLogin = defineStore('webLogin', () => {
 
-  const GetKeyRequest = {
-    Lang: "tw"
-  }
-  let authkey = "";
-  let authiv = "";
-  function getKey() {
-    apiLoginEncrypt(GetKeyRequest)
-      .then((res) => {
-        let checkNum = res.data.message.substr(0, 2);
-        if (parseInt(checkNum) <= 0) {
-          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
-          history.back()
-        } else if (checkNum === '91' || checkNum === '92' || checkNum === '93' || checkNum === '94' || checkNum === '95' || checkNum === '96') {
-          alert(res.data.message.substr(3));
-          //登出
-        } else if (checkNum === '97' || checkNum === '98') {
-          alert(res.data.message.substr(3));
-        } else {
-          authkey = res.data.Key
-          authiv = res.data.IV
-          console.log(res.data)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
+  // 加密
   function encrypt(word, keyStr, ivStr) {
     keyStr = keyStr ? keyStr : "absoietlj32fai12";
     ivStr = ivStr ? ivStr : "absoietlj32fai12";
@@ -242,12 +215,47 @@ export const useWebLogin = defineStore('webLogin', () => {
     return encrypted.toString();
   }
 
+
+  // 取得登入用動態驗證碼
+  const GetKeyRequest = {
+    Lang: "tw"
+  }
+  let authkey = "";
+  let authiv = "";
+  function getKey() {
+    apiLoginEncrypt(GetKeyRequest)
+      .then((res) => {
+        let checkNum = res.data.message.substr(0, 2);
+        const logoutCodes = ['91', '92', '93', '94', '95', '96'];
+        const errorCodes = ['97', '98'];
+
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+          history.back()
+        } else if (logoutCodes.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+          //做登出動作
+        } else if (errorCodes.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+        } else {
+          authkey = res.data.Key
+          authiv = res.data.IV
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const router = useRouter();
+
+  // 會員帳密(綁)
   const User = {
     u_id: '',
     PW: '',
     Lang: 'tw'
   }
-
+  // 會員帳密(傳)
   const WebLoginRequest = {
     u_id: '',
     RA: '',
@@ -257,18 +265,27 @@ export const useWebLogin = defineStore('webLogin', () => {
   function webLogin() {
     let uid = User.u_id;
     let pwd = User.PW;
-    let RA = encrypt(`${import.meta.env.VITE_APP_PROJECT};` + pwd + ";" + dayjs().format('YYYY-MM-DD HH:mm:ss') + ";", authkey, authiv);
+    let RA = encrypt("0000000000000000" + `${import.meta.env.VITE_APP_PROJECT};` + pwd + ";" + dayjs().format('YYYY-MM-DD HH:mm:ss') + ";", authkey, authiv);
     WebLoginRequest.u_id = uid;
     WebLoginRequest.RA = RA;
     apiWebLogin(WebLoginRequest)
       .then((res) => {
+        const errorCodes1 = ['94', '95', '97', '98'];
+        const errorCodes2 = ['01', '02', '03', '04'];
         let checkNum = res.data.message.substr(0, 2);
         if (parseInt(checkNum) <= 0) {
           alert("系統忙碌中，請稍後嘗試重新載入頁面。");
-        } else if (checkNum === '94' || checkNum === '95' || checkNum === '97' || checkNum === '98') {
+        } else if (errorCodes1.includes(checkNum)) {
           alert(res.data.message.substr(3));
+        } else if (errorCodes2.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+        } else if (checkNum === "05") {
+          alert(res.data.message.substr(3));
+          //跳轉舊會員手機認證
+          router.push('/oldmember')
         } else {
-          console.log(res)
+          //跳轉產品頁
+          router.push('/product/shopMethod1')
         }
       })
       .catch((err) => {
@@ -277,6 +294,30 @@ export const useWebLogin = defineStore('webLogin', () => {
   }
 
   return { getKey, User, webLogin }
+})
+
+
+export const useRegister = defineStore('register', () => {
+
+  const NewUser = {
+    Mobile: "",
+    Auth_Mobile: "",
+    Email: "",
+    Auth_Email: "",
+    Password: "",
+    Name: "",
+    Sex: 0,
+    Birthday: "",
+    Tel: "",
+    City: 0,
+    Area: 0,
+    Road: 0,
+    Address: "",
+    Lang: ""
+  }
+
+  return { NewUser }
+
 })
 
 

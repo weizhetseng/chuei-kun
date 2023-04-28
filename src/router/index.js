@@ -72,6 +72,16 @@ const router = createRouter({
       }
     },
     {
+      path: '/oldmember',
+      name: 'oldmember',
+      component: () => import('../views/Member/OldMember.vue'),
+      meta: {
+        banner: 'banner-login.jpg',
+        breadcrumb: ['會員專區'],
+        requiresAuth: false
+      }
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('../views/Member/Register.vue'),
