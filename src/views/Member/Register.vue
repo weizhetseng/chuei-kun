@@ -7,7 +7,7 @@
         <h2 class="text-4xl text-Mred font-bold">會員註冊</h2>
         <p>Sign Up</p>
       </div>
-      <Form v-slot="{ errors }" action="" class="m-auto mb-20 sm:w-4/5 lg:w-3/5">
+      <Form v-slot="{ errors }" action="" class="m-auto mb-20 sm:w-4/5 lg:w-3/5" @submit="Register.sendRegister()">
         <p class="text-Wred mb-3">*為必填項目</p>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row relative">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="phone"><span
@@ -37,8 +37,8 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="email"><span
               class="text-Wred">*</span>電子信箱</label>
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="email" name="email"
-            type="text" label="電子信箱" :class="{ 'is-invalid': errors['email'] }" placeholder="請輸入Email" rules="required"
-            v-model="Register.NewUser.Email">
+            type="text" label="電子信箱" :class="{ 'is-invalid': errors['email'] }" placeholder="請輸入Email"
+            rules="email|required" v-model="Register.NewUser.Email">
           </Field>
           <error-message name="email" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
           <button
@@ -62,8 +62,8 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="pw"><span
               class="text-Wred">*</span>密碼</label>
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="password1" name="password1"
-            type="text" label="密碼" :class="{ 'is-invalid': errors['password1'] }"
-            placeholder="請輸入4~12 個字元，請勿使用空白或「＠ 」等特殊符號" rules="required" v-model="Register.NewUser.Password">
+            type="text" label="密碼" :class="{ 'is-invalid': errors['password1'] }" placeholder="請輸入4~12個字元，請勿使用空白或「＠」等特殊符號"
+            :rules="{ regex: /^[^\s@]{4,12}$/, required: true }" v-model="Register.NewUser.Password">
           </Field>
           <error-message name="password1"
             class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
@@ -147,7 +147,7 @@
           <button class="buttonStyle2 group" type="reset">
             <span class="btnWordStyle2">清除</span>
           </button>
-          <button class="buttonStyle group" type="button" @click="Register.sendRegister()">
+          <button class="buttonStyle group" type="submit">
             <span class="btnWordStyle">送出</span>
           </button>
         </div>
@@ -156,9 +156,12 @@
   </div>
 </template>
 <script setup>
+
+
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import { useRegister } from '../../stores/counter.js'
+
 const Register = useRegister()
 
 </script>

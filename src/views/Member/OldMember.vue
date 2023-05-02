@@ -92,7 +92,6 @@ function OldAccountVerify() {
         .catch((err) => {
             console.log(err)
         })
-
 }
 
 </script>

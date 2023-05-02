@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import qs from 'qs'
@@ -42,15 +43,6 @@ export const useNavBar = defineStore('NavBar', () => {
   }
 
   return { isNavFixed, asideNav, newsDropdown, shopDropdown, openAside, closeAside, toggleNewsDropdown, toggleShopDropdown, scrollTop }
-})
-
-//儲存登入狀態
-export const useLoginStatus = defineStore('LoginStatus', () => {
-
-  function updateLoginStatus(event) {
-    $cookies.set('loginStatus', event, 0)
-  }
-  return { updateLoginStatus }
 })
 
 //line登入規則
@@ -249,6 +241,8 @@ export const useWebLogin = defineStore('webLogin', () => {
 
   const router = useRouter();
 
+  const loginStatus = ref(false);
+
   // 會員帳密(綁)
   const User = {
     u_id: '',
@@ -285,15 +279,19 @@ export const useWebLogin = defineStore('webLogin', () => {
           router.push('/oldmember')
         } else {
           //跳轉產品頁
+          $cookies.set('u_id', res.data.Uid, 0)
+          loginStatus.value = true
           router.push('/product/shopMethod1')
         }
       })
       .catch((err) => {
         console.log(err)
       })
+
+
   }
 
-  return { getKey, User, webLogin }
+  return { getKey, User, webLogin, loginStatus }
 })
 
 
@@ -397,8 +395,8 @@ export const useRegister = defineStore('register', () => {
         } else if (errorCodes1.includes(checkNum)) {
           alert(res.data.message.substr(3));
           console.log(res)
-
         } else {
+          NewUser.value = {}
           router.push('/login')
         }
       })

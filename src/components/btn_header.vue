@@ -7,13 +7,13 @@
       <span
         class="relative block w-8 h-0.5 before:content-[''] before:block before:absolute before:w-full before:h-full before:-top-2 before:left-0 after:content-[''] after:block after:absolute after:w-full after:h-full after:top-2 after:left-0 lg:block"
         :class="{
-          'bg-white': navBar.isNavFixed,
-          'before:bg-white': navBar.isNavFixed,
-          'after:bg-white': navBar.isNavFixed,
-          'bg-Mred': !navBar.isNavFixed,
-          'before:bg-Mred': !navBar.isNavFixed,
-          'after:bg-Mred': !navBar.isNavFixed
-        }"></span>
+            'bg-white': navBar.isNavFixed,
+            'before:bg-white': navBar.isNavFixed,
+            'after:bg-white': navBar.isNavFixed,
+            'bg-Mred': !navBar.isNavFixed,
+            'before:bg-Mred': !navBar.isNavFixed,
+            'after:bg-Mred': !navBar.isNavFixed
+          }"></span>
     </div>
     <h1 class="m-auto lg:m-0">
       <a class="block w-44 h-20 bg-center bg-no-repeat bg-cover indent-[101%] whitespace-nowrap overflow-hidden"
@@ -113,7 +113,7 @@
       <li class="w-20 h-20">
         <RouterLink
           class="navlink2 w-full h-full bg-Mred text-white flex flex-col gap-1 items-center justify-center text-center leading-none"
-          :to="loginStatus ? '/memberCenter' : '/login'"><img src="../assets/image/other/user.png" alt="" />會員專區
+          :to="webLogin.loginStatus ? '/memberCenter' : '/login'"><img src="../assets/image/other/user.png" alt="" />會員專區
         </RouterLink>
       </li>
     </ul>
@@ -126,11 +126,12 @@
 import { onMounted, ref } from 'vue'
 import btn_scamModal from './btn_scamModal.vue'
 import btn_mobileNav from './btn_mobileNav.vue';
-import { useNavBar } from '../stores/counter';
+import { useNavBar, useWebLogin } from '../stores/counter';
 const navBar = useNavBar()
+const webLogin = useWebLogin()
 
 const scamModal = ref(null)
-const loginStatus = $cookies.get('loginStatus')
+
 
 onMounted(() => {
   window.addEventListener('scroll', navBar.scrollTop)
