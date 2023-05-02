@@ -19,3 +19,9 @@ export const apiLoginEncrypt = (data) => userRequest.post('API_App/MemberCenter/
 export const apiWebLogin = (data) => userRequest.post('API_App/MemberCenter/WebLogin', data)
 //todo 註冊
 export const apiRegister = (data) => userRequest.post('API_App/MemberCenter/Register', data)
+//todo 舊會員手機認證
+export const apiOldAccountVerify = (data) => userRequest.post('API_App/MemberCenter/OldAccountVerify', data)
+
+//* 共用功能
+//todo 發送驗證碼
+export const apiSendVerifyCode = (data) => userRequest.post('API_App/ShareFunction/SendVerifyCode', data)

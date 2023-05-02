@@ -5,7 +5,8 @@ import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
-import { apiLoginEncrypt, apiWebLogin, apiRegister } from '../api/api'
+import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode } from '../api/api'
+import router from '../router';
 
 // 導覽列控制項
 export const useNavBar = defineStore('NavBar', () => {
@@ -198,7 +199,6 @@ export const useCodeSend = defineStore('codeSend', () => {
 
 //登入
 export const useWebLogin = defineStore('webLogin', () => {
-
   // 加密
   function encrypt(word, keyStr, ivStr) {
     keyStr = keyStr ? keyStr : "absoietlj32fai12";
@@ -299,7 +299,7 @@ export const useWebLogin = defineStore('webLogin', () => {
 
 export const useRegister = defineStore('register', () => {
 
-  const NewUser = {
+  const NewUser = ref({
     Mobile: "",
     Auth_Mobile: "",
     Email: "",
@@ -313,11 +313,103 @@ export const useRegister = defineStore('register', () => {
     Area: 0,
     Road: 0,
     Address: "",
-    Lang: ""
+    Lang: "tw"
+  })
+
+  //倒數計時器
+  function startCountdown(countdown, timer) {
+    countdown.value = 300
+    timer.value = setInterval(() => {
+      countdown.value--
+      if (countdown.value === 0) {
+        clearInterval(timer.value)
+      }
+    }, 1000)
   }
 
-  return { NewUser }
+  // email驗證碼判斷
+  const emailIsSend = ref(false)
+  const emailCountdown = ref(0)
+  const emailTimer = ref(null)
 
+  function SendMailCode() {
+    apiSendVerifyCode({
+      AuthType: 1,
+      AuthData: NewUser.value.Email,
+      Lang: "tw"
+    })
+      .then((res) => {
+        const errorCodes1 = ['01', '97', '98'];
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+        } else if (errorCodes1.includes(checkNum)) {
+          console.log(checkNum)
+          alert(res.data.message.substr(3));
+        } else {
+          emailIsSend.value = true
+          startCountdown(emailCountdown, emailTimer)
+          console.log(res.data.message.substr(3))
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  // 手機驗證碼判斷
+  const phoneIsSend = ref(false)
+  const phoneCountdown = ref(0)
+  const phoneTimer = ref(null)
+
+  function SendPhoneCode() {
+    apiSendVerifyCode({
+      AuthType: 2,
+      AuthData: NewUser.value.Mobile,
+      Lang: "tw"
+    })
+      .then((res) => {
+        const errorCodes1 = ['01', '97', '98'];
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+        } else if (errorCodes1.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+        } else {
+          phoneIsSend.value = true
+          startCountdown(phoneCountdown, phoneTimer)
+          console.log(res.data.message.substr(3))
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+
+  function sendRegister() {
+    apiRegister(NewUser.value)
+      .then((res) => {
+        const errorCodes1 = ['01', '97', '98'];
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+        } else if (errorCodes1.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+          console.log(res)
+
+        } else {
+          router.push('/login')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+
+
+  return { NewUser, SendMailCode, SendPhoneCode, sendRegister, phoneCountdown, emailCountdown }
 })
 
 

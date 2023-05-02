@@ -19,8 +19,8 @@
           <error-message name="phone" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
           <button
             class="absolute bg-Mred text-white py-[2px] px-5 right-0 bottom-2 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-            type="button" @click="codeSend.phoneSendCode()" :disabled="codeSend.phoneCountdown !== 0">
-            {{ codeSend.phoneCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${codeSend.phoneCountdown})` }}
+            type="button" @click="Register.SendPhoneCode()" :disabled="Register.phoneCountdown !== 0">
+            {{ Register.phoneCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${Register.phoneCountdown})` }}
           </button>
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row relative">
@@ -43,8 +43,8 @@
           <error-message name="email" class="block absolute right-0 -bottom-6 text-red-700 text-right"></error-message>
           <button
             class="absolute bg-Mred text-white py-[2px] px-5 right-0 bottom-2 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
-            type="button" @click="codeSend.emailSendCode()" :disabled="codeSend.emailCountdown !== 0">
-            {{ codeSend.emailCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${codeSend.emailCountdown})` }}
+            type="button" @click="Register.SendMailCode()" :disabled="Register.emailCountdown !== 0">
+            {{ Register.emailCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${Register.emailCountdown})` }}
           </button>
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row relative">
@@ -82,7 +82,8 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="name"><span
               class="text-Wred">*</span>姓名</label>
           <Field class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="userName" name="userName"
-            type="text" label="姓名" :class="{ 'is-invalid': errors['userName'] }" placeholder="請輸入姓名" rules="required">
+            type="text" label="姓名" :class="{ 'is-invalid': errors['userName'] }" placeholder="請輸入姓名" rules="required"
+            v-model="Register.NewUser.Name">
           </Field>
           <error-message name="userName" class="block absolute right-0 -bottom-6 text-red-700"></error-message>
         </div>
@@ -92,11 +93,11 @@
           </div>
           <div class="flex gap-5">
             <div class="flex items-center gap-2">
-              <input type="radio" name="sex" id="male" />
+              <input type="radio" name="sex" id="male" :value="1" v-model="Register.NewUser.Sex" />
               <label for="male">男</label>
             </div>
             <div class="flex items-center gap-2">
-              <input type="radio" name="sex" id="female" />
+              <input type="radio" name="sex" id="female" :value="0" v-model="Register.NewUser.Sex" />
               <label for="female">女</label>
             </div>
           </div>
@@ -105,7 +106,7 @@
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="date">生日</label>
           <input
             class="myDate dateStyle w-1/2 outline-none shadow-main rounded-lg p-2 bg-date bg-no-repeat bg-[length:20px_20px] bg-[center_right_10px]"
-            id="date" type="date" />
+            id="date" type="date" v-model="Register.NewUser.Birthday" />
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="email2">電子信箱</label>
@@ -115,35 +116,40 @@
         <div class="flex flex-col gap-5 mb-7 xs:flex-row">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="hphone">市話</label>
           <input class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="hphone" type="text"
-            placeholder="請輸入市話號碼" />
+            placeholder="請輸入市話號碼" v-model="Register.NewUser.Tel" />
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="">聯絡地址</label>
           <div class="w-full flex flex-col xs:flex-row xs:gap-3 xs:w-[calc(100%-120px)]">
-            <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id="">
+            <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id=""
+              v-model="Register.NewUser.City">
               <option value="">縣市</option>
+              <option :value="1">city1</option>
             </select>
-            <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id="">
+            <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id=""
+              v-model="Register.NewUser.Area">
               <option value="">鄉鎮區</option>
+              <option :value="1">Area1</option>
             </select>
-            <select class="w-full outline-none shadow-main rounded-lg p-2 xs:w-1/3" name="" id="">
+            <select class="w-full outline-none shadow-main rounded-lg p-2 xs:w-1/3" name="" id=""
+              v-model="Register.NewUser.Road">
               <option value="">街道名稱</option>
+              <option :value="1">Road1</option>
             </select>
           </div>
         </div>
         <div class="flex flex-col gap-5 mb-16 xs:flex-row">
           <label class="hidden xs:w-[100px] xs:block" for=""></label>
-          <input class="outline-none shadow-main rounded-lg p-2 xs:w-[calc(100%-120px)]" type="text"
-            placeholder="請輸入詳細地址" />
+          <input class="outline-none shadow-main rounded-lg p-2 xs:w-[calc(100%-120px)]" type="text" placeholder="請輸入詳細地址"
+            v-model="Register.NewUser.Address" />
         </div>
         <div class="flex justify-center items-center gap-5">
           <button class="buttonStyle2 group" type="reset">
             <span class="btnWordStyle2">清除</span>
           </button>
-          <button class="buttonStyle group" type="submit">
+          <button class="buttonStyle group" type="button" @click="Register.sendRegister()">
             <span class="btnWordStyle">送出</span>
           </button>
-
         </div>
       </Form>
     </div>
@@ -152,9 +158,7 @@
 <script setup>
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
-import { useCodeSend, useRegister } from '../../stores/counter.js'
-const codeSend = useCodeSend()
+import { useRegister } from '../../stores/counter.js'
 const Register = useRegister()
-
 
 </script>
