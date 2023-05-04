@@ -21,6 +21,8 @@ export const apiWebLogin = (data) => userRequest.post('API_App/MemberCenter/WebL
 export const apiRegister = (data) => userRequest.post('API_App/MemberCenter/Register', data)
 //todo 舊會員手機認證
 export const apiOldAccountVerify = (data) => userRequest.post('API_App/MemberCenter/OldAccountVerify', data)
+//todo 取得縣市鄉鎮街道資料
+export const apiGetCityCategory = (data) => userRequest.post('API_App/ShareFunction/GetCityCategory', data)
 
 //* 共用功能
 //todo 發送驗證碼
