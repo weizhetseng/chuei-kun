@@ -161,7 +161,37 @@
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import { useRegister } from '../../stores/counter.js'
+import { apiGetCityCategory } from '../../api/api';
+import { onMounted } from 'vue';
 
 const Register = useRegister()
+
+
+
+function getCityData() {
+  apiGetCityCategory({
+    u_id: "",
+    Lang: "tw"
+  })
+    .then((res) => {
+      const errorCodes1 = ['90', '91', '92', '93', '94', '95', '96', '97', '98'];
+      let checkNum = res.data.message.substr(0, 2);
+      if (parseInt(checkNum) <= 0) {
+        alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+      } else if (errorCodes1.includes(checkNum)) {
+        alert(res.data.message.substr(3));
+      } else {
+        console.log(res.data)
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+}
+
+onMounted(() => {
+  getCityData()
+})
 
 </script>

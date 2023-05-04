@@ -25,3 +25,6 @@ export const apiOldAccountVerify = (data) => userRequest.post('API_App/MemberCen
 //* 共用功能
 //todo 發送驗證碼
 export const apiSendVerifyCode = (data) => userRequest.post('API_App/ShareFunction/SendVerifyCode', data)
+
+//todo 取得鄉鎮市街道資料
+export const apiGetCityCategory = (data) => userRequest.post('API_App/ShareFunction/GetCityCategory', data)

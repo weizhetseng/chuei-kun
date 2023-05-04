@@ -405,8 +405,6 @@ export const useRegister = defineStore('register', () => {
       })
   }
 
-
-
   return { NewUser, SendMailCode, SendPhoneCode, sendRegister, phoneCountdown, emailCountdown }
 })
 
