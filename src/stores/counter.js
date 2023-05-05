@@ -280,6 +280,7 @@ export const useWebLogin = defineStore('webLogin', () => {
         } else {
           //跳轉產品頁
           $cookies.set('u_id', res.data.Uid, 0)
+          $cookies.set('AuthToken', res.data.AuthToken, 0)
           loginStatus.value = true
           router.push('/product/shopMethod1')
         }
@@ -304,7 +305,7 @@ export const useRegister = defineStore('register', () => {
     Auth_Email: "",
     Password: "",
     Name: "",
-    Sex: 0,
+    Sex: -1,
     Birthday: "",
     Tel: "",
     City: 0,

@@ -16,24 +16,24 @@
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/memberCenter/orderSearch" class="group linkStyle2">
+          <RouterLink to="/memberCenter/updateUser" class="group linkStyle2">
             <span class="linkWordStyle2">修改會員資料</span>
           </RouterLink>
         </li>
       </ul>
       <ul class="flex flex-wrap justify-center gap-5">
         <li>
-          <RouterLink to="/memberCenter/orderSearch" class="group linkStyle2">
+          <RouterLink to="/memberCenter/changePW" class="group linkStyle2">
             <span class="linkWordStyle2">變更密碼</span>
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/memberCenter/orderSearch" class="group linkStyle2">
+          <RouterLink to="/memberCenter/bindOther" class="group linkStyle2">
             <span class="linkWordStyle2">綁定其他帳號</span>
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/memberCenter/orderSearch" class="group linkStyle2">
+          <RouterLink to="/memberCenter/logout" class="group linkStyle2">
             <span class="linkWordStyle2">會員登出</span>
           </RouterLink>
         </li>

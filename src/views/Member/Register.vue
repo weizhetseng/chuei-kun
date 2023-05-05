@@ -120,21 +120,36 @@
         </div>
         <div class="flex flex-col gap-5 mb-7 xs:flex-row">
           <label class="w-full text-lg font-bold p-1 xs:border-r xs:border-gray xs:w-[100px]" for="">聯絡地址</label>
-          <div class="w-full flex flex-col xs:flex-row xs:gap-3 xs:w-[calc(100%-120px)]">
+          <div v-if="cityList.length <= 0">
+            <select disabled>
+              <option>載入中</option>
+            </select>
+          </div>
+          <div v-else-if="isError02">
+            <select disabled>
+              <option>載入失敗</option>
+            </select>
+          </div>
+          <div v-else-if="isError01">
+            <select disabled>
+              <option>因偵測到您的網路位址對本站發出異常請求，因此無法正常載入資料，請嘗試更換使用裝置，或稍後再次嘗試。如有任何疑問，請洽詢本站客服協助，造成您的不便敬請見諒。</option>
+            </select>
+          </div>
+          <div class="w-full flex flex-col xs:flex-row xs:gap-3 xs:w-[calc(100%-120px)]" v-else>
             <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id=""
-              v-model="Register.NewUser.City">
-              <option value="">縣市</option>
-              <option :value="1">city1</option>
+              v-model="selectedCityValue" @change="handleCityChange">
+              <option disabled value="">請選擇縣市</option>
+              <option v-for="city in cityList" :key="city.Id" :value="city.Id">{{ city.Title }}</option>
             </select>
             <select class="w-full mb-5 outline-none shadow-main rounded-lg p-2 xs:w-1/3 xs:mb-0" name="" id=""
-              v-model="Register.NewUser.Area">
-              <option value="">鄉鎮區</option>
-              <option :value="1">Area1</option>
+              v-model="selectedAreaValue" @change="handleAreaChange" :disabled="!selectedCity">
+              <option disabled value="">請選擇鄉鎮區</option>
+              <option v-for="area in filteredAreaList" :key="area.Id" :value="area.Id">{{ area.Title }}</option>
             </select>
             <select class="w-full outline-none shadow-main rounded-lg p-2 xs:w-1/3" name="" id=""
-              v-model="Register.NewUser.Road">
-              <option value="">街道名稱</option>
-              <option :value="1">Road1</option>
+              v-model="selectedRoadValue" :disabled="!selectedArea">
+              <option disabled value="">請選擇街道</option>
+              <option v-for="road in filteredRoadList" :key="road.Id" :value="road.Id">{{ road.Title }}</option>
             </select>
           </div>
         </div>
@@ -162,32 +177,112 @@ import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import { useRegister } from '../../stores/counter.js'
 import { apiGetCityCategory } from '../../api/api';
-import { onMounted } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const Register = useRegister()
 
 
+const cityList = ref([])
+const areaList = ref([])
+const roadList = ref([])
+const isError01 = ref(false)
+const isError02 = ref(false)
 
-function getCityData() {
-  apiGetCityCategory({
-    u_id: "",
-    Lang: "tw"
-  })
-    .then((res) => {
-      const errorCodes1 = ['90', '91', '92', '93', '94', '95', '96', '97', '98'];
-      let checkNum = res.data.message.substr(0, 2);
-      if (parseInt(checkNum) <= 0) {
-        alert("系統忙碌中，請稍後嘗試重新載入頁面。");
-      } else if (errorCodes1.includes(checkNum)) {
-        alert(res.data.message.substr(3));
-      } else {
-        console.log(res.data)
-      }
-    })
-    .catch((err) => {
-      console.log(err)
+const selectedCity = ref('')
+const selectedArea = ref('')
+const selectedRoad = ref('')
+
+
+const filteredAreaList = computed(() => {
+  return areaList.value.filter(area => area.CityId === selectedCity.value)
+})
+
+const filteredRoadList = computed(() => {
+  return roadList.value.filter(road => road.AreaId === selectedArea.value)
+})
+
+function handleCityChange() {
+  selectedArea.value = ''
+  selectedRoad.value = ''
+}
+
+function handleAreaChange() {
+  selectedRoad.value = ''
+}
+
+
+// 將此頁面的 selected 跟 pinia 的 NewUser 綁定
+const selectedCityValue = computed({
+  get() {
+    return Register.NewUser.City || selectedCity.value
+  },
+  set(value) {
+    Register.NewUser.City = value
+    selectedCity.value = value
+  }
+})
+
+const selectedAreaValue = computed({
+  get() {
+    return Register.NewUser.Area || selectedArea.value
+  },
+  set(value) {
+    Register.NewUser.Area = value
+    selectedArea.value = value
+  }
+})
+
+const selectedRoadValue = computed({
+  get() {
+    return Register.NewUser.Road || selectedRoad.value
+  },
+  set(value) {
+    Register.NewUser.Road = value
+    selectedRoad.value = value
+  }
+})
+//監聽 選取的選項
+watch(selectedCity, () => {
+  if (!filteredAreaList.value.some(area => area.Id === selectedArea.value)) {
+    selectedArea.value = ''
+  }
+
+  if (!filteredRoadList.value.some(road => road.Id === selectedRoad.value)) {
+    selectedRoad.value = ''
+  }
+})
+
+//取得縣市鄉鎮街道資料
+async function getCityData() {
+  try {
+    const res = await apiGetCityCategory({
+      u_id: $cookies.get('u_id') ?? '',
+      Lang: 'tw'
     })
 
+    const errorCodes = ['90', '97', '98'];
+    const logoutCodes = ['91', '92', '93', '94', '95', '96'];
+    let checkNum = res.data.message.substr(0, 2);
+    if (parseInt(checkNum) <= 0) {
+      alert("系統忙碌中，請稍後嘗試重新載入頁面。")
+      isError02.value = true
+    } else if (errorCodes.includes(checkNum)) {
+      alert(res.data.message.substr(3))
+    } else if (logoutCodes.includes(checkNum)) {
+      alert(res.data.message.substr(3))
+      //登出使用者
+    } else if (checkNum === "01") {
+      isError01.value = true
+    } else {
+      cityList.value = res.data.CityList
+      areaList.value = res.data.AreaList
+      roadList.value = res.data.RoadList
+      console.log(res.data)
+    }
+  } catch (err) {
+    console.log(err)
+    alert('目前系統繁忙，暫時無法處理您的要求，請稍後在試')
+  }
 }
 
 onMounted(() => {

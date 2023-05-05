@@ -10,6 +10,16 @@ const userRequest = axios.create({
 })
 // userRequest.defaults.headers.common['Authorization'] = 'AUTH_TOKEN'
 
+userRequest.interceptors.request.use(request => {
+  if ($cookies.isKey("AuthToken")) {
+    request.headers['Authorization'] = 'Bearer ' + $cookies.get('AuthToken');
+    return request;
+  }
+}, error => {
+  return Promise.reject(error);
+});
+
+
 //* 大分類
 //todo api做甚麼的
 
@@ -21,12 +31,11 @@ export const apiWebLogin = (data) => userRequest.post('API_App/MemberCenter/WebL
 export const apiRegister = (data) => userRequest.post('API_App/MemberCenter/Register', data)
 //todo 舊會員手機認證
 export const apiOldAccountVerify = (data) => userRequest.post('API_App/MemberCenter/OldAccountVerify', data)
-//todo 取得縣市鄉鎮街道資料
-export const apiGetCityCategory = (data) => userRequest.post('API_App/ShareFunction/GetCityCategory', data)
+// todo 取得會員資料
+export const apiGetData = (data) => userRequest.post('API_App/MemberCenter/GetData', data)
 
 //* 共用功能
 //todo 發送驗證碼
 export const apiSendVerifyCode = (data) => userRequest.post('API_App/ShareFunction/SendVerifyCode', data)
-
-//todo 取得鄉鎮市街道資料
+//todo 取得縣市鄉鎮街道資料
 export const apiGetCityCategory = (data) => userRequest.post('API_App/ShareFunction/GetCityCategory', data)
