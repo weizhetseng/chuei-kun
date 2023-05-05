@@ -33,6 +33,13 @@ configure({
 
 setLocale('zh_TW')
 
+const language = navigator.language;
+
+if (language === "zh-TW") {
+  $cookies.set("Lang", "tw", 0);
+}
+
+
 const app = createApp(App)
 
 app.component('Form', Form)

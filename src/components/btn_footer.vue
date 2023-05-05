@@ -26,11 +26,12 @@
         </li>
       </ul>
     </div>
-    <p class="text-center bg-Myellow p-5 text-lg">垂坤食品有限公司 © 2022 All Rights Reserved.</p>
+    <p class="text-center bg-Myellow p-5 text-lg">垂坤食品有限公司 © {{ newYear.getFullYear() }} All Rights Reserved.</p>
   </footer>
 </template>
 
 <script setup>
+
 const pageLink = [
   {
     url: '/news',
@@ -57,4 +58,5 @@ const pageLink = [
     title: '訂單下載'
   }
 ]
+const newYear = new Date();
 </script>

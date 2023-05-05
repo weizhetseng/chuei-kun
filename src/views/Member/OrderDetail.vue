@@ -21,17 +21,12 @@
             <div class="flex flex-col gap-1 mb-3 xs:gap-5 xs:flex-row">
               <p class="w-full xs:w-24 border-wrap xs:border-r">訂單狀態</p>
               <p class="w-full xs:w-1/2 text-Mred">訂單處理中</p>
-              <button
-                class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white"
-                type="button"
-              >
+              <button class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white"
+                type="button">
                 取消訂單
               </button>
             </div>
-            <button
-              class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white"
-              type="button"
-            >
+            <button class="bg-Mred w-32 rounded-tr-[30px] rounded-bl-[30px] py-1 shadow-mYellow text-white" type="button">
               客服聊聊
             </button>
           </div>
@@ -119,7 +114,7 @@
       <table class="w-full shadow-main">
         <thead class="bg-Mred text-white text-lg">
           <tr>
-            <th class="p-2">訂單明細</th>
+            <th class="p-2">商品明細</th>
             <th class="p-2 hidden md:table-cell">數量</th>
             <th class="p-2 hidden md:table-cell">單價</th>
             <th class="p-2 hidden md:table-cell">合計</th>
@@ -128,31 +123,29 @@
         <tbody>
           <tr v-for="item in orderData" :key="item.title" class="flex flex-col md:table-row">
             <td class="p-3 border-Btable md:border-b">
-              <div
-                class="flex flex-col justify-center items-center gap-5 md:flex-row md:justify-start"
-              >
+              <div class="flex flex-col justify-center items-center gap-5 md:flex-row md:justify-start">
                 <img class="rounded-xl shadow-main" :src="imageUrl(item.imgUrl)" alt="" />
                 {{ item.title }}
               </div>
             </td>
             <td
               class="p-3 border-Btable text-center relative after:absolute after:content-[attr(data-th)] after:block after:top-1/2 after:left-10 after:-translate-y-1/2 md:border-b md:after:hidden"
-              data-th="數量"
-            >
+              data-th="數量">
               {{ item.num }}
             </td>
             <td
               class="p-3 border-Btable text-center relative after:absolute after:content-[attr(data-th)] after:block after:top-1/2 after:left-10 after:-translate-y-1/2 md:border-b md:after:hidden"
-              data-th="單價"
-            >
+              data-th="單價">
               {{ item.cost }}
             </td>
             <td
               class="p-3 border-b border-Btable text-center relative after:absolute after:content-[attr(data-th)] after:block after:top-1/2 after:left-10 after:-translate-y-1/2 md:after:hidden"
-              data-th="合計"
-            >
+              data-th="合計">
               {{ item.total }}元
             </td>
+          </tr>
+          <tr>
+            <td>贈品明細</td>
           </tr>
         </tbody>
       </table>

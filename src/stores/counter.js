@@ -6,7 +6,7 @@ import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
-import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode } from '../api/api'
+import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode, apiGetData } from '../api/api'
 import router from '../router';
 
 // 導覽列控制項
@@ -295,7 +295,7 @@ export const useWebLogin = defineStore('webLogin', () => {
   return { getKey, User, webLogin, loginStatus }
 })
 
-
+// 註冊
 export const useRegister = defineStore('register', () => {
 
   const NewUser = ref({
@@ -335,7 +335,7 @@ export const useRegister = defineStore('register', () => {
     apiSendVerifyCode({
       AuthType: 1,
       AuthData: NewUser.value.Email,
-      Lang: "tw"
+      Lang: $cookies.get("Lang")
     })
       .then((res) => {
         const errorCodes1 = ['01', '97', '98'];
@@ -365,7 +365,7 @@ export const useRegister = defineStore('register', () => {
     apiSendVerifyCode({
       AuthType: 2,
       AuthData: NewUser.value.Mobile,
-      Lang: "tw"
+      Lang: $cookies.get("Lang")
     })
       .then((res) => {
         const errorCodes1 = ['01', '97', '98'];
@@ -409,6 +409,48 @@ export const useRegister = defineStore('register', () => {
   return { NewUser, SendMailCode, SendPhoneCode, sendRegister, phoneCountdown, emailCountdown }
 })
 
+// 取得會員資料
+export const useGetMemberData = defineStore('getMemberData', () => {
+
+  const memberData = ref({})
+  function getMemberData() {
+    apiGetData({
+      u_id: $cookies.get('u_id'),
+      AuthCode: "0",
+      Lang: $cookies.get("Lang")
+    })
+      .then((res) => {
+        memberData.value = res.data
+        console.log('pinia', memberData)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  return { getMemberData, memberData }
+})
+
+// 更新會員資料(變更密碼)
+export const useUpdateData = defineStore('updataData', () => {
+  const NewmemberData = ref({
+    u_id: "",
+    AuthCode: "",
+    Lang: "",
+    Name: "",
+    Sex: 0,
+    Birthday: "",
+    Email: "",
+    Auth_Email: "",
+    Tel: "",
+    City: 0,
+    Area: 0,
+    Road: 0,
+    Address: "",
+    OldPassword: "",
+    NewPassword: ""
+  })
+  return { NewmemberData }
+})
 
 
 

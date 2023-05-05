@@ -257,7 +257,7 @@ async function getCityData() {
   try {
     const res = await apiGetCityCategory({
       u_id: $cookies.get('u_id') ?? '',
-      Lang: 'tw'
+      Lang: $cookies.get("Lang")
     })
 
     const errorCodes = ['90', '97', '98'];
@@ -277,7 +277,7 @@ async function getCityData() {
       cityList.value = res.data.CityList
       areaList.value = res.data.AreaList
       roadList.value = res.data.RoadList
-      console.log(res.data)
+      console.log(res)
     }
   } catch (err) {
     console.log(err)
