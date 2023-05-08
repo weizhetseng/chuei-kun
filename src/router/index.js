@@ -36,7 +36,7 @@ const router = createRouter({
       },
       children: [
         {
-          path: 'newsDetail/:id',
+          path: 'newsDetail/:ClassId/:Id',
           component: () => import('../views/News/NewsDetail.vue')
         }
       ]
