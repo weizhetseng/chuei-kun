@@ -45,10 +45,10 @@ import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_newsList from '../../components/btn_newsList.vue'
 import btn_pagination from '../../components/btn_pagination.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
-// import { apiNewsList } from '../../api/api'
-
+import { apiGetNewsClass, apiGetNewsData } from '../../api/api'
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-// import { onMounted, ref } from 'vue'
+
 const route = useRoute()
 
 const newsList = [
@@ -82,68 +82,47 @@ const newsList = [
   }
 ]
 
-// const newsList = ref([])
-// const total = ref(null)
-// const totalPage = ref(0)
-// const pageSize = 4
-// const currentPage = ref(1)
-// const tableList = ref([])
-
-// function getNeedArr(array, size) {
-//   const length = array.length
-//   if (!length || !size || size < 1) {
-//     return []
-//   }
-//   let index = 0
-//   let resIndex = 0
-//   let result = new Array(Math.ceil(length / size))
-//   while (index < length) {
-//     result[resIndex++] = array.slice(index, index += size)
-//   }
-//   return result
-// }
-
-// function getData() {
-//   apiNewsList()
-//     .then((res) => {
-//       newsList.value = res.data
-//       total.value = res.data.length
-//       totalPage.value = total.value / pageSize
-//       tableList.value = getNeedArr(newsList.value, pageSize)[currentPage.value - 1]
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-// }
-
-// function prevPage() {
-//   currentPage.value--
-//   const length = total.value / pageSize
-//   if (currentPage.value < length) {
-//     currentPage.value = 1
-//   }
-//   getData()
-// }
-
-// function currentChange(val) {
-//   currentPage.value = val;
-//   getData()
-// }
-
-// function nextPage() {
-//   currentPage.value += 1
-//   const length = total.value / pageSize
-//   if (currentPage.value >= length) {
-//     currentPage.value = length
-//   }
-//   getData()
-// }
-
 function imageUrl(name) {
   return new URL(`/src/assets/image/news/${name}`, import.meta.url).href
 }
 
-// onMounted(() => {
-//   getData()
-// })
+
+// 取得最新消息分類
+function getNewsList() {
+  apiGetNewsClass({
+    u_id: $cookies.get('u_id') ?? '',
+    AuthCode: "0",
+    Lang: $cookies.get('Lang')
+  })
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
+// 取得最新消息內容
+function getNewsDetail() {
+  apiGetNewsData({
+    u_id: $cookies.get('u_id') ?? '',
+    AuthCode: "0",
+    Lang: $cookies.get('Lang'),
+    ClassId: 1,
+    Id: 0
+  })
+    .then((res) => [
+      console.log(res)
+    ])
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+onMounted(() => {
+  getNewsList()
+  getNewsDetail()
+})
+
 </script>

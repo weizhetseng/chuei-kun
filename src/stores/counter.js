@@ -421,35 +421,13 @@ export const useGetMemberData = defineStore('getMemberData', () => {
     })
       .then((res) => {
         memberData.value = res.data
-        console.log('pinia', memberData)
+        console.log('pinia', res)
       })
       .catch((err) => {
         console.log(err)
       })
   }
   return { getMemberData, memberData }
-})
-
-// 更新會員資料(變更密碼)
-export const useUpdateData = defineStore('updataData', () => {
-  const NewmemberData = ref({
-    u_id: "",
-    AuthCode: "",
-    Lang: "",
-    Name: "",
-    Sex: 0,
-    Birthday: "",
-    Email: "",
-    Auth_Email: "",
-    Tel: "",
-    City: 0,
-    Area: 0,
-    Road: 0,
-    Address: "",
-    OldPassword: "",
-    NewPassword: ""
-  })
-  return { NewmemberData }
 })
 
 

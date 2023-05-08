@@ -25,12 +25,29 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { apiGetNewsData } from '../../api/api';
 
 const selectedNews = ref([])
 
+function getNewsDetail() {
+  apiGetNewsData({
+    u_id: $cookies.get('u_id') ?? '',
+    AuthCode: "0",
+    Lang: $cookies.get('Lang'),
+    ClassId: 0,
+    Id: 0
+  })
+    .then((res) => [
+      console.log(res)
+    ])
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
 
 onMounted(() => {
-
+  getNewsDetail()
 })
 
 </script>

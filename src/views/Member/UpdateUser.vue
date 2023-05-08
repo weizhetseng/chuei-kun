@@ -29,10 +29,15 @@
             class="dateStyle w-1/2 outline-none shadow-main rounded-lg p-2 bg-date bg-no-repeat bg-[length:20px_20px] bg-[center_right_10px]"
             id="date" type="date" v-model="memberData.Birthday" />
         </div>
-        <div class="flex flex-col gap-5 mb-6 xs:flex-row">
+        <div class="flex flex-col gap-5 mb-6 xs:flex-row relative">
           <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="email2">電子信箱</label>
           <input class="w-full outline-none border-b border-lgray xs:w-[calc(100%-120px)]" id="email2" type="text"
             placeholder="請輸入電子信箱" v-model="memberData.Email" />
+          <button
+            class="absolute bg-Mred text-white py-[2px] px-5 right-0 bottom-2 rounded-tr-3xl rounded-bl-3xl shadow-mYellow"
+            type="button" @click="Register.SendMailCode()" :disabled="Register.emailCountdown !== 0">
+            {{ Register.emailCountdown === 0 ? '發送驗證碼' : `重發驗證碼(${Register.emailCountdown})` }}
+          </button>
         </div>
         <div class="flex flex-col gap-5 mb-6 xs:flex-row">
           <label class="w-full text-lg p-1 xs:border-r xs:border-gray xs:w-[100px]" for="emailQ">驗證碼</label>
@@ -104,6 +109,9 @@ import { computed, onMounted, ref } from 'vue'
 //組件引入
 import btn_memberList from '../../components/btn_memberList.vue'
 import { apiGetCityCategory, apiGetData, apiUpdateData } from '../../api/api'
+import { useRegister } from '../../stores/counter';
+
+const Register = useRegister()
 
 const memberData = ref({
   u_id: "",
@@ -124,19 +132,30 @@ const memberData = ref({
 })
 
 
-function getMemberData() {
-  apiGetData({
-    u_id: $cookies.get('u_id'),
-    AuthCode: "0",
-    Lang: "tw"
-  })
-    .then((res) => {
-      memberData.value = res.data
-      console.log(memberData)
+async function getMemberData() {
+  try {
+    const res = await apiGetData({
+      u_id: $cookies.get('u_id'),
+      AuthCode: "0",
+      Lang: "tw"
     })
-    .catch((err) => {
-      console.log(err)
-    })
+    const { Uid, Name, Sex, Birthday, Email, Tel, City, Area, Road, Address } = res.data
+    memberData.value = {
+      u_id: Uid,
+      Name,
+      Sex,
+      Birthday,
+      Email,
+      Tel,
+      City,
+      Area,
+      Road,
+      Address
+    }
+    console.log(res)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const cityList = ref([])
@@ -197,6 +216,8 @@ function updateUser() {
       console.log(err)
     })
 }
+
+
 
 
 onMounted(() => {

@@ -49,3 +49,12 @@ export const apiSendVerifyCode = (data) => userRequest.post('API_App/ShareFuncti
 export const apiGetCityCategory = (data) => userRequest.post('API_App/ShareFunction/GetCityCategory', data)
 
 
+//* 網站公開資料
+// todo 取得最新消息分類
+export const apiGetNewsClass = (data) => userRequest.post('API_App/WebOpenData/GetNewsClass', data)
+// todo 取得最新消息資料
+export const apiGetNewsData = (data) => userRequest.post('API_App/WebOpenData/GetNewsData', data)
+// todo 取得商品分類
+export const apiGetProductClass = (data) => userRequest.post('API_App/WebOpenData/GetProductClass', data)
+// todo 取得商品資料
+export const apiGetProductData = (data) => userRequest.post('API_App/WebOpenData/GetProductData', data)
