@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import qs from 'qs'
 import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
-import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode, apiGetData, apiGetOrderData } from '../api/api'
+import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode, apiGetNewsData, apiGetNewsClass, apiGetData, apiGetOrderData } from '../api/api'
 import router from '../router';
 
 // 導覽列控制項
@@ -461,5 +461,58 @@ export const useOrderData = defineStore('orderData', () => {
 })
 
 
+// 取得最新消息
+export const useGetNewsClass = defineStore('getNewsClass', () => {
 
+  const newsList = ref([])
+
+  async function getNewsClass() {
+    try {
+      const res = await apiGetNewsClass({
+        u_id: $cookies.get('u_id') ?? '',
+        AuthCode: "0",
+        Lang: $cookies.get('Lang')
+      });
+      newsList.value = res.data.NewsClassList;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const newsData = ref([])
+  const newsDetailData = ref([])
+
+  function getNewsData(ClassId, Id) {
+    apiGetNewsData({
+      u_id: $cookies.get('u_id') ?? '',
+      AuthCode: "0",
+      Lang: $cookies.get('Lang'),
+      ClassId: ClassId ?? 1,
+      Id: Id ?? 0
+    })
+      .then((res) => {
+        if (ClassId && Id) {
+          newsDetailData.value = res.data.NewsList[0];
+        } else {
+          newsData.value = res.data.NewsList
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const activeClassId = computed(() => {
+    if (newsData.value.length > 0) {
+      return newsData.value[0].ClassId
+    } else {
+      return null
+    }
+  })
+
+  getNewsClass()
+  getNewsData()
+
+  return { newsList, newsData, getNewsClass, getNewsData, activeClassId, newsDetailData }
+})
 
