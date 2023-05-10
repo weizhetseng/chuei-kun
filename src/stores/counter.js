@@ -6,10 +6,10 @@ import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
-import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode, apiGetNewsData, apiGetNewsClass, apiGetData, apiGetOrderData } from '../api/api'
+import { apiLoginEncrypt, apiWebLogin, apiRegister, apiUpdateData, apiGetCityCategory, apiSendVerifyCode, apiGetNewsData, apiGetNewsClass, apiGetData, apiGetOrderData } from '../api/api'
 import router from '../router';
 
-// 導覽列控制項
+//! 導覽列控制項
 export const useNavBar = defineStore('NavBar', () => {
   const isNavFixed = ref(false)
   const asideNav = ref(false)
@@ -45,7 +45,7 @@ export const useNavBar = defineStore('NavBar', () => {
   return { isNavFixed, asideNav, newsDropdown, shopDropdown, openAside, closeAside, toggleNewsDropdown, toggleShopDropdown, scrollTop }
 })
 
-//line登入規則
+//! line登入規則
 export const uselineLogin = defineStore('lineLogin', () => {
   //跳轉驗證網址
   function lineLoginBtn() {
@@ -93,7 +93,7 @@ export const uselineLogin = defineStore('lineLogin', () => {
   return { lineLoginBtn, access_token }
 })
 
-//google登入規則
+//! google登入規則
 export const usegoogleLogin = defineStore('googleLogin', () => {
   //跳轉驗證網址
   function googleLoginBtn() {
@@ -142,7 +142,7 @@ export const usegoogleLogin = defineStore('googleLogin', () => {
   return { googleLoginBtn, access_token, userinfo }
 })
 
-//返回上一頁
+//! 返回上一頁
 export const useGoBack = defineStore('goBack', () => {
   const router = useRouter()
   function goBackBtn() {
@@ -152,7 +152,7 @@ export const useGoBack = defineStore('goBack', () => {
   return { goBackBtn }
 })
 
-//發送驗證碼
+//! 發送驗證碼
 export const useCodeSend = defineStore('codeSend', () => {
   //倒數計時器
   function startCountdown(countdown, timer) {
@@ -188,114 +188,7 @@ export const useCodeSend = defineStore('codeSend', () => {
   return { phoneSendCode, emailSendCode, phoneCountdown, emailCountdown }
 })
 
-
-//登入
-export const useWebLogin = defineStore('webLogin', () => {
-  // 加密
-  function encrypt(word, keyStr, ivStr) {
-    keyStr = keyStr ? keyStr : "absoietlj32fai12";
-    ivStr = ivStr ? ivStr : "absoietlj32fai12";
-    let key = CryptoJS.enc.Utf8.parse(keyStr);
-    let iv = CryptoJS.enc.Utf8.parse(ivStr);
-    let srcs = CryptoJS.enc.Utf8.parse(word);
-
-    let encrypted = CryptoJS.AES.encrypt(srcs, key, {
-      iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.ZeroPadding
-    });
-    return encrypted.toString();
-  }
-
-
-  // 取得登入用動態驗證碼
-  const GetKeyRequest = {
-    Lang: "tw"
-  }
-  let authkey = "";
-  let authiv = "";
-  function getKey() {
-    apiLoginEncrypt(GetKeyRequest)
-      .then((res) => {
-        let checkNum = res.data.message.substr(0, 2);
-        const logoutCodes = ['91', '92', '93', '94', '95', '96'];
-        const errorCodes = ['97', '98'];
-
-        if (parseInt(checkNum) <= 0) {
-          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
-          history.back()
-        } else if (logoutCodes.includes(checkNum)) {
-          alert(res.data.message.substr(3));
-          //做登出動作
-        } else if (errorCodes.includes(checkNum)) {
-          alert(res.data.message.substr(3));
-        } else {
-          authkey = res.data.Key
-          authiv = res.data.IV
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  const router = useRouter();
-
-  const loginStatus = ref(false);
-
-  // 會員帳密(綁)
-  const User = {
-    u_id: '',
-    PW: '',
-    Lang: 'tw'
-  }
-  // 會員帳密(傳)
-  const WebLoginRequest = {
-    u_id: '',
-    RA: '',
-    Lang: "tw"
-  }
-
-  function webLogin() {
-    let uid = User.u_id;
-    let pwd = User.PW;
-    let RA = encrypt("0000000000000000" + `${import.meta.env.VITE_APP_PROJECT};` + pwd + ";" + dayjs().format('YYYY-MM-DD HH:mm:ss') + ";", authkey, authiv);
-    WebLoginRequest.u_id = uid;
-    WebLoginRequest.RA = RA;
-    apiWebLogin(WebLoginRequest)
-      .then((res) => {
-        const errorCodes1 = ['94', '95', '97', '98'];
-        const errorCodes2 = ['01', '02', '03', '04'];
-        let checkNum = res.data.message.substr(0, 2);
-        if (parseInt(checkNum) <= 0) {
-          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
-        } else if (errorCodes1.includes(checkNum)) {
-          alert(res.data.message.substr(3));
-        } else if (errorCodes2.includes(checkNum)) {
-          alert(res.data.message.substr(3));
-        } else if (checkNum === "05") {
-          alert(res.data.message.substr(3));
-          //跳轉舊會員手機認證
-          router.push('/oldmember')
-        } else {
-          //跳轉產品頁
-          $cookies.set('u_id', res.data.Uid, 0)
-          $cookies.set('AuthToken', res.data.AuthToken, 0)
-          loginStatus.value = true
-          router.push('/product/shopMethod1')
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-
-  }
-
-  return { getKey, User, webLogin, loginStatus }
-})
-
-// 註冊
+//! 註冊
 export const useRegister = defineStore('register', () => {
 
   const NewUser = ref({
@@ -409,7 +302,7 @@ export const useRegister = defineStore('register', () => {
   return { NewUser, SendMailCode, SendPhoneCode, sendRegister, phoneCountdown, emailCountdown }
 })
 
-// 取得會員資料
+//! 取得會員資料
 export const useGetMemberData = defineStore('getMemberData', () => {
 
   const memberData = ref({})
@@ -432,7 +325,119 @@ export const useGetMemberData = defineStore('getMemberData', () => {
 
 
 
-//取得訂單資料
+
+
+
+
+//* 2023/05/10 
+
+//! 登入
+export const useWebLogin = defineStore('webLogin', () => {
+  // 加密
+  function encrypt(word, keyStr, ivStr) {
+    keyStr = keyStr ? keyStr : "absoietlj32fai12";
+    ivStr = ivStr ? ivStr : "absoietlj32fai12";
+    let key = CryptoJS.enc.Utf8.parse(keyStr);
+    let iv = CryptoJS.enc.Utf8.parse(ivStr);
+    let srcs = CryptoJS.enc.Utf8.parse(word);
+
+    let encrypted = CryptoJS.AES.encrypt(srcs, key, {
+      iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.ZeroPadding
+    });
+    return encrypted.toString();
+  }
+
+
+  // 取得登入用動態驗證碼
+  const GetKeyRequest = {
+    Lang: "tw"
+  }
+  let authkey = "";
+  let authiv = "";
+  function getKey() {
+    apiLoginEncrypt(GetKeyRequest)
+      .then((res) => {
+        let checkNum = res.data.message.substr(0, 2);
+        const logoutCodes = ['91', '92', '93', '94', '95', '96'];
+        const errorCodes = ['97', '98'];
+
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+          history.back()
+        } else if (logoutCodes.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+          //做登出動作
+        } else if (errorCodes.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+        } else {
+          authkey = res.data.Key
+          authiv = res.data.IV
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const router = useRouter();
+
+  const loginStatus = ref(false);
+
+  // 會員帳密(綁)
+  const User = {
+    u_id: 'gf13god@gmail.com',
+    PW: 'J0FX6J02',
+    Lang: 'tw'
+  }
+  // 會員帳密(傳)
+  const WebLoginRequest = {
+    u_id: '',
+    RA: '',
+    Lang: "tw"
+  }
+
+  function webLogin() {
+    let uid = User.u_id;
+    let pwd = User.PW;
+    let RA = encrypt("0000000000000000" + `${import.meta.env.VITE_APP_PROJECT};` + pwd + ";" + dayjs().format('YYYY-MM-DD HH:mm:ss') + ";", authkey, authiv);
+    WebLoginRequest.u_id = uid;
+    WebLoginRequest.RA = RA;
+    apiWebLogin(WebLoginRequest)
+      .then((res) => {
+        const errorCodes1 = ['94', '95', '97', '98'];
+        const errorCodes2 = ['01', '02', '03', '04'];
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+        } else if (errorCodes1.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+        } else if (errorCodes2.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+        } else if (checkNum === "05") {
+          alert(res.data.message.substr(3));
+          //跳轉舊會員手機認證
+          router.push('/oldmember')
+        } else {
+          //跳轉產品頁
+          $cookies.set('u_id', res.data.Uid, 0)
+          $cookies.set('AuthToken', res.data.AuthToken, 0)
+          loginStatus.value = true
+          router.push('/product/shopMethod1')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+
+  }
+
+  return { getKey, User, webLogin, loginStatus }
+})
+
+//! 取得訂單資料
 export const useOrderData = defineStore('orderData', () => {
   const OrderList = ref([])
   const OrderListData = ref([])
@@ -460,8 +465,7 @@ export const useOrderData = defineStore('orderData', () => {
   return { OrderList, OrderListData, GetOrderData }
 })
 
-
-// 取得最新消息
+//! 取得最新消息
 export const useGetNewsClass = defineStore('getNewsClass', () => {
 
   const newsList = ref([])
@@ -516,3 +520,188 @@ export const useGetNewsClass = defineStore('getNewsClass', () => {
   return { newsList, newsData, getNewsClass, getNewsData, activeClassId, newsDetailData }
 })
 
+//! 更新會員資料
+export const useUpdateData = defineStore('updateData', () => {
+
+  const newUserData = ref({
+    u_id: "",
+    AuthCode: "",
+    Lang: "",
+    Name: "",
+    Sex: 0,
+    Birthday: "",
+    Email: "",
+    Auth_Email: "",
+    Tel: "",
+    City: 0,
+    Area: 0,
+    Road: 0,
+    Address: "",
+    OldPassword: "",
+    NewPassword: ""
+  })
+
+  function getUserData() {
+    apiGetData({
+      u_id: $cookies.get('u_id'),
+      AuthCode: "0",
+      Lang: $cookies.get('Lang')
+    })
+      .then((res) => {
+        console.log(res)
+        const { Uid, Name, Sex, Birthday, Email, Tel, City, Area, Road, Address } = res.data
+        newUserData.value = {
+          u_id: Uid,
+          Name,
+          Sex,
+          Birthday,
+          Email,
+          Tel,
+          City,
+          Area,
+          Road,
+          Address
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  getUserData()
+
+  const cityList = ref([])
+  const areaList = ref([])
+  const roadList = ref([])
+  const isError01 = ref(false)
+  const isError02 = ref(false)
+
+  function getCityData() {
+    apiGetCityCategory({
+      u_id: $cookies.get('u_id') ?? '',
+      Lang: $cookies.get("Lang")
+    })
+      .then((res) => {
+        const errorCodes = ['90', '97', '98'];
+        const logoutCodes = ['91', '92', '93', '94', '95', '96'];
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。")
+          isError02.value = true
+        } else if (errorCodes.includes(checkNum)) {
+          alert(res.data.message.substr(3))
+        } else if (logoutCodes.includes(checkNum)) {
+          alert(res.data.message.substr(3))
+          //登出使用者
+        } else if (checkNum === "01") {
+          isError01.value = true
+        } else {
+          cityList.value = res.data.CityList
+          areaList.value = res.data.AreaList
+          roadList.value = res.data.RoadList
+          console.log(res)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('目前系統繁忙，暫時無法處理您的要求，請稍後在試')
+      })
+  }
+
+  const filteredAreaList = computed(() => {
+    return areaList.value.filter(area => area.CityId === newUserData.value.City)
+  })
+
+  const filteredRoadList = computed(() => {
+    return roadList.value.filter(road => road.AreaId === newUserData.value.Area)
+  })
+
+  getCityData()
+
+  function updateData() {
+    apiUpdateData(newUserData.value)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  return { newUserData, cityList, filteredAreaList, filteredRoadList, updateData }
+})
+
+//! 發送驗證碼功能
+export const useSendVerifyCode = defineStore('sendVerifyCode', () => {
+  function startCountdown(countdown, timer) {
+    countdown.value = 300
+    timer.value = setInterval(() => {
+      countdown.value--
+      if (countdown.value === 0) {
+        clearInterval(timer.value)
+      }
+    }, 1000)
+  }
+
+  //? 手機驗證碼判斷
+  const phoneIsSend = ref(false)
+  const phoneCountdown = ref(0)
+  const phoneTimer = ref(null)
+
+
+  function sendPhoneVerifyCode(newUser) {
+    apiSendVerifyCode({
+      AuthType: 2,
+      AuthData: newUser,
+      Lang: $cookies.get("Lang")
+    })
+      .then((res) => {
+        const errorCodes1 = ['01', '97', '98'];
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+        } else if (errorCodes1.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+        } else {
+          phoneIsSend.value = true
+          startCountdown(phoneCountdown, phoneTimer)
+          console.log(res.data.message.substr(3))
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+
+  //? email驗證碼判斷
+  const emailIsSend = ref(false)
+  const emailCountdown = ref(0)
+  const emailTimer = ref(null)
+
+  function sendMailVerifyCode(newUser) {
+    apiSendVerifyCode({
+      AuthType: 1,
+      AuthData: newUser,
+      Lang: $cookies.get("Lang")
+    })
+      .then((res) => {
+        const errorCodes1 = ['01', '97', '98'];
+        let checkNum = res.data.message.substr(0, 2);
+        if (parseInt(checkNum) <= 0) {
+          alert("系統忙碌中，請稍後嘗試重新載入頁面。");
+        } else if (errorCodes1.includes(checkNum)) {
+          alert(res.data.message.substr(3));
+          console.log(res)
+        } else {
+          emailIsSend.value = true
+          startCountdown(emailCountdown, emailTimer)
+          console.log(res.data.message.substr(3))
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  return { sendPhoneVerifyCode, sendMailVerifyCode, phoneCountdown, emailCountdown }
+})
