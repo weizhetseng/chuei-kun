@@ -6,7 +6,7 @@
         class="bg-Mred text-white rounded-tr-3xl rounded-bl-3xl py-1 px-7 relative after:content-[''] after:w-full after:h-full after:rounded-tr-3xl after:rounded-bl-3xl after:absolute after:block after:top-1 after:left-0.5 after:bg-Myellow after:-z-10">NEWS</span>
       <h2 class="font-bold text-xl">{{ selectedNews.Title }}</h2>
     </div>
-    <div class="pb-24 border-b border-gray mb-16">
+    <div class="pb-24 border-b border-gray mb-16 flex items-center justify-center">
       <div class="mb-7" v-html="selectedNews.Contents_HTML"></div>
     </div>
 

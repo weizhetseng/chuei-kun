@@ -6,7 +6,7 @@ import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
-import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode, apiGetData } from '../api/api'
+import { apiLoginEncrypt, apiWebLogin, apiRegister, apiSendVerifyCode, apiGetData, apiGetOrderData } from '../api/api'
 import router from '../router';
 
 // 導覽列控制項
@@ -428,6 +428,36 @@ export const useGetMemberData = defineStore('getMemberData', () => {
       })
   }
   return { getMemberData, memberData }
+})
+
+
+
+//取得訂單資料
+export const useOrderData = defineStore('orderData', () => {
+  const OrderList = ref([])
+  const OrderListData = ref([])
+
+  function GetOrderData(OrderId = '') {
+    apiGetOrderData({
+      u_id: $cookies.get('u_id'),
+      AuthCode: "0",
+      Lang: $cookies.get('Lang'),
+      OrderId: OrderId
+    })
+      .then((res) => {
+        console.log(res)
+        if (OrderId != '') {
+          OrderListData.value = res.data.OrderDataList[0];
+        } else {
+          OrderList.value = res.data.OrderDataList;
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  return { OrderList, OrderListData, GetOrderData }
 })
 
 

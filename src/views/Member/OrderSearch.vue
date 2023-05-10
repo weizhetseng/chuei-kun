@@ -4,9 +4,7 @@
       <btn_memberList />
     </div>
     <div class="w-full flex lg:w-4/5">
-      <table
-        class="w-4/5 block whitespace-nowrap overflow-x-scroll table-fixed m-auto sm:w-full sm:table"
-      >
+      <table class="w-4/5 block whitespace-nowrap overflow-x-scroll table-fixed m-auto sm:w-full sm:table">
         <thead class="bg-Mred text-white text-lg border border-Mred">
           <tr>
             <th class="p-2">訂單編號</th>
@@ -16,17 +14,15 @@
           </tr>
         </thead>
         <tbody class="text-center">
-          <tr v-for="item in orderList" :key="item.title">
-            <td class="p-3 border border-t-0 border-wrap">{{ item.title }}</td>
-            <td class="p-3 border border-t-0 border-wrap">{{ item.date }}</td>
-            <td class="p-3 border border-t-0 border-wrap">${{ item.cost }}</td>
-            <td
-              class="p-3 border border-t-0 border-wrap"
-              :class="item.status ? 'text-black' : 'text-Mred'"
-            >
-              <RouterLink :to="`/memberCenter/orderDetail/${item.title}`">{{
-                item.status ? '已付款' : '未付款'
-              }}</RouterLink>
+          <tr v-for="item in OrderData.OrderList " :key="item.OrderId">
+            <td class="p-3 border border-t-0 border-wrap">{{ item.OrderId }}</td>
+            <td class="p-3 border border-t-0 border-wrap">{{ item.OrderDate_Show }}</td>
+            <td class="p-3 border border-t-0 border-wrap">${{ item.AmountTotal_Show }}</td>
+            <td class="p-3 border border-t-0 border-wrap"
+              :class="item.OrderStatus === '訂單處理中' ? 'text-Mred' : 'text-black'">
+              <RouterLink :to="`/memberCenter/orderDetail/${item.OrderId}`">
+                {{ item.OrderStatus }}
+              </RouterLink>
             </td>
           </tr>
         </tbody>
@@ -36,32 +32,15 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import btn_memberList from '../../components/btn_memberList.vue'
 
-const orderList = [
-  {
-    title: 'L20220812003',
-    date: '2022/08/31 12:00',
-    cost: '1000',
-    status: true
-  },
-  {
-    title: 'L20220812004',
-    date: '2022/08/31 12:00',
-    cost: '1000',
-    status: false
-  },
-  {
-    title: 'L20220812005',
-    date: '2022/08/31 12:00',
-    cost: '1000',
-    status: false
-  },
-  {
-    title: 'L20220812006',
-    date: '2022/08/31 12:00',
-    cost: '1000',
-    status: true
-  }
-]
+import { useOrderData } from '../../stores/counter';
+
+const OrderData = useOrderData()
+
+
+onMounted(() => {
+  OrderData.GetOrderData()
+})
 </script>

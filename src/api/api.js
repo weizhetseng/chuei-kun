@@ -41,6 +41,8 @@ export const apiOldAccountVerify = (data) => userRequest.post('API_App/MemberCen
 export const apiGetData = (data) => userRequest.post('API_App/MemberCenter/GetData', data)
 // todo 更新會員資料(變更密碼)
 export const apiUpdateData = (data) => userRequest.post('API_App/MemberCenter/UpdateData', data)
+//todo 取得訂單資料
+export const apiGetOrderData = (data) => userRequest.post('API_App/MemberCenter/GetOrderData', data)
 
 //* 共用功能
 //todo 發送驗證碼
