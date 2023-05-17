@@ -10,7 +10,7 @@
       <div class="mb-7" v-html="NewsClassStore.newsDetailData.Contents_HTML"></div>
     </div>
 
-    <RouterLink to="/news" class="group linkStyle">
+    <RouterLink :to="`/news/${route.params.ClassId}`" class="group linkStyle">
       <span class="linkWordStyle">返回列表</span>
     </RouterLink>
   </div>
@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useGetNewsClass } from '../../stores/counter';

@@ -28,7 +28,7 @@
         <ul
           class="hoverList flex flex-col gap-2 text-Mred bg-white absolute w-44 rounded-b-lg left-1/2 -translate-x-1/2 h-0 overflow-y-scroll duration-300 opacity-80 group-hover:h-80 group-hover:p-2">
           <li v-for="list in NewsClassStore.newsList" :key="list.Id">
-            <RouterLink class="sub_Link" to="/news" @click="NewsClassStore.getNewsData(list.Id)">
+            <RouterLink class="sub_Link" :to="`/news/${list.Id}`" @click="NewsClassStore.getNewsData(list.Id)">
               {{ list.Title }}
             </RouterLink>
           </li>
@@ -46,26 +46,8 @@
         </RouterLink>
         <ul
           class="hoverList flex flex-col gap-2 text-Mred bg-white absolute w-44 rounded-b-lg left-1/2 -translate-x-1/2 h-0 overflow-y-scroll duration-300 opacity-80 group-hover:h-80 group-hover:p-2">
-          <li>
-            <RouterLink to="/product/productItem/1">呷卡鶴系列</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/product/productItem/2">皇啡系列</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/product/productItem/3">冷凍系列</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/product/productItem/4">冷藏系列</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/product/productItem/5">肉鬆系列</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/product/productItem/6">豬肉系列</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/product/productItem/7">牛肉系列</RouterLink>
+          <li v-for="list in GetProductStore.productList" :key="list.Id">
+            <RouterLink :to="`/product/productItem/${list.Id}`">{{ list.Title }}</RouterLink>
           </li>
         </ul>
       </li>
@@ -110,9 +92,10 @@
 import { onMounted, ref } from 'vue'
 import btn_scamModal from './btn_scamModal.vue'
 import btn_mobileNav from './btn_mobileNav.vue';
-import { useNavBar, useWebLogin, useGetNewsClass } from '../stores/counter';
+import { useNavBar, useWebLogin, useGetNewsClass, useGetProduct } from '../stores/counter';
 
 const NewsClassStore = useGetNewsClass()
+const GetProductStore = useGetProduct()
 const navBar = useNavBar()
 const webLogin = useWebLogin()
 const scamModal = ref(null)

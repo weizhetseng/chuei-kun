@@ -6,7 +6,7 @@ import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
 import { useRouter } from 'vue-router'
-import { apiLoginEncrypt, apiWebLogin, apiRegister, apiUpdateData, apiGetCityCategory, apiSendVerifyCode, apiGetNewsData, apiGetNewsClass, apiGetData, apiGetOrderData } from '../api/api'
+import { apiLoginEncrypt, apiWebLogin, apiGetProductClass, apiGetProductData, apiRegister, apiUpdateData, apiGetCityCategory, apiSendVerifyCode, apiGetNewsData, apiGetNewsClass, apiGetData, apiGetOrderData } from '../api/api'
 import router from '../router';
 
 //! 導覽列控制項
@@ -704,4 +704,61 @@ export const useSendVerifyCode = defineStore('sendVerifyCode', () => {
       })
   }
   return { sendPhoneVerifyCode, sendMailVerifyCode, phoneCountdown, emailCountdown }
+})
+
+
+
+//! 取得商品資料
+export const useGetProduct = defineStore('getProduct', () => {
+
+  const productList = ref([])
+
+  function getProductClass() {
+    apiGetProductClass({
+      u_id: $cookies.get('u_id'),
+      AuthCode: "0",
+      Lang: $cookies.get('Lang')
+    })
+      .then((res) => {
+        console.log(res)
+        productList.value = res.data.ProductClassList
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const productData = ref([])
+  const productDetailData = ref([])
+
+  function getProductData(ClassId, Id) {
+    apiGetProductData({
+      u_id: $cookies.get('u_id') ?? '',
+      AuthCode: "0",
+      Lang: $cookies.get('Lang'),
+      ClassId: ClassId ?? 1,
+      Id: Id ?? 0
+    })
+      .then((res) => {
+        if (ClassId && Id) {
+          productDetailData.value = res.data.NewsList[0];
+        } else {
+          productData.value = res.data.NewsList
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+
+
+
+
+  getProductData()
+  getProductClass()
+
+
+
+  return { productList, getProductClass, getProductData, productData, productDetailData }
 })

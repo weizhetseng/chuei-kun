@@ -37,30 +37,10 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import btn_calculate from '../../components/btn_calculate.vue'
 import btn_pagination from '../../components/btn_pagination.vue'
-import { apiGetProductData } from '../../api/api';
+import { useGetProduct } from '../../stores/counter';
+
 const route = useRoute()
-const product = ref([])
+const GetProductStore = useGetProduct()
 
 
-function GetProductData() {
-  apiGetProductData({
-    u_id: $cookies.get('u_id') ?? '',
-    AuthCode: "0",
-    Lang: $cookies.get('Lang'),
-    ProductClassId: route.params.id,
-    Pidno: "",
-    Keyword: ""
-  })
-    .then((res) => {
-      console.log(res)
-      product.value = res.data.ProductList
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
-
-onMounted(() => {
-  GetProductData()
-})
 </script>

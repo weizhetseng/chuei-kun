@@ -26,7 +26,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/news',
+      path: '/news/:ClassId',
       name: 'news',
       component: () => import('../views/News/NewsView.vue'),
       meta: {
@@ -36,7 +36,7 @@ const router = createRouter({
       },
       children: [
         {
-          path: 'newsDetail/:ClassId/:Id',
+          path: 'newsDetail/:Id',
           component: () => import('../views/News/NewsDetail.vue')
         }
       ]
