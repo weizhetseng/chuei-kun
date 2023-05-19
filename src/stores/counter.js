@@ -5,7 +5,7 @@ import qs from 'qs'
 import axios from 'axios'
 import dayjs from 'dayjs';
 import CryptoJS from "crypto-js";
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { apiLoginEncrypt, apiWebLogin, apiGetProductClass, apiGetProductData, apiRegister, apiUpdateData, apiGetCityCategory, apiSendVerifyCode, apiGetNewsData, apiGetNewsClass, apiGetData, apiGetOrderData } from '../api/api'
 import router from '../router';
 
@@ -486,19 +486,98 @@ export const useGetNewsClass = defineStore('getNewsClass', () => {
   const newsData = ref([])
   const newsDetailData = ref([])
 
+  // 當前頁面
+  const currentPage = ref(1)
+  // 當前顯示資料
+  const currentData = ref([])
+  // 總頁數
+  const totalPage = ref(0)
+  // 頁碼最大顯示數量
+  const maxDisplayPages = 5
+  // 當前顯示頁碼
+  const displayPages = ref([])
+
+  //將取得的資料分組
+  function getNeedArr(array, size) {
+    const length = array.length
+    if (!length || !size || size < 1) {
+      return []
+    }
+    let index = 0
+    let resIndex = 0
+    let result = new Array(Math.ceil(length / size))
+
+    while (index < length) {
+      result[resIndex++] = array.slice(index, (index += size))
+    }
+
+    return result
+  }
+
+  //當前頁面
+  function handleCurrentPage(page) {
+    currentPage.value = page
+    getNewsData()
+  }
+
+  // 計算頁碼
+  function getNeedPages() {
+    let start, end;
+    if (totalPage.value != null) {
+      if (totalPage.value <= maxDisplayPages) {
+        start = 1;
+        end = totalPage.value;
+      } else if (currentPage.value <= Math.ceil(maxDisplayPages / 2)) {
+        start = 1;
+        end = maxDisplayPages;
+      } else if (currentPage.value >= totalPage.value - Math.floor(maxDisplayPages / 2)) {
+        start = totalPage.value - maxDisplayPages + 1;
+        end = totalPage.value;
+      } else {
+        start = currentPage.value - Math.floor(maxDisplayPages / 2);
+        end = currentPage.value + Math.floor(maxDisplayPages / 2);
+      }
+    }
+    displayPages.value = Array(end - start + 1).fill().map((_, index) => start + index);
+  }
+  //上一頁
+  function prevPage() {
+    currentPage.value--
+    if (currentPage.value < 1) {
+      currentPage.value = 1
+    }
+    getNewsData()
+  }
+
+  // 下一頁
+  function nextPage() {
+    currentPage.value++
+    if (currentPage.value >= totalPage.value) {
+      currentPage.value = totalPage.value
+    }
+    getNewsData()
+  }
+
+  const route = useRoute()
+
   function getNewsData(ClassId, Id) {
     apiGetNewsData({
       u_id: $cookies.get('u_id') ?? '',
       AuthCode: "0",
       Lang: $cookies.get('Lang'),
-      ClassId: ClassId ?? 1,
+      ClassId: ClassId ?? route.params.ClassId,
       Id: Id ?? 0
     })
       .then((res) => {
         if (ClassId && Id) {
           newsDetailData.value = res.data.NewsList[0];
+          console.log(res)
         } else {
           newsData.value = res.data.NewsList
+          totalPage.value = Math.ceil(res.data.NewsList.length / res.data.PageSize);
+          currentData.value = getNeedArr(res.data.NewsList, res.data.PageSize)[currentPage.value - 1];
+          getNeedPages()
+          console.log(res)
         }
       })
       .catch((err) => {
@@ -517,7 +596,7 @@ export const useGetNewsClass = defineStore('getNewsClass', () => {
   getNewsClass()
   getNewsData()
 
-  return { newsList, newsData, getNewsClass, getNewsData, activeClassId, newsDetailData }
+  return { newsList, newsData, getNewsClass, getNewsData, activeClassId, newsDetailData, currentPage, currentData, displayPages, prevPage, nextPage, handleCurrentPage }
 })
 
 //! 更新會員資料
@@ -720,7 +799,6 @@ export const useGetProduct = defineStore('getProduct', () => {
       Lang: $cookies.get('Lang')
     })
       .then((res) => {
-        console.log(res)
         productList.value = res.data.ProductClassList
       })
       .catch((err) => {
@@ -730,20 +808,99 @@ export const useGetProduct = defineStore('getProduct', () => {
 
   const productData = ref([])
   const productDetailData = ref([])
+  // 當前頁面
+  const currentPage = ref(1)
+  // 當前顯示資料
+  const currentData = ref([])
+  // 總頁數
+  const totalPage = ref(0)
+  // 頁碼最大顯示數量
+  const maxDisplayPages = 5;
+  // 當前顯示頁碼
+  const displayPages = ref([])
 
-  function getProductData(ClassId, Id) {
+  //將取得的資料分組
+  function getNeedArr(array, size) {
+    const length = array.length
+    if (!length || !size || size < 1) {
+      return []
+    }
+    let index = 0
+    let resIndex = 0
+    let result = new Array(Math.ceil(length / size))
+
+    while (index < length) {
+      result[resIndex++] = array.slice(index, (index += size))
+    }
+
+    return result
+  }
+
+  //當前頁面
+  function handleCurrentPage(page) {
+    currentPage.value = page
+    getProductData()
+  }
+
+  // 計算頁碼
+  function getNeedPages() {
+    let start, end;
+    if (totalPage.value != null) {
+      if (totalPage.value <= maxDisplayPages) {
+        start = 1;
+        end = totalPage.value;
+      } else if (currentPage.value <= Math.ceil(maxDisplayPages / 2)) {
+        start = 1;
+        end = maxDisplayPages;
+      } else if (currentPage.value >= totalPage.value - Math.floor(maxDisplayPages / 2)) {
+        start = totalPage.value - maxDisplayPages + 1;
+        end = totalPage.value;
+      } else {
+        start = currentPage.value - Math.floor(maxDisplayPages / 2);
+        end = currentPage.value + Math.floor(maxDisplayPages / 2);
+      }
+    }
+    displayPages.value = Array(end - start + 1).fill().map((_, index) => start + index);
+  }
+  //上一頁
+  function prevPage() {
+    currentPage.value--
+    if (currentPage.value < 1) {
+      currentPage.value = 1
+    }
+    getProductData()
+  }
+
+  // 下一頁
+  function nextPage() {
+    currentPage.value++
+    if (currentPage.value >= totalPage.value) {
+      currentPage.value = totalPage.value
+    }
+    getProductData()
+  }
+
+
+  const route = useRoute()
+
+
+  function getProductData(ClassId, Pidno, Keyword) {
     apiGetProductData({
       u_id: $cookies.get('u_id') ?? '',
       AuthCode: "0",
       Lang: $cookies.get('Lang'),
-      ClassId: ClassId ?? 1,
-      Id: Id ?? 0
+      ProductClassId: ClassId ?? route.params.id,
+      Pidno: Pidno ?? "",
+      Keyword: Keyword ?? ""
     })
       .then((res) => {
-        if (ClassId && Id) {
-          productDetailData.value = res.data.NewsList[0];
+        if (ClassId && Pidno) {
+          productDetailData.value = res.data.ProductList[0];
         } else {
-          productData.value = res.data.NewsList
+          productData.value = res.data.ProductList
+          totalPage.value = Math.ceil(res.data.ProductList.length / res.data.PageSize);
+          currentData.value = getNeedArr(res.data.ProductList, res.data.PageSize)[currentPage.value - 1];
+          getNeedPages()
         }
       })
       .catch((err) => {
@@ -752,13 +909,10 @@ export const useGetProduct = defineStore('getProduct', () => {
   }
 
 
-
-
-
   getProductData()
   getProductClass()
 
 
 
-  return { productList, getProductClass, getProductData, productData, productDetailData }
+  return { productList, getProductClass, getProductData, productData, currentData, productDetailData, totalPage, displayPages, handleCurrentPage, nextPage, prevPage, currentPage }
 })

@@ -21,14 +21,18 @@
             </label>
           </div>
           <ul>
-            <li class="mb-3" v-for="item in productList" :key="item.Id" :class="{ active: item.Id == route.params.id }">
+            <li class="mb-3" v-for="item in GetProductStore.productList" :key="item.Id"
+              :class="{ active: item.Id == route.params.id }">
               <RouterLink
                 class="block text-xl relative before:absolute before:content-[''] before:block before:w-3 before:h-3 before:bg-Mred before:rotate-45 before:top-1/2 before:right-12 before:-translate-y-1/2 before:transition-all after:absolute after:content-[''] after:block after:w-12 after:h-px after:bg-Mred after:top-1/2 after:right-0 after:-translate-y-1/2 after:transition-all hover:text-Mred hover:before:right-9 hover:after:w-9"
                 :class="{
                   'text-Mred': route.params.id == item.Id,
                   'before:right-9': route.params.id == item.Id,
                   'after:w-9': route.params.id == item.Id
-                }" :to="`/product/productItem/${item.Id}`">{{ item.Title }}</RouterLink>
+                }" :to="`/product/productItem/${item.Id}`"
+                @click="GetProductStore.getProductData(item.Id), GetProductStore.currentPage = 1">
+                {{ item.Title }}
+              </RouterLink>
             </li>
           </ul>
         </div>
@@ -53,7 +57,6 @@
             </RouterLink>
           </li>
         </ul>
-
         <RouterView />
       </div>
     </div>
@@ -65,11 +68,14 @@ import { useRoute } from 'vue-router'
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
-import { apiGetProductClass, apiGetProductData } from '../../api/api'
-import { onMounted, ref } from 'vue'
+import { useGetProduct } from '../../stores/counter'
+import { onMounted } from 'vue'
+
+
+const GetProductStore = useGetProduct()
+
 
 const route = useRoute()
-const productList = ref([])
 const shopMethodLink = [
   {
     url: '/product/shopMethod1',
@@ -84,26 +90,7 @@ const shopMethodLink = [
     title: '訂購須知'
   }
 ]
-function GetProductClass() {
-  apiGetProductClass({
-    u_id: $cookies.get('u_id') ?? '',
-    AuthCode: "0",
-    Lang: $cookies.get('Lang')
-  })
-    .then((res) => {
-      console.log(res)
-      productList.value = res.data.ProductClassList
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
 
-
-
-onMounted(() => {
-  GetProductClass()
-})
 
 
 

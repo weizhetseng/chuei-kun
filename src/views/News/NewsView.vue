@@ -10,10 +10,9 @@
     <div v-if="!route.path.includes('/newsDetail/')">
       <div class="flex gap-5">
         <ul class="lg:w-3/4 w-full mt-10 mb-16">
-          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row" v-for="data in NewsClassStore.newsData"
-            :key="data.Id" data-aos="fade-up">
-            <img class="lg:w-1/2 w-full" :src="data.ListImgUrl" alt=""
-              :class="data.ListImgUrl === '' ? 'lg:w-0' : 'lg:w-1/2'" />
+          <li class="flex flex-col gap-5 mb-10 items-start last:mb-0 lg:flex-row"
+            v-for="data in NewsClassStore.currentData" :key="data.Id" data-aos="fade-up">
+            <img class="w-full" :src="data.ListImgUrl" alt="" :class="data.ListImgUrl === '' ? 'lg:w-0' : 'lg:w-1/2'" />
             <div class="w-full" :class="data.ListImgUrl === '' ? 'lg:w-full' : 'lg:w-1/2'">
               <p class="mb-5">{{ data.SDate_Show }}</p>
               <div class="flex gap-5 mb-4 items-center">
@@ -21,7 +20,7 @@
                   class="bg-Mred text-white rounded-tr-3xl rounded-bl-3xl py-1 px-7 relative after:content-[''] after:w-full after:h-full after:rounded-tr-3xl after:rounded-bl-3xl after:absolute after:block after:top-1 after:left-0.5 after:bg-Myellow after:-z-10">NEWS</span>
                 <p class="text-xl font-bold">{{ data.Title }}</p>
               </div>
-              <p class="mb-6">{{ data.Contents }}</p>
+              <div class="mb-6" v-html="data.Contents"></div>
               <div
                 class="group w-36 p-2 relative bg-white before:content-[''] before:block before:absolute before:transition-all before:w-0 before:h-full before:bg-Mred before:top-0 before:left-0 shadow-main after:content-[''] after:w-full after:h-full after:absolute after:block after:top-1 after:left-0.5 after:bg-Myellow after:-z-10 hover:before:w-full">
                 <RouterLink :to="`/news/${data.ClassId}/newsDetail/${data.Id}`"
@@ -36,13 +35,27 @@
             class="bg-Mred px-5 py-2 group first:relative first:before:content-[''] first:before:absolute first:before:block first:before:bg-down first:before:w-4 first:before:h-4 first:before:bg-no-repeat first:before:bg-contain first:before:top-1/2 first:before:right-4 first:before:-translate-y-1/2 first:after:content-[''] first:after:bolck first:after:absolute first:after:w-full first:after:h-full first:after:top-1 first:after:left-0.5 first:after:bg-Myellow first:after:-z-10 hover:bg-Myellow"
             v-for="item in NewsClassStore.newsList" :key="item.Id">
             <RouterLink :to="`/news/${item.Id}`" class="text-white text-xl block group-hover:text-Mred"
-              @click="NewsClassStore.getNewsData(item.Id)">
+              @click="NewsClassStore.getNewsData(item.Id), NewsClassStore.currentPage = 1">
               {{ item.Title }}
             </RouterLink>
           </li>
         </ul>
       </div>
-      <btn_pagination class="mb-20" />
+      <ul class="flex justify-center items-center gap-4 mb-20 sm:gap-7">
+        <li class="cursor-pointer hover:scale-110 active:scale-100">
+          <div @click="NewsClassStore.prevPage()"><img src="../../assets/image/other/pageleft.png" alt="" /></div>
+        </li>
+        <li class="cursor-pointer" v-for="(page, index) in  NewsClassStore.displayPages " :key="index">
+          <div
+            class="border border-Mred rounded-full text-Mred flex items-center justify-center hover:scale-110 hover:bg-Mred hover:text-white active:scale-100 w-10 h-10 sm:w-12 sm:h-12"
+            @click="NewsClassStore.handleCurrentPage(page)"
+            :class="{ 'bg-Mred': NewsClassStore.currentPage === page, 'text-white': NewsClassStore.currentPage === page }">
+            {{ page }}</div>
+        </li>
+        <li class="cursor-pointer hover:scale-110 active:scale-100">
+          <div @click="NewsClassStore.nextPage()"><img src="../../assets/image/other/pageright.png" alt="" /></div>
+        </li>
+      </ul>
     </div>
     <RouterView />
   </div>
@@ -51,7 +64,6 @@
 <script setup>
 import btn_banner from '../../components/btn_banner.vue'
 import btn_breadcrumb from '../../components/btn_breadcrumb.vue'
-import btn_pagination from '../../components/btn_pagination.vue'
 import btn_animateBG from '../../components/btn_animateBG.vue'
 import { useRoute } from 'vue-router'
 import { useGetNewsClass } from '../../stores/counter';
@@ -63,7 +75,7 @@ const route = useRoute()
 
 
 onMounted(() => {
-  console.log(route.path.substring('/'))
+  NewsClassStore.getNewsData(route.params.ClassId)
 })
 
 </script>

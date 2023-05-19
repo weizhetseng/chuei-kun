@@ -244,7 +244,7 @@ const router = createRouter({
           },
           children: [
             {
-              path: 'productDetail',
+              path: 'productDetail/:Pidno',
               component: () => import('../views/Product/ProductDetail.vue'),
               meta: {
                 banner: 'banner-cart.jpg',

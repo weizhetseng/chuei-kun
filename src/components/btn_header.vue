@@ -23,12 +23,13 @@
       :class="{ 'text-black': !navBar.isNavFixed, 'text-white': navBar.isNavFixed }">
       <li class="w-20 h-20 relative group">
         <RouterLink class="navlink" :class="{ 'after:bg-Mred': !navBar.isNavFixed, 'after:bg-white': navBar.isNavFixed }"
-          to="/news">
+          to="/news/12" @click="NewsClassStore.getNewsData(12)">
           最新消息</RouterLink>
         <ul
           class="hoverList flex flex-col gap-2 text-Mred bg-white absolute w-44 rounded-b-lg left-1/2 -translate-x-1/2 h-0 overflow-y-scroll duration-300 opacity-80 group-hover:h-80 group-hover:p-2">
           <li v-for="list in NewsClassStore.newsList" :key="list.Id">
-            <RouterLink class="sub_Link" :to="`/news/${list.Id}`" @click="NewsClassStore.getNewsData(list.Id)">
+            <RouterLink class="sub_Link" :to="`/news/${list.Id}`"
+              @click="NewsClassStore.getNewsData(list.Id), NewsClassStore.currentPage = 1">
               {{ list.Title }}
             </RouterLink>
           </li>
@@ -47,7 +48,9 @@
         <ul
           class="hoverList flex flex-col gap-2 text-Mred bg-white absolute w-44 rounded-b-lg left-1/2 -translate-x-1/2 h-0 overflow-y-scroll duration-300 opacity-80 group-hover:h-80 group-hover:p-2">
           <li v-for="list in GetProductStore.productList" :key="list.Id">
-            <RouterLink :to="`/product/productItem/${list.Id}`">{{ list.Title }}</RouterLink>
+            <RouterLink :to="`/product/productItem/${list.Id}`"
+              @click="GetProductStore.getProductData(list.Id), GetProductStore.currentPage = 1">{{
+                list.Title }}</RouterLink>
           </li>
         </ul>
       </li>
@@ -103,5 +106,6 @@ const scamModal = ref(null)
 
 onMounted(() => {
   window.addEventListener('scroll', navBar.scrollTop)
+
 })
 </script>
