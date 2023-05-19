@@ -896,6 +896,7 @@ export const useGetProduct = defineStore('getProduct', () => {
       .then((res) => {
         if (ClassId && Pidno) {
           productDetailData.value = res.data.ProductList[0];
+          console.log(res)
         } else {
           productData.value = res.data.ProductList
           totalPage.value = Math.ceil(res.data.ProductList.length / res.data.PageSize);
